@@ -1,0 +1,758 @@
+{
+  "tag": "retrieval_only_v0.1",
+  "backend": "extractive",
+  "summary": {
+    "retrieval_recall": 0.746,
+    "fact_recall": 0.548,
+    "citation_validity": 1.0,
+    "citation_accuracy": 0.889,
+    "unsupported_claims": 0.0,
+    "conflict_recall_text": 0.0,
+    "conflict_recall": 0.0,
+    "verdict_accuracy": 0.0,
+    "latency_s": 0.135
+  },
+  "per_query": [
+    {
+      "case_id": "case_01_simple",
+      "query_id": "q1",
+      "retrieval_recall": 1.0,
+      "fact_recall": 1.0,
+      "citation_validity": 1.0,
+      "citation_accuracy": 1.0,
+      "unsupported_claims": 0.0,
+      "conflict_recall_text": null,
+      "conflict_recall": null,
+      "verdict_accuracy": null,
+      "latency_s": 0.125,
+      "missed_facts": [],
+      "fallback": false
+    },
+    {
+      "case_id": "case_02_medium",
+      "query_id": "q1",
+      "retrieval_recall": 0.667,
+      "fact_recall": 0.5,
+      "citation_validity": 1.0,
+      "citation_accuracy": 0.667,
+      "unsupported_claims": 0.0,
+      "conflict_recall_text": null,
+      "conflict_recall": null,
+      "verdict_accuracy": null,
+      "latency_s": 0.182,
+      "missed_facts": [
+        "F3",
+        "F4",
+        "F5"
+      ],
+      "fallback": false
+    },
+    {
+      "case_id": "case_03_conflict",
+      "query_id": "q1",
+      "retrieval_recall": 0.571,
+      "fact_recall": 0.143,
+      "citation_validity": 1.0,
+      "citation_accuracy": 1.0,
+      "unsupported_claims": 0.0,
+      "conflict_recall_text": 0.0,
+      "conflict_recall": 0.0,
+      "verdict_accuracy": 0.0,
+      "latency_s": 0.098,
+      "missed_facts": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5",
+        "F7"
+      ],
+      "fallback": false
+    }
+  ],
+  "answers": [
+    {
+      "case_id": "case_01_simple",
+      "query_id": "q1",
+      "answer": {
+        "question": "What are the details of the Monthly Long Run on 25 October: start time, meeting point, distance, route, water stations and who is leading it?",
+        "verdict": null,
+        "summary": "Most relevant evidence: [S1] [S2] [S3] [S4] [S5]",
+        "claims": [
+          {
+            "text": "Email from Priya Reddy <priya.r@example.org> (Tue, 20 Oct 2026 19:12 +0530), subject 'Monthly Long Run (25 Oct) - route and water stations': Hi all, for the Monthly Long Run on Sunday 25 October we will follow the Gachibowli - Nanakramguda - Financial District loop, two laps for the full 21 km.",
+            "citations": [
+              "S1"
+            ],
+            "unsupported": false
+          },
+          {
+            "text": "Email from Priya Reddy <priya.r@example.org> (Tue, 20 Oct 2026 19:12 +0530), subject 'Monthly Long Run (25 Oct) - route and water stations': Thanks, Priya",
+            "citations": [
+              "S2"
+            ],
+            "unsupported": false
+          },
+          {
+            "text": "Email from Priya Reddy <priya.r@example.org> (Tue, 20 Oct 2026 19:12 +0530), subject 'Monthly Long Run (25 Oct) - route and water stations': Water stations will be at km 4 (Nanakramguda junction), km 8 (ICICI Towers) and km 15 (Nanakramguda junction, second lap). Electrolytes at km 15 only.",
+            "citations": [
+              "S3"
+            ],
+            "unsupported": false
+          },
+          {
+            "text": "Email from Priya Reddy <priya.r@example.org> (Tue, 20 Oct 2026 19:12 +0530), subject 'Monthly Long Run (25 Oct) - route and water stations': Volunteers, please reach Gachibowli Stadium Gate 2 by 4:40 AM for the briefing. Bag drop closes at 4:55 AM and the run is flagged off at 5:00 AM.",
+            "citations": [
+              "S4"
+            ],
+            "unsupported": false
+          },
+          {
+            "text": "events.csv, row 4: event_id=EV-2026-043; event_name=Monthly Long Run; date=2026-10-25; start_time=05:00; meeting_point=Gachibowli Stadium Gate 2; distance_km=21; lead_volunteer=Priya Reddy; status=Scheduled",
+            "citations": [
+              "S5"
+            ],
+            "unsupported": false
+          }
+        ],
+        "citations": [
+          {
+            "label": "S1",
+            "chunk_id": "email_long_run_route.txt#para=1",
+            "doc_id": "email_long_run_route.txt",
+            "locator": "para=1",
+            "quote": "Email from Priya Reddy <priya.r@example.org> (Tue, 20 Oct 2026 19:12 +0530), subject 'Monthly Long Run (25 Oct) - route and water stations': Hi all, for the Monthly Long Run on Sunday 25 October we will follow the Gachibowli - Nanakramguda - Financial District loop, two laps for the full 21 km."
+          },
+          {
+            "label": "S2",
+            "chunk_id": "email_long_run_route.txt#para=4",
+            "doc_id": "email_long_run_route.txt",
+            "locator": "para=4",
+            "quote": "Email from Priya Reddy <priya.r@example.org> (Tue, 20 Oct 2026 19:12 +0530), subject 'Monthly Long Run (25 Oct) - route and water stations': Thanks, Priya"
+          },
+          {
+            "label": "S3",
+            "chunk_id": "email_long_run_route.txt#para=2",
+            "doc_id": "email_long_run_route.txt",
+            "locator": "para=2",
+            "quote": "Email from Priya Reddy <priya.r@example.org> (Tue, 20 Oct 2026 19:12 +0530), subject 'Monthly Long Run (25 Oct) - route and water stations': Water stations will be at km 4 (Nanakramguda junction), km 8 (ICICI Towers) and km 15 (Nanakramguda junction, second lap). Electrolytes at km 15 only."
+          },
+          {
+            "label": "S4",
+            "chunk_id": "email_long_run_route.txt#para=3",
+            "doc_id": "email_long_run_route.txt",
+            "locator": "para=3",
+            "quote": "Email from Priya Reddy <priya.r@example.org> (Tue, 20 Oct 2026 19:12 +0530), subject 'Monthly Long Run (25 Oct) - route and water stations': Volunteers, please reach Gachibowli Stadium Gate 2 by 4:40 AM for the briefing. Bag drop closes at 4:55 AM and the run is flagged off at 5:00 AM."
+          },
+          {
+            "label": "S5",
+            "chunk_id": "events.csv#row=4",
+            "doc_id": "events.csv",
+            "locator": "row=4",
+            "quote": "events.csv, row 4: event_id=EV-2026-043; event_name=Monthly Long Run; date=2026-10-25; start_time=05:00; meeting_point=Gachibowli Stadium Gate 2; distance_km=21; lead_volunteer=Priya Reddy; status=Scheduled"
+          }
+        ],
+        "conflicts": [],
+        "retrieved": [
+          {
+            "chunk": {
+              "chunk_id": "email_long_run_route.txt#para=1",
+              "doc_id": "email_long_run_route.txt",
+              "locator": "para=1",
+              "text": "Email from Priya Reddy <priya.r@example.org> (Tue, 20 Oct 2026 19:12 +0530), subject 'Monthly Long Run (25 Oct) - route and water stations': Hi all, for the Monthly Long Run on Sunday 25 October we will follow the Gachibowli - Nanakramguda - Financial District loop, two laps for the full 21 km.",
+              "metadata": {
+                "para": 1,
+                "from": "Priya Reddy <priya.r@example.org>",
+                "to": "volunteers@hyderabadrunners.example.org",
+                "date": "Tue, 20 Oct 2026 19:12 +0530",
+                "subject": "Monthly Long Run (25 Oct) - route and water stations"
+              }
+            },
+            "score": 0.6925,
+            "rank": 1
+          },
+          {
+            "chunk": {
+              "chunk_id": "email_long_run_route.txt#para=4",
+              "doc_id": "email_long_run_route.txt",
+              "locator": "para=4",
+              "text": "Email from Priya Reddy <priya.r@example.org> (Tue, 20 Oct 2026 19:12 +0530), subject 'Monthly Long Run (25 Oct) - route and water stations': Thanks, Priya",
+              "metadata": {
+                "para": 4,
+                "from": "Priya Reddy <priya.r@example.org>",
+                "to": "volunteers@hyderabadrunners.example.org",
+                "date": "Tue, 20 Oct 2026 19:12 +0530",
+                "subject": "Monthly Long Run (25 Oct) - route and water stations"
+              }
+            },
+            "score": 0.6355,
+            "rank": 2
+          },
+          {
+            "chunk": {
+              "chunk_id": "email_long_run_route.txt#para=2",
+              "doc_id": "email_long_run_route.txt",
+              "locator": "para=2",
+              "text": "Email from Priya Reddy <priya.r@example.org> (Tue, 20 Oct 2026 19:12 +0530), subject 'Monthly Long Run (25 Oct) - route and water stations': Water stations will be at km 4 (Nanakramguda junction), km 8 (ICICI Towers) and km 15 (Nanakramguda junction, second lap). Electrolytes at km 15 only.",
+              "metadata": {
+                "para": 2,
+                "from": "Priya Reddy <priya.r@example.org>",
+                "to": "volunteers@hyderabadrunners.example.org",
+                "date": "Tue, 20 Oct 2026 19:12 +0530",
+                "subject": "Monthly Long Run (25 Oct) - route and water stations"
+              }
+            },
+            "score": 0.5229,
+            "rank": 3
+          },
+          {
+            "chunk": {
+              "chunk_id": "email_long_run_route.txt#para=3",
+              "doc_id": "email_long_run_route.txt",
+              "locator": "para=3",
+              "text": "Email from Priya Reddy <priya.r@example.org> (Tue, 20 Oct 2026 19:12 +0530), subject 'Monthly Long Run (25 Oct) - route and water stations': Volunteers, please reach Gachibowli Stadium Gate 2 by 4:40 AM for the briefing. Bag drop closes at 4:55 AM and the run is flagged off at 5:00 AM.",
+              "metadata": {
+                "para": 3,
+                "from": "Priya Reddy <priya.r@example.org>",
+                "to": "volunteers@hyderabadrunners.example.org",
+                "date": "Tue, 20 Oct 2026 19:12 +0530",
+                "subject": "Monthly Long Run (25 Oct) - route and water stations"
+              }
+            },
+            "score": 0.4919,
+            "rank": 4
+          },
+          {
+            "chunk": {
+              "chunk_id": "events.csv#row=4",
+              "doc_id": "events.csv",
+              "locator": "row=4",
+              "text": "events.csv, row 4: event_id=EV-2026-043; event_name=Monthly Long Run; date=2026-10-25; start_time=05:00; meeting_point=Gachibowli Stadium Gate 2; distance_km=21; lead_volunteer=Priya Reddy; status=Scheduled",
+              "metadata": {
+                "row": {
+                  "event_id": "EV-2026-043",
+                  "event_name": "Monthly Long Run",
+                  "date": "2026-10-25",
+                  "start_time": "05:00",
+                  "meeting_point": "Gachibowli Stadium Gate 2",
+                  "distance_km": "21",
+                  "lead_volunteer": "Priya Reddy",
+                  "status": "Scheduled"
+                }
+              }
+            },
+            "score": 0.4156,
+            "rank": 5
+          },
+          {
+            "chunk": {
+              "chunk_id": "events.csv#row=3",
+              "doc_id": "events.csv",
+              "locator": "row=3",
+              "text": "events.csv, row 3: event_id=EV-2026-042; event_name=Sunday Community Run; date=2026-10-18; start_time=05:30; meeting_point=Necklace Road (Jalavihar); distance_km=10; lead_volunteer=Sneha Reddy; status=Scheduled",
+              "metadata": {
+                "row": {
+                  "event_id": "EV-2026-042",
+                  "event_name": "Sunday Community Run",
+                  "date": "2026-10-18",
+                  "start_time": "05:30",
+                  "meeting_point": "Necklace Road (Jalavihar)",
+                  "distance_km": "10",
+                  "lead_volunteer": "Sneha Reddy",
+                  "status": "Scheduled"
+                }
+              }
+            },
+            "score": 0.3322,
+            "rank": 6
+          },
+          {
+            "chunk": {
+              "chunk_id": "events.csv#row=5",
+              "doc_id": "events.csv",
+              "locator": "row=5",
+              "text": "events.csv, row 5: event_id=EV-2026-044; event_name=Sunday Community Run; date=2026-11-01; start_time=05:30; meeting_point=KBR Park Gate 1; distance_km=10; lead_volunteer=Arjun Mehta; status=Scheduled",
+              "metadata": {
+                "row": {
+                  "event_id": "EV-2026-044",
+                  "event_name": "Sunday Community Run",
+                  "date": "2026-11-01",
+                  "start_time": "05:30",
+                  "meeting_point": "KBR Park Gate 1",
+                  "distance_km": "10",
+                  "lead_volunteer": "Arjun Mehta",
+                  "status": "Scheduled"
+                }
+              }
+            },
+            "score": 0.3307,
+            "rank": 7
+          },
+          {
+            "chunk": {
+              "chunk_id": "events.csv#row=2",
+              "doc_id": "events.csv",
+              "locator": "row=2",
+              "text": "events.csv, row 2: event_id=EV-2026-041; event_name=Sunday Community Run; date=2026-10-11; start_time=05:30; meeting_point=KBR Park Gate 1; distance_km=10; lead_volunteer=Arjun Mehta; status=Completed",
+              "metadata": {
+                "row": {
+                  "event_id": "EV-2026-041",
+                  "event_name": "Sunday Community Run",
+                  "date": "2026-10-11",
+                  "start_time": "05:30",
+                  "meeting_point": "KBR Park Gate 1",
+                  "distance_km": "10",
+                  "lead_volunteer": "Arjun Mehta",
+                  "status": "Completed"
+                }
+              }
+            },
+            "score": 0.3138,
+            "rank": 8
+          }
+        ],
+        "fallback": false,
+        "backend": "extractive",
+        "latency_s": 0.125
+      }
+    },
+    {
+      "case_id": "case_02_medium",
+      "query_id": "q1",
+      "answer": {
+        "question": "Who is assigned to Aid Station 3 for the marathon, and has each of them completed first-aid training?",
+        "verdict": null,
+        "summary": "Most relevant evidence: [S1] [S2] [S3] [S4] [S5]",
+        "claims": [
+          {
+            "text": "Hyderabad Runners - Volunteer First Aid Workshop, 27 September 2026 - Attendance Record",
+            "citations": [
+              "S1"
+            ],
+            "unsupported": false
+          },
+          {
+            "text": "[03/10/2026 18:45] Srini: Reminder: the first aid workshop on 27 Sept was mandatory for station staff. Farhan, you missed it - please attend the makeup session on 11 Oct.",
+            "citations": [
+              "S2"
+            ],
+            "unsupported": false
+          },
+          {
+            "text": "volunteer_roster.xlsx, row 2: vol_id=V-101; full_name=Srinivas Reddy; phone=+91 98490 12001; assigned_station=Aid Station 1 (Kondapur); shift=05:00-09:00; role=Station Lead",
+            "citations": [
+              "S3"
+            ],
+            "unsupported": false
+          },
+          {
+            "text": "volunteer_roster.xlsx, row 4: vol_id=V-117; full_name=Ananya Iyer; phone=+91 98490 12117; assigned_station=Aid Station 3 (Gachibowli Flyover); shift=05:00-09:00; role=Water & Electrolytes",
+            "citations": [
+              "S4"
+            ],
+            "unsupported": false
+          },
+          {
+            "text": "volunteer_roster.xlsx, row 6: vol_id=V-130; full_name=Deepa Menon; phone=+91 98490 12130; assigned_station=Aid Station 5 (Hitec City); shift=05:00-09:00; role=Medical Liaison",
+            "citations": [
+              "S5"
+            ],
+            "unsupported": false
+          }
+        ],
+        "citations": [
+          {
+            "label": "S1",
+            "chunk_id": "first_aid_training.pdf#page=1&para=1",
+            "doc_id": "first_aid_training.pdf",
+            "locator": "page=1&para=1",
+            "quote": "Hyderabad Runners - Volunteer First Aid Workshop, 27 September 2026 - Attendance Record"
+          },
+          {
+            "label": "S2",
+            "chunk_id": "whatsapp_as3_volunteers.txt#msg=5",
+            "doc_id": "whatsapp_as3_volunteers.txt",
+            "locator": "msg=5",
+            "quote": "[03/10/2026 18:45] Srini: Reminder: the first aid workshop on 27 Sept was mandatory for station staff. Farhan, you missed it - please attend the makeup session on 11 Oct."
+          },
+          {
+            "label": "S3",
+            "chunk_id": "volunteer_roster.xlsx#row=2",
+            "doc_id": "volunteer_roster.xlsx",
+            "locator": "row=2",
+            "quote": "volunteer_roster.xlsx, row 2: vol_id=V-101; full_name=Srinivas Reddy; phone=+91 98490 12001; assigned_station=Aid Station 1 (Kondapur); shift=05:00-09:00; role=Station Lead"
+          },
+          {
+            "label": "S4",
+            "chunk_id": "volunteer_roster.xlsx#row=4",
+            "doc_id": "volunteer_roster.xlsx",
+            "locator": "row=4",
+            "quote": "volunteer_roster.xlsx, row 4: vol_id=V-117; full_name=Ananya Iyer; phone=+91 98490 12117; assigned_station=Aid Station 3 (Gachibowli Flyover); shift=05:00-09:00; role=Water & Electrolytes"
+          },
+          {
+            "label": "S5",
+            "chunk_id": "volunteer_roster.xlsx#row=6",
+            "doc_id": "volunteer_roster.xlsx",
+            "locator": "row=6",
+            "quote": "volunteer_roster.xlsx, row 6: vol_id=V-130; full_name=Deepa Menon; phone=+91 98490 12130; assigned_station=Aid Station 5 (Hitec City); shift=05:00-09:00; role=Medical Liaison"
+          }
+        ],
+        "conflicts": [],
+        "retrieved": [
+          {
+            "chunk": {
+              "chunk_id": "first_aid_training.pdf#page=1&para=1",
+              "doc_id": "first_aid_training.pdf",
+              "locator": "page=1&para=1",
+              "text": "Hyderabad Runners - Volunteer First Aid Workshop, 27 September 2026 - Attendance Record",
+              "metadata": {
+                "page": 1,
+                "para": 1
+              }
+            },
+            "score": 0.6342,
+            "rank": 1
+          },
+          {
+            "chunk": {
+              "chunk_id": "whatsapp_as3_volunteers.txt#msg=5",
+              "doc_id": "whatsapp_as3_volunteers.txt",
+              "locator": "msg=5",
+              "text": "[03/10/2026 18:45] Srini: Reminder: the first aid workshop on 27 Sept was mandatory for station staff. Farhan, you missed it - please attend the makeup session on 11 Oct.",
+              "metadata": {
+                "date": "03/10/2026",
+                "time": "18:45",
+                "sender": "Srini"
+              }
+            },
+            "score": 0.511,
+            "rank": 2
+          },
+          {
+            "chunk": {
+              "chunk_id": "volunteer_roster.xlsx#row=2",
+              "doc_id": "volunteer_roster.xlsx",
+              "locator": "row=2",
+              "text": "volunteer_roster.xlsx, row 2: vol_id=V-101; full_name=Srinivas Reddy; phone=+91 98490 12001; assigned_station=Aid Station 1 (Kondapur); shift=05:00-09:00; role=Station Lead",
+              "metadata": {
+                "row": {
+                  "vol_id": "V-101",
+                  "full_name": "Srinivas Reddy",
+                  "phone": "+91 98490 12001",
+                  "assigned_station": "Aid Station 1 (Kondapur)",
+                  "shift": "05:00-09:00",
+                  "role": "Station Lead"
+                }
+              }
+            },
+            "score": 0.5012,
+            "rank": 3
+          },
+          {
+            "chunk": {
+              "chunk_id": "volunteer_roster.xlsx#row=4",
+              "doc_id": "volunteer_roster.xlsx",
+              "locator": "row=4",
+              "text": "volunteer_roster.xlsx, row 4: vol_id=V-117; full_name=Ananya Iyer; phone=+91 98490 12117; assigned_station=Aid Station 3 (Gachibowli Flyover); shift=05:00-09:00; role=Water & Electrolytes",
+              "metadata": {
+                "row": {
+                  "vol_id": "V-117",
+                  "full_name": "Ananya Iyer",
+                  "phone": "+91 98490 12117",
+                  "assigned_station": "Aid Station 3 (Gachibowli Flyover)",
+                  "shift": "05:00-09:00",
+                  "role": "Water & Electrolytes"
+                }
+              }
+            },
+            "score": 0.4775,
+            "rank": 4
+          },
+          {
+            "chunk": {
+              "chunk_id": "volunteer_roster.xlsx#row=6",
+              "doc_id": "volunteer_roster.xlsx",
+              "locator": "row=6",
+              "text": "volunteer_roster.xlsx, row 6: vol_id=V-130; full_name=Deepa Menon; phone=+91 98490 12130; assigned_station=Aid Station 5 (Hitec City); shift=05:00-09:00; role=Medical Liaison",
+              "metadata": {
+                "row": {
+                  "vol_id": "V-130",
+                  "full_name": "Deepa Menon",
+                  "phone": "+91 98490 12130",
+                  "assigned_station": "Aid Station 5 (Hitec City)",
+                  "shift": "05:00-09:00",
+                  "role": "Medical Liaison"
+                }
+              }
+            },
+            "score": 0.4741,
+            "rank": 5
+          },
+          {
+            "chunk": {
+              "chunk_id": "volunteer_roster.xlsx#row=3",
+              "doc_id": "volunteer_roster.xlsx",
+              "locator": "row=3",
+              "text": "volunteer_roster.xlsx, row 3: vol_id=V-114; full_name=Srinivas Rao Kumar; phone=+91 98490 12114; assigned_station=Aid Station 3 (Gachibowli Flyover); shift=05:00-09:00; role=Station Lead",
+              "metadata": {
+                "row": {
+                  "vol_id": "V-114",
+                  "full_name": "Srinivas Rao Kumar",
+                  "phone": "+91 98490 12114",
+                  "assigned_station": "Aid Station 3 (Gachibowli Flyover)",
+                  "shift": "05:00-09:00",
+                  "role": "Station Lead"
+                }
+              }
+            },
+            "score": 0.4736,
+            "rank": 6
+          },
+          {
+            "chunk": {
+              "chunk_id": "volunteer_roster.xlsx#row=5",
+              "doc_id": "volunteer_roster.xlsx",
+              "locator": "row=5",
+              "text": "volunteer_roster.xlsx, row 5: vol_id=V-122; full_name=Mohammed Farhan; phone=+91 98490 12122; assigned_station=Aid Station 3 (Gachibowli Flyover); shift=05:30-09:30; role=Crowd Control",
+              "metadata": {
+                "row": {
+                  "vol_id": "V-122",
+                  "full_name": "Mohammed Farhan",
+                  "phone": "+91 98490 12122",
+                  "assigned_station": "Aid Station 3 (Gachibowli Flyover)",
+                  "shift": "05:30-09:30",
+                  "role": "Crowd Control"
+                }
+              }
+            },
+            "score": 0.4485,
+            "rank": 7
+          },
+          {
+            "chunk": {
+              "chunk_id": "first_aid_training.pdf#page=1&para=8",
+              "doc_id": "first_aid_training.pdf",
+              "locator": "page=1&para=8",
+              "text": "A makeup session is scheduled for 11 October 2026 for volunteers who could not attend. Aid-station staff must hold a certificate before race day.",
+              "metadata": {
+                "page": 1,
+                "para": 8
+              }
+            },
+            "score": 0.4283,
+            "rank": 8
+          }
+        ],
+        "fallback": false,
+        "backend": "extractive",
+        "latency_s": 0.182
+      }
+    },
+    {
+      "case_id": "case_03_conflict",
+      "query_id": "q1",
+      "answer": {
+        "question": "Is Ravi Sharma eligible for the Half Marathon Training Programme Batch 2026B?",
+        "verdict": null,
+        "summary": "Most relevant evidence: [S1] [S2] [S3] [S4] [S5]",
+        "claims": [
+          {
+            "text": "Hyderabad Runners - Half Marathon Training Programme (HMTP), Batch 2026B: Eligibility and Schedule",
+            "citations": [
+              "S1"
+            ],
+            "unsupported": false
+          },
+          {
+            "text": "A participant is eligible for Batch 2026B only if ALL of the following conditions hold.",
+            "citations": [
+              "S2"
+            ],
+            "unsupported": false
+          },
+          {
+            "text": "[20/08/2026 18:30] Kiran Kumar: Coach, can I still join batch B? My medical form is not done yet.",
+            "citations": [
+              "S3"
+            ],
+            "unsupported": false
+          },
+          {
+            "text": "[20/09/2026 08:15] Coach Anil: Ravi Shankar - your membership lapsed in June, please renew before we can accept your batch B registration.",
+            "citations": [
+              "S4"
+            ],
+            "unsupported": false
+          },
+          {
+            "text": "[23/06/2026 11:20] Dr. Rao: Ravi S. came in for his annual check-up. Cleared him for distance training, clearance dated 22 June 2026. Please update the sheet.",
+            "citations": [
+              "S5"
+            ],
+            "unsupported": false
+          }
+        ],
+        "citations": [
+          {
+            "label": "S1",
+            "chunk_id": "programme_rules.pdf#page=1&para=1",
+            "doc_id": "programme_rules.pdf",
+            "locator": "page=1&para=1",
+            "quote": "Hyderabad Runners - Half Marathon Training Programme (HMTP), Batch 2026B: Eligibility and Schedule"
+          },
+          {
+            "label": "S2",
+            "chunk_id": "programme_rules.pdf#page=1&para=3",
+            "doc_id": "programme_rules.pdf",
+            "locator": "page=1&para=3",
+            "quote": "A participant is eligible for Batch 2026B only if ALL of the following conditions hold."
+          },
+          {
+            "label": "S3",
+            "chunk_id": "whatsapp_coach_group.txt#msg=7",
+            "doc_id": "whatsapp_coach_group.txt",
+            "locator": "msg=7",
+            "quote": "[20/08/2026 18:30] Kiran Kumar: Coach, can I still join batch B? My medical form is not done yet."
+          },
+          {
+            "label": "S4",
+            "chunk_id": "whatsapp_coach_group.txt#msg=10",
+            "doc_id": "whatsapp_coach_group.txt",
+            "locator": "msg=10",
+            "quote": "[20/09/2026 08:15] Coach Anil: Ravi Shankar - your membership lapsed in June, please renew before we can accept your batch B registration."
+          },
+          {
+            "label": "S5",
+            "chunk_id": "whatsapp_coach_group.txt#msg=3",
+            "doc_id": "whatsapp_coach_group.txt",
+            "locator": "msg=3",
+            "quote": "[23/06/2026 11:20] Dr. Rao: Ravi S. came in for his annual check-up. Cleared him for distance training, clearance dated 22 June 2026. Please update the sheet."
+          }
+        ],
+        "conflicts": [],
+        "retrieved": [
+          {
+            "chunk": {
+              "chunk_id": "programme_rules.pdf#page=1&para=1",
+              "doc_id": "programme_rules.pdf",
+              "locator": "page=1&para=1",
+              "text": "Hyderabad Runners - Half Marathon Training Programme (HMTP), Batch 2026B: Eligibility and Schedule",
+              "metadata": {
+                "page": 1,
+                "para": 1
+              }
+            },
+            "score": 0.7007,
+            "rank": 1
+          },
+          {
+            "chunk": {
+              "chunk_id": "programme_rules.pdf#page=1&para=3",
+              "doc_id": "programme_rules.pdf",
+              "locator": "page=1&para=3",
+              "text": "A participant is eligible for Batch 2026B only if ALL of the following conditions hold.",
+              "metadata": {
+                "page": 1,
+                "para": 3
+              }
+            },
+            "score": 0.5456,
+            "rank": 2
+          },
+          {
+            "chunk": {
+              "chunk_id": "whatsapp_coach_group.txt#msg=7",
+              "doc_id": "whatsapp_coach_group.txt",
+              "locator": "msg=7",
+              "text": "[20/08/2026 18:30] Kiran Kumar: Coach, can I still join batch B? My medical form is not done yet.",
+              "metadata": {
+                "date": "20/08/2026",
+                "time": "18:30",
+                "sender": "Kiran Kumar"
+              }
+            },
+            "score": 0.5377,
+            "rank": 3
+          },
+          {
+            "chunk": {
+              "chunk_id": "whatsapp_coach_group.txt#msg=10",
+              "doc_id": "whatsapp_coach_group.txt",
+              "locator": "msg=10",
+              "text": "[20/09/2026 08:15] Coach Anil: Ravi Shankar - your membership lapsed in June, please renew before we can accept your batch B registration.",
+              "metadata": {
+                "date": "20/09/2026",
+                "time": "08:15",
+                "sender": "Coach Anil"
+              }
+            },
+            "score": 0.507,
+            "rank": 4
+          },
+          {
+            "chunk": {
+              "chunk_id": "whatsapp_coach_group.txt#msg=3",
+              "doc_id": "whatsapp_coach_group.txt",
+              "locator": "msg=3",
+              "text": "[23/06/2026 11:20] Dr. Rao: Ravi S. came in for his annual check-up. Cleared him for distance training, clearance dated 22 June 2026. Please update the sheet.",
+              "metadata": {
+                "date": "23/06/2026",
+                "time": "11:20",
+                "sender": "Dr. Rao"
+              }
+            },
+            "score": 0.4906,
+            "rank": 5
+          },
+          {
+            "chunk": {
+              "chunk_id": "programme_rules.pdf#page=1&para=2",
+              "doc_id": "programme_rules.pdf",
+              "locator": "page=1&para=2",
+              "text": "Batch 2026B begins on 8 November 2026 and runs for 12 weeks, ending 31 January 2027. Sessions are held every Saturday and Sunday at 5:30 AM at KBR Park.",
+              "metadata": {
+                "page": 1,
+                "para": 2
+              }
+            },
+            "score": 0.4573,
+            "rank": 6
+          },
+          {
+            "chunk": {
+              "chunk_id": "whatsapp_coach_group.txt#msg=5",
+              "doc_id": "whatsapp_coach_group.txt",
+              "locator": "msg=5",
+              "text": "[10/08/2026 09:02] Coach Anil: Results from the HR 10K Monsoon Run are in. Ravi S. finished in 52:30, Fatima in 58:12. Well done!",
+              "metadata": {
+                "date": "10/08/2026",
+                "time": "09:02",
+                "sender": "Coach Anil"
+              }
+            },
+            "score": 0.4221,
+            "rank": 7
+          },
+          {
+            "chunk": {
+              "chunk_id": "whatsapp_coach_group.txt#msg=6",
+              "doc_id": "whatsapp_coach_group.txt",
+              "locator": "msg=6",
+              "text": "[15/08/2026 07:45] Coach Anil: Ravi S. has attended 6 of the last 7 Saturday training sessions. Good consistency. Keep it up, we start tempo work in November.",
+              "metadata": {
+                "date": "15/08/2026",
+                "time": "07:45",
+                "sender": "Coach Anil"
+              }
+            },
+            "score": 0.4081,
+            "rank": 8
+          }
+        ],
+        "fallback": false,
+        "backend": "extractive",
+        "latency_s": 0.098
+      }
+    }
+  ]
+}

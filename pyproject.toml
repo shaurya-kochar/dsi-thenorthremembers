@@ -1,0 +1,30 @@
+[project]
+name = "infobridge"
+version = "0.1.0"
+description = "Evidence-preserving multi-source information synthesis (DSI Project 9A, Hyderabad Runners)"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2",
+    "pandas>=2",
+    "openpyxl>=3",
+    "pymupdf>=1.24",
+    "chromadb>=1.0",
+    "google-genai>=1.0",
+    "python-dotenv>=1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+# Hack 1 components
+hack1 = ["rapidfuzz>=3", "jellyfish>=1", "networkx>=3", "spacy>=3.7"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

@@ -1,0 +1,5 @@
+reg_id,participant_name,phone,programme,batch_start,category,registered_on,payment_status
+REG-2026B-001,Fatima Begum,9701066789,HMTP 2026B,2026-11-01,Intermediate,2026-08-28,Paid
+REG-2026B-002,R. Sharma,9848022314,HMTP 2026B,2026-11-01,Intermediate,2026-09-10,Paid
+REG-2026B-003,Sneha Reddy,9949077881,HMTP 2026B,2026-11-01,Beginner,2026-09-12,Pending
+REG-2026B-004,Ravi Shankar,9000055678,HMTP 2026B,2026-11-01,Beginner,2026-09-19,Pending
