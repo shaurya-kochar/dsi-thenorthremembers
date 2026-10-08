@@ -1,6 +1,6 @@
 # InfoBridge: Sprint 2 Status & Hack 1 Plan
 
-**Team:** The North Remembers · **Project:** DSI 9A (Hyderabad Runners) · **Last updated:** 8 Oct 2026
+**Team:** The North Remembers · **Project:** DSI 9A (Hyderabad Runners) · **Last updated:** 8 Oct 2026  
 **Hack 1:** Saturday 10 October (half-day)
 
 ---
@@ -101,6 +101,7 @@ No key? Add `--backend extractive` to any command. It skips the LLM and returns 
 ### Goal
 
 The same question, *"Is Ravi Sharma eligible…?"*, should now get:
+
 - verdict **YES**
 - every rule backed by a correct citation
 - **both conflicts flagged**, with both sources for each
@@ -149,7 +150,7 @@ Four parallel tasks. They only depend on each other through the types in `models
 
    Note: `batch_start` is a fact about the *programme* (`HMTP 2026B`), not the person. Emit it with `entity_mention="HMTP 2026B"`.
 
-2. **WhatsApp, PDF and email text: use Gemini to extract JSON.** Use a fixed list of allowed attribute names (the same names as above, plus `event_result`, `training_attendance`, `first_aid_certified`, `registration_deadline`). Prompt: *"Extract (entity, attribute, value) facts from this message. Only use these attributes. Return []` if none."* Send one LLM call per document (all its chunks together) to stay under rate limits.
+2. **WhatsApp, PDF and email text: use Gemini to extract JSON.** Use a fixed list of allowed attribute names (the same names as above, plus `event_result`, `training_attendance`, `first_aid_certified`, `registration_deadline`). Prompt: *"Extract (entity, attribute, value) facts from this message. Only use these attributes. Return `[]` if none."* Send one LLM call per document (all its chunks together) to stay under rate limits.
 3. **Normalise values** so they can be compared:
    - dates → `YYYY-MM-DD` (`"22 June 2026"`, `"15/03/2026"` → ISO; WhatsApp dates are dd/mm)
    - phone numbers → last 10 digits
@@ -162,6 +163,7 @@ Four parallel tasks. They only depend on each other through the types in `models
 **Input:** `list[Fact]` → **Output:** `list[Entity]` (each mention carries its chunk ID; record *why* things were merged in `match_evidence`)
 
 Merge rules, in this order:
+
 1. **Strong keys.** Same normalised phone or email → same person. This links `R. Sharma` (9848022314) to `Ravi Sharma` (+91 98480 22314).
 2. **Compatible names.**
    - Initials: `R. Sharma` ~ `Ravi Sharma`, `S. R. Kumar` ~ `Srinivas Rao Kumar`, `A. Iyer` ~ `Ananya Iyer`.
