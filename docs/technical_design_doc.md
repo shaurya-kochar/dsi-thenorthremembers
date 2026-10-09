@@ -58,6 +58,8 @@ Sprint 2 lays the foundations: the project skeleton with fixed component interfa
 | 6 | Synthesis Engine | `synthesis.py` | question + chunks → `Answer` | **Baseline done** |
 | 7 | Provenance Tracker | `provenance.py` | `Answer` → evidence trail | **Partial** (source → chunk → retrieval → claim) |
 | – | Evaluation | `evaluation.py` | answers + `gold.json` → metrics | **Done** |
+| – | Fact vocabulary | `schema.py` | attribute names + spreadsheet column mappings | **Done** |
+| – | Demo app | `app.py` | question → answer, citations, conflicts, trail | **Skeleton** (on the v0.1 pipeline) |
 
 ### Data contracts (`models.py`)
 
@@ -104,6 +106,19 @@ An **extractive backend** returns the top-5 chunks verbatim as claims. It needs 
 ### 3.4 Provenance trail
 
 For each claim, `python -m infobridge trail …` outputs: source document (path, format) → chunk (locator, exact text) → retrieval (rank, similarity) → claim. Hack 1 adds the extraction and entity-resolution steps between chunk and claim.
+
+### 3.5 Hack 1 readiness
+
+The last Sprint 2 activity is preparing the component for a focused Hack 1 build. Since Hack 1 has to deliver about 60% of the project in half a day, everything that isn't the core logic itself is in place beforehand:
+
+| Prepared | What it gives the Hack 1 team |
+|---|---|
+| **Fact vocabulary** (`schema.py`) | One list of 31 attribute names, plus column → attribute mappings for every spreadsheet, so the extractor, resolver and conflict detector agree on names. |
+| **Fixtures** (`tests/fixtures/case_03_hack1.json`) | 22 hand-made facts for case 3, the expected entity groupings and the 2 expected conflicts. The resolver and conflict detector can be built and tested without waiting for the extractor. |
+| **Acceptance tests** (`tests/test_hack1_contracts.py`) | 5 tests that currently fail by design (`xfail`), one set per Hack 1 task. A task is done when its tests pass. |
+| **LLM response cache** (`results/cache/`) | Identical Gemini calls are answered from disk, which protects the free-tier quota during repeated runs. Turned off when measuring latency. |
+| **Demo app skeleton** (`app.py`) | A one-page Streamlit app showing the verdict, claims with citations, sources, conflict cards and the evidence trail. It already runs on the v0.1 pipeline and picks up conflicts automatically once Hack 1 fills `Answer.conflicts`. It is a demo harness, not a product frontend. |
+| **Feedback log** (`docs/hack1_feedback_log.md`) | Template for recording failures and questions during the hack. |
 
 ## 4. Synthetic evaluation dataset
 
@@ -225,5 +240,6 @@ uv venv --python 3.10 .venv && uv pip install --python .venv/bin/python -e ".[de
 cp .env.example .env    # add GEMINI_API_KEY
 python -m infobridge ask data/synthetic/case_03_conflict/sources "Is Ravi Sharma eligible for the Half Marathon Training Programme Batch 2026B?"
 python -m infobridge eval --backend gemini --tag baseline_v0.1
-pytest
+streamlit run app.py   # demo app (needs: uv pip install streamlit)
+pytest                 # 19 pass; 5 Hack 1 acceptance tests are expected to fail until built
 ```

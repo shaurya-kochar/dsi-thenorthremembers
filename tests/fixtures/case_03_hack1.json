@@ -1,0 +1,329 @@
+{
+  "_comment": "Hand-made Hack 1 fixtures for case_03_conflict: the facts Task A should extract, the entities Task B should produce, and the conflicts Task C should find. Lets B and C build and test before A is done.",
+  "facts": [
+    {
+      "fact_id": "F01",
+      "entity_mention": "Ravi Shankar",
+      "attribute": "phone",
+      "value": "9000055678",
+      "raw_value": "+91 90000 55678",
+      "chunk_id": "members.csv#row=4",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F02",
+      "entity_mention": "Ravi Shankar",
+      "attribute": "membership_status",
+      "value": "Lapsed",
+      "raw_value": "Lapsed",
+      "chunk_id": "members.csv#row=4",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F03",
+      "entity_mention": "Ravi Shankar",
+      "attribute": "medical_clearance_date",
+      "value": "2025-04-20",
+      "raw_value": "2025-04-20",
+      "chunk_id": "members.csv#row=4",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F04",
+      "entity_mention": "Ravi Sharma",
+      "attribute": "phone",
+      "value": "9848022314",
+      "raw_value": "+91 98480 22314",
+      "chunk_id": "members.csv#row=5",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F05",
+      "entity_mention": "Ravi Sharma",
+      "attribute": "email",
+      "value": "ravi.sharma@example.org",
+      "raw_value": "ravi.sharma@example.org",
+      "chunk_id": "members.csv#row=5",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F06",
+      "entity_mention": "Ravi Sharma",
+      "attribute": "membership_status",
+      "value": "Active",
+      "raw_value": "Active",
+      "chunk_id": "members.csv#row=5",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F07",
+      "entity_mention": "Ravi Sharma",
+      "attribute": "membership_valid_until",
+      "value": "2027-03-31",
+      "raw_value": "2027-03-31",
+      "chunk_id": "members.csv#row=5",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F08",
+      "entity_mention": "Ravi Sharma",
+      "attribute": "medical_clearance_date",
+      "value": "2026-03-15",
+      "raw_value": "2026-03-15",
+      "chunk_id": "members.csv#row=5",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F09",
+      "entity_mention": "R. Sharma",
+      "attribute": "phone",
+      "value": "9848022314",
+      "raw_value": "9848022314",
+      "chunk_id": "registrations.csv#row=3",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F10",
+      "entity_mention": "R. Sharma",
+      "attribute": "programme",
+      "value": "HMTP 2026B",
+      "raw_value": "HMTP 2026B",
+      "chunk_id": "registrations.csv#row=3",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F11",
+      "entity_mention": "R. Sharma",
+      "attribute": "registered_on",
+      "value": "2026-09-10",
+      "raw_value": "2026-09-10",
+      "chunk_id": "registrations.csv#row=3",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F12",
+      "entity_mention": "HMTP 2026B",
+      "attribute": "batch_start_date",
+      "value": "2026-11-01",
+      "raw_value": "2026-11-01",
+      "chunk_id": "registrations.csv#row=3",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F13",
+      "entity_mention": "Ravi Shankar",
+      "attribute": "phone",
+      "value": "9000055678",
+      "raw_value": "9000055678",
+      "chunk_id": "registrations.csv#row=5",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F14",
+      "entity_mention": "Ravi Shankar",
+      "attribute": "registered_on",
+      "value": "2026-09-19",
+      "raw_value": "2026-09-19",
+      "chunk_id": "registrations.csv#row=5",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F15",
+      "entity_mention": "HMTP 2026B",
+      "attribute": "batch_start_date",
+      "value": "2026-11-01",
+      "raw_value": "2026-11-01",
+      "chunk_id": "registrations.csv#row=5",
+      "extractor": "csv_schema",
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "F16",
+      "entity_mention": "Ravi S.",
+      "attribute": "medical_clearance_date",
+      "value": "2026-06-22",
+      "raw_value": "22 June 2026",
+      "chunk_id": "whatsapp_coach_group.txt#msg=3",
+      "extractor": "llm",
+      "confidence": 0.9
+    },
+    {
+      "fact_id": "F17",
+      "entity_mention": "Ravi S.",
+      "attribute": "event_result",
+      "value": "HR 10K Monsoon Run: 52:30",
+      "raw_value": "finished in 52:30",
+      "chunk_id": "whatsapp_coach_group.txt#msg=5",
+      "extractor": "llm",
+      "confidence": 0.9
+    },
+    {
+      "fact_id": "F18",
+      "entity_mention": "Ravi S.",
+      "attribute": "training_attendance",
+      "value": "6 of 7",
+      "raw_value": "6 of the last 7 Saturday training sessions",
+      "chunk_id": "whatsapp_coach_group.txt#msg=6",
+      "extractor": "llm",
+      "confidence": 0.9
+    },
+    {
+      "fact_id": "F19",
+      "entity_mention": "Batch B",
+      "attribute": "registration_deadline",
+      "value": "2026-09-15",
+      "raw_value": "15 Sept",
+      "chunk_id": "whatsapp_coach_group.txt#msg=9",
+      "extractor": "llm",
+      "confidence": 0.9
+    },
+    {
+      "fact_id": "F20",
+      "entity_mention": "Ravi Shankar",
+      "attribute": "membership_status",
+      "value": "Lapsed",
+      "raw_value": "membership lapsed in June",
+      "chunk_id": "whatsapp_coach_group.txt#msg=10",
+      "extractor": "llm",
+      "confidence": 0.9
+    },
+    {
+      "fact_id": "F21",
+      "entity_mention": "Batch 2026B",
+      "attribute": "batch_start_date",
+      "value": "2026-11-08",
+      "raw_value": "8 November 2026",
+      "chunk_id": "programme_rules.pdf#page=1&para=2",
+      "extractor": "llm",
+      "confidence": 0.9
+    },
+    {
+      "fact_id": "F22",
+      "entity_mention": "Batch 2026B",
+      "attribute": "registration_deadline",
+      "value": "2026-09-15",
+      "raw_value": "15 September 2026",
+      "chunk_id": "programme_rules.pdf#page=1&para=6",
+      "extractor": "llm",
+      "confidence": 0.9
+    }
+  ],
+  "entities": [
+    {
+      "entity_id": "E1",
+      "canonical_name": "Ravi Sharma",
+      "entity_type": "person",
+      "mentions": [
+        {
+          "text": "Ravi Sharma",
+          "chunk_id": "members.csv#row=5"
+        },
+        {
+          "text": "R. Sharma",
+          "chunk_id": "registrations.csv#row=3"
+        },
+        {
+          "text": "Ravi S.",
+          "chunk_id": "whatsapp_coach_group.txt#msg=3"
+        },
+        {
+          "text": "Ravi S.",
+          "chunk_id": "whatsapp_coach_group.txt#msg=5"
+        },
+        {
+          "text": "Ravi S.",
+          "chunk_id": "whatsapp_coach_group.txt#msg=6"
+        }
+      ],
+      "match_evidence": [
+        "phone 9848022314 shared by members.csv#row=5 and registrations.csv#row=3",
+        "'Ravi S.' compatible only with 'Ravi Sharma' given co-occurring facts"
+      ]
+    },
+    {
+      "entity_id": "E2",
+      "canonical_name": "Ravi Shankar",
+      "entity_type": "person",
+      "mentions": [
+        {
+          "text": "Ravi Shankar",
+          "chunk_id": "members.csv#row=4"
+        },
+        {
+          "text": "Ravi Shankar",
+          "chunk_id": "registrations.csv#row=5"
+        },
+        {
+          "text": "Ravi Shankar",
+          "chunk_id": "whatsapp_coach_group.txt#msg=10"
+        }
+      ],
+      "match_evidence": [
+        "phone 9000055678 shared",
+        "exact name"
+      ]
+    },
+    {
+      "entity_id": "E3",
+      "canonical_name": "HMTP Batch 2026B",
+      "entity_type": "programme",
+      "mentions": [
+        {
+          "text": "HMTP 2026B",
+          "chunk_id": "registrations.csv#row=3"
+        },
+        {
+          "text": "HMTP 2026B",
+          "chunk_id": "registrations.csv#row=5"
+        },
+        {
+          "text": "Batch B",
+          "chunk_id": "whatsapp_coach_group.txt#msg=9"
+        },
+        {
+          "text": "Batch 2026B",
+          "chunk_id": "programme_rules.pdf#page=1&para=2"
+        },
+        {
+          "text": "Batch 2026B",
+          "chunk_id": "programme_rules.pdf#page=1&para=6"
+        }
+      ],
+      "match_evidence": [
+        "'Batch B' / 'Batch 2026B' / 'HMTP 2026B' name the same programme batch"
+      ]
+    }
+  ],
+  "expected_conflicts": [
+    {
+      "entity_id": "E1",
+      "attribute": "medical_clearance_date",
+      "values": [
+        "2026-03-15",
+        "2026-06-22"
+      ]
+    },
+    {
+      "entity_id": "E3",
+      "attribute": "batch_start_date",
+      "values": [
+        "2026-11-01",
+        "2026-11-08"
+      ]
+    }
+  ]
+}

@@ -7,9 +7,12 @@
     python scripts/finalize_baseline.py
 """
 
+import os
 import re
 import sys
 from pathlib import Path
+
+os.environ.setdefault("INFOBRIDGE_LLM_CACHE", "0")  # measure real latency, not cache hits
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))

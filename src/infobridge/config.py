@@ -18,6 +18,8 @@ class Settings:
     top_k: int = int(os.getenv("INFOBRIDGE_TOP_K", "8"))
     # Below this best-chunk cosine similarity the system refuses to synthesise (fallback mode).
     min_score: float = float(os.getenv("INFOBRIDGE_MIN_SCORE", "0.25"))
+    # Cache LLM responses on disk (results/cache/). Turn off to measure true latency.
+    llm_cache: bool = os.getenv("INFOBRIDGE_LLM_CACHE", "1") == "1"
 
 
 settings = Settings()

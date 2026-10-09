@@ -35,7 +35,8 @@ python -m infobridge trail data/synthetic/case_03_conflict/sources "Is Ravi Shar
 # Evaluate against all synthetic cases; writes results/<tag>.json and .md
 python -m infobridge eval --backend gemini --tag baseline_v0.1
 
-pytest                      # unit + gold-integrity tests
+streamlit run app.py        # demo app (install with: uv pip install --python .venv/bin/python streamlit)
+pytest                      # unit, gold-integrity and app tests; 5 Hack 1 tests are expected to fail (xfail)
 python scripts/build_synthetic.py   # re-render PDFs/Excel after editing pdf_src/ or xlsx_src/
 python scripts/md_to_pdf.py docs/technical_design_doc.md   # rebuild a doc's PDF (needs Chrome)
 ```
@@ -45,6 +46,7 @@ python scripts/md_to_pdf.py docs/technical_design_doc.md   # rebuild a doc's PDF
 ```
 src/infobridge/
   models.py        data contracts shared by all components (the "APIs")
+  schema.py        attribute vocabulary + spreadsheet column mappings
   ingestion.py     [1] CSV / Excel / PDF / WhatsApp / email → citable chunks
   extraction.py    [2] facts from chunks                      (Hack 1 stub)
   resolution.py    [3] entity resolution                      (Hack 1 stub)
@@ -59,7 +61,9 @@ data/synthetic/case_*/
   sources/         what the pipeline ingests
   gold.json        planted facts, entity mentions, conflicts, expected verdicts
   pdf_src/ xlsx_src/  editable text originals of the binary sources
-results/           evaluation outputs
+tests/fixtures/    hand-made Hack 1 facts/entities/conflicts for case 3
+app.py             one-page Streamlit demo app
+results/           evaluation outputs (cache/ = LLM response cache, gitignored)
 docs/              design docs (.md source + .pdf)
 scripts/           build_synthetic.py, md_to_pdf.py, finalize_baseline.py
 ```

@@ -54,3 +54,21 @@ def test_entity_resolution_f1():
         Mention(text="Ravi Sharma", chunk_id="a"), Mention(text="R. Sharma", chunk_id="b"),
         Mention(text="Ravi Shankar", chunk_id="c")])]
     assert entity_resolution_f1(merged_wrongly, gold) == {"precision": 0.333, "recall": 1.0, "f1": 0.5}
+
+
+def test_llm_responses_are_cached(tmp_path, monkeypatch):
+    import infobridge.llm as llm_mod
+
+    monkeypatch.setattr(llm_mod, "CACHE_DIR", tmp_path)
+    from dataclasses import replace
+
+    monkeypatch.setattr(llm_mod, "settings", replace(llm_mod.settings, llm_cache=True))
+    llm = object.__new__(llm_mod.GeminiLLM)  # skip __init__: no API key needed
+    llm.model, llm.name = "test-model", "gemini:test-model"
+    calls = []
+    monkeypatch.setattr(llm, "_call", lambda system, prompt, retries: calls.append(prompt) or '{"ok": 1}')
+
+    assert llm.generate_json("sys", "p1") == '{"ok": 1}'
+    assert llm.generate_json("sys", "p1") == '{"ok": 1}'  # served from disk
+    llm.generate_json("sys", "p2")
+    assert calls == ["p1", "p2"]

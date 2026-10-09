@@ -4,9 +4,14 @@ citation behaviour stay easy to inspect while the pipeline is being built.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import time
+from pathlib import Path
 
 from .config import settings
+
+CACHE_DIR = Path(__file__).resolve().parents[2] / "results" / "cache"
 
 
 class GeminiLLM:
@@ -21,6 +26,19 @@ class GeminiLLM:
         self.name = f"gemini:{self.model}"
 
     def generate_json(self, system: str, prompt: str, retries: int = 3) -> str:
+        """JSON-mode completion. Identical calls are served from a disk cache
+        (``results/cache/``) so re-runs don't spend free-tier quota."""
+        key = hashlib.sha256(json.dumps([self.model, system, prompt]).encode()).hexdigest()[:24]
+        cached = CACHE_DIR / f"{key}.json"
+        if settings.llm_cache and cached.exists():
+            return json.loads(cached.read_text())["text"]
+        text = self._call(system, prompt, retries)
+        if settings.llm_cache:
+            CACHE_DIR.mkdir(parents=True, exist_ok=True)
+            cached.write_text(json.dumps({"model": self.model, "text": text}))
+        return text
+
+    def _call(self, system: str, prompt: str, retries: int) -> str:
         from google.genai import types
 
         config = types.GenerateContentConfig(
