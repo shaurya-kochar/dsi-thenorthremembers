@@ -1,7 +1,7 @@
 # Technical Design Document: InfoBridge PoC v0.1
 
-**DSI 2026, Project 9A: Bringing Fragmented Information Together**
-**Team:** The North Remembers · **Anchor NGO:** Hyderabad Runners
+**DSI 2026, Project 9A: Bringing Fragmented Information Together**  
+**Team:** The North Remembers · **Anchor NGO:** Hyderabad Runners  
 **Sprint 2 deliverable** (27 September – 10 October 2026) · Version 0.1
 
 > Sprint 2 checkpoint: *"A first working technical PoC exists, even if crude or incomplete."*
@@ -11,31 +11,38 @@
 
 ## 1. Scope of this version
 
-| | In v0.1 (Sprint 2) | Deferred to Hack 1 |
-|---|---|---|
-| **Pull together** | Multi-format ingestion, vector retrieval, LLM synthesis | Graph-expanded (hybrid) retrieval |
-| **Show provenance** | Fact-sized chunks with exact locators, citation validation, source → claim trail | Extraction + resolution steps in the trail |
-| **Flag conflicts** | Measured only: we test whether a plain LLM notices conflicts unaided | Deterministic conflict detector, structured conflict output |
-| **Entity resolution** | None (that is the point of the baseline) | Strong keys + fuzzy/phonetic name matching |
+| | In v0.1 (Sprint 2) | Hack 1 (10 Oct) | Sprint 3 (v0.2) |
+|---|---|---|---|
+| **Pull together** | Multi-format ingestion, vector retrieval, LLM synthesis | – | LLM fact extraction; knowledge graph; entity-based retrieval |
+| **Show provenance** | Fact-sized chunks with exact locators, citation validation, source → claim trail | – | Extraction + resolution steps in the trail |
+| **Flag conflicts** | Measured only: does a plain LLM notice conflicts unaided? | Rule-based conflict detector, conflicts shown in the answer | Conflict-aware prompting |
+| **Entity resolution** | None (that is the point of the baseline) | Phone/email keys + name rules | Fuzzy/phonetic matching, context |
 
-Our strategy was to build the simplest pipeline that answers with citations, measure where it fails, and then add the components from the Design Doc to fix those failures. That way each Hack 1 component has a baseline number it has to improve.
+Our strategy was to build the simplest pipeline that answers with citations, measure where it fails, and then add the components from the Design Doc to fix those failures. That way each later component has a baseline number it has to improve. The full sprint-by-sprint plan is in `docs/roadmap.md`.
 
 ## 2. Architecture
 
 ```
-                         ┌───────────────────────── v0.1 (built) ─────────────────────────┐
- sources/                │                                                                │
- CSV  Excel  PDF   ──►   │ [1] Ingestion ──► [5] Vector store ──► [6] Synthesis ──► Answer │
- WhatsApp  Email         │  fact-sized        ChromaDB +          naive RAG,       + citations
-                         │  chunks +          MiniLM-L6-v2        JSON claims,     + evidence trail [7]
-                         │  locators          cosine top-k        citation check   + fallback
-                         └────────┬───────────────────────────────────▲───────────────────┘
-                                  │            Hack 1 (interfaces fixed, stubs in repo)
-                                  ▼                                   │
-                     [2] Extractor ─► [3] Entity resolver ─► [4] Knowledge graph ─┘
-                      facts (e,a,v)     clusters + evidence     provenance edges,
-                                         │                      graph-expanded retrieval
-                                         └─► [5b] Conflict detector ─► Answer.conflicts
+ Source files: CSV · Excel · PDF · WhatsApp export · Email
+       │
+       ▼
+ [1] Ingestion ─────► fact-sized chunks, each with an exact locator
+       │                    │
+       │                    ▼                    ┌─── added in Hack 1 / Sprint 3 ───┐
+       │             [2] Extractor ──► [3] Entity resolver ──► [5b] Conflict detector
+       │                                     │                          │
+       │                                     ▼                          │
+       │                           [4] Knowledge graph                  │
+       ▼                                     │ (entity-based retrieval) │
+ [5] Vector store  ◄─────────────────────────┘                          │
+       │  ChromaDB + all-MiniLM-L6-v2, cosine top-k                     │
+       ▼                                                                │
+ [6] Synthesis  ◄───────────────────────────────────────────────────────┘
+       │  Gemini, JSON claims with [S#] citations, citation check, fallback
+       ▼
+ Answer + citations + evidence trail [7]
+
+ Built in v0.1: [1] [5] [6] [7]      Interfaces only: [2] [3] [4] [5b]
 ```
 
 ### Component status
@@ -133,7 +140,14 @@ A test (`tests/test_gold.py`) checks that every chunk ID in the gold files exist
 
 Fact and conflict matching use keywords: the gold file lists accepted surface forms. This is reproducible and free, but it can miss paraphrases, so it understates fact recall for LLM answers. We plan to add a manual or LLM-judge check for the final evaluation. Response coherence (a human rubric) is not measured yet.
 
-**Targets for Hack 1** (relative to this baseline): retrieval recall ≥ 0.9 on case 3, structured conflict recall ≥ 0.9 with precision ≥ 0.8, entity resolution F1 ≥ 0.85, citation validity = 1.0.
+**Targets** (see `docs/roadmap.md`):
+
+| Metric | v0.1 baseline | Hack 1 | v0.2 (Sprint 3) | v1.0 |
+|---|---|---|---|---|
+| Retrieval recall (case 3) | 0.57 | – | ≥ 0.90 | ≥ 0.90 |
+| Structured conflict recall | 0.00 | ≥ 0.50 | ≥ 0.90 | ≥ 0.90 |
+| Entity resolution F1 | – | measured | ≥ 0.85 | ≥ 0.90 |
+| Citation validity | 1.00 | 1.00 | 1.00 | 1.00 |
 
 ## 6. Baseline results
 
@@ -150,7 +164,9 @@ Command: `python -m infobridge eval --backend <backend> --tag <tag>`. Full outpu
 
 ### 6.2 Naive-RAG baseline (Gemini)
 
-> **TODO before submission:** run `python -m infobridge eval --backend gemini --tag baseline_v0.1` and paste `results/baseline_v0.1.md` here.
+<!-- GEMINI_BASELINE_START -->
+> **Pending:** needs a Gemini API key. Run `python scripts/finalize_baseline.py`, which runs the evaluation, inserts the table here and rebuilds the PDF.
+<!-- GEMINI_BASELINE_END -->
 
 ## 7. What worked and what didn't
 
@@ -160,10 +176,10 @@ Command: `python -m infobridge eval --backend <backend> --tag <tag>`. Full outpu
 - Fallback mode: an off-topic question ("What is the capital of Peru?") is refused, with the closest sources suggested instead of a guess.
 - The evaluation harness runs end to end against the gold standard in under a second, without an API key.
 
-**Didn't work (and why: these set the Hack 1 priorities)**
-1. **Spreadsheet rows are nearly invisible to dense retrieval.** On case 3, every one of the 11 CSV rows ranks 15th or lower out of 29 chunks. Ravi Sharma's own membership row ranks **20th**, and his registration row (*"R. Sharma"*) ranks **24th**. `key=value` rows embed poorly next to natural-language messages, so retrieval recall is 0.57 and the membership and registration facts never reach the LLM. Any LLM answer is capped by this. **Fix:** entity-keyed lookup through the knowledge graph (fetch every chunk that mentions the resolved entity) plus a lexical (BM25) channel for names and IDs.
-2. **The decoy outranks the target.** Within the top-8, the message about **Ravi Shankar's** lapsed membership ranks #4. In the members sheet, Ravi Shankar's row (#15) also outranks Ravi Sharma's (#20). A naive system could wrongly conclude Ravi Sharma is ineligible. **Fix:** entity resolution using strong keys (phone/email) to keep *Ravi Shankar* separate, and filtering retrieved evidence to the resolved entity.
-3. **Conflicts are invisible when only one side is retrieved.** For the clearance-date conflict, Dr. Rao's message (22 June) is retrieved (#5), but the members-sheet value (15 March, #20) is not, so the LLM cannot notice the contradiction. Structured conflict recall is 0 by construction. **Fix:** a deterministic conflict detector over all extracted facts, which works on facts rather than on retrieved chunks, so retrieval misses don't hide conflicts.
+**Didn't work (and why: these set the priorities for Hack 1 and Sprint 3)**
+1. **Spreadsheet rows are nearly invisible to dense retrieval.** On case 3, every one of the 11 CSV rows ranks 15th or lower out of 29 chunks. Ravi Sharma's own membership row ranks **20th**, and his registration row (*"R. Sharma"*) ranks **24th**. `key=value` rows embed poorly next to natural-language messages, so retrieval recall is 0.57 and the membership and registration facts never reach the LLM. Any LLM answer is capped by this. **Fix (Sprint 3):** entity-based lookup through the knowledge graph (fetch every chunk that mentions the resolved entity), plus a keyword (BM25) channel for names and IDs.
+2. **The decoy outranks the target.** Within the top-8, the message about **Ravi Shankar's** lapsed membership ranks #4. In the members sheet, Ravi Shankar's row (#15) also outranks Ravi Sharma's (#20). A naive system could wrongly conclude Ravi Sharma is ineligible. **Fix (Hack 1):** entity resolution using strong keys (phone/email) to keep *Ravi Shankar* separate, and filtering retrieved evidence to the resolved entity.
+3. **Conflicts are invisible when only one side is retrieved.** For the clearance-date conflict, Dr. Rao's message (22 June) is retrieved (#5), but the members-sheet value (15 March, #20) is not, so the LLM cannot notice the contradiction. Structured conflict recall is 0 by construction. **Fix (Hack 1):** a deterministic conflict detector over all extracted facts, which works on facts rather than on retrieved chunks, so retrieval misses don't hide conflicts.
 4. **Keyword-based fact matching** under-counts paraphrased answers (see §5).
 
 ## 8. Changes from the Sprint 1 Design Doc
@@ -175,16 +191,22 @@ Command: `python -m infobridge eval --backend <backend> --tag <tag>`. Full outpu
 | spaCy NER as the extractor | Schema mapping for tables + LLM JSON extraction for text; spaCy as a mention cross-check | NER finds "Ravi" and "June 22" but not that one is the other's *clearance date*, and conflict detection needs attribute-level facts |
 | sentence-transformers | Same model (all-MiniLM-L6-v2) via Chroma's ONNX runtime | No PyTorch install; identical embeddings |
 
-## 9. Hack 1 plan (10 October)
+## 9. Next steps
 
-| Priority | Work | Done when |
-|---|---|---|
-| P1 | Extractor: table schema mapping + LLM extraction for chat/PDF; value normalisation (dates, phones) | Facts for all 3 cases |
-| P1 | Entity resolver: phone/email keys → initials/nickname/fuzzy (rapidfuzz) → phonetic | ER F1 ≥ 0.85; Ravi Shankar and Srinivas Reddy kept separate |
-| P1 | Conflict detector: group by (entity, attribute), compare normalised values | C1 and C2 detected; no false positives on cases 1–2 |
-| P1 | Knowledge graph (NetworkX) with provenance edges; entity-keyed + BM25 retrieval alongside dense | Case 3 retrieval recall ≥ 0.9 |
-| P2 | Conflict-aware synthesis: pass detected conflicts into the prompt and `Answer.conflicts` | Verdict correct, both conflicts surfaced with sources |
-| P3 | Re-run eval, before/after table; demo video: question → answer → evidence trail → conflict | Hack 1 deliverables |
+**Hack 1 (10 October): make it work, find what breaks**
+
+| Work | Done when |
+|---|---|
+| Simple entity resolution: same phone/email → same person; compatible names (*R. Sharma* ~ *Ravi Sharma*, *Srini* ~ *Srinivas*); never merge different surnames | *Ravi Shankar* and *Srinivas Reddy* kept separate; ER F1 measured |
+| Simple conflict detection: compare values for the same entity across sources, using spreadsheet columns plus dates found in text | Conflict C1 (clearance date) detected; nothing flagged in cases 1–2 |
+| Show conflicts in the answer (`Answer.conflicts`), with both values and sources | Conflicts visible in the CLI output |
+| Re-run the evaluation; before/after table; demo video | Hack 1 deliverables |
+
+**Later sprints** (details in `docs/roadmap.md`):
+
+- **Sprint 3 (v0.2):** LLM fact extraction from chats/PDFs/emails, knowledge graph with provenance edges, entity-based retrieval, full evidence trail, 5–6 test cases.
+- **Sprint 4 (v0.9):** systematic and edge-case testing, robustness, one open-data scenario, better answer scoring.
+- **Hack 2 / Sprint 5 (v1.0):** polish, final evaluation, slides, poster, video.
 
 ## 10. Questions for instructor feedback
 

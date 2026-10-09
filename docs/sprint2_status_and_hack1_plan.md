@@ -3,6 +3,8 @@
 **Team:** The North Remembers · **Project:** DSI 9A (Hyderabad Runners) · **Last updated:** 8 Oct 2026  
 **Hack 1:** Saturday 10 October (half-day)
 
+> **Note:** `roadmap.md` supersedes this doc for scope. Hack 1 now covers only simple entity resolution and conflict detection; LLM extraction and the knowledge graph move to Sprint 3. The task specs below are kept as a reference.
+
 ---
 
 ## TL;DR

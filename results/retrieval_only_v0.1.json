@@ -10,7 +10,7 @@
     "conflict_recall_text": 0.0,
     "conflict_recall": 0.0,
     "verdict_accuracy": 0.0,
-    "latency_s": 0.135
+    "latency_s": 0.197
   },
   "per_query": [
     {
@@ -24,7 +24,7 @@
       "conflict_recall_text": null,
       "conflict_recall": null,
       "verdict_accuracy": null,
-      "latency_s": 0.125,
+      "latency_s": 0.212,
       "missed_facts": [],
       "fallback": false
     },
@@ -39,7 +39,7 @@
       "conflict_recall_text": null,
       "conflict_recall": null,
       "verdict_accuracy": null,
-      "latency_s": 0.182,
+      "latency_s": 0.241,
       "missed_facts": [
         "F3",
         "F4",
@@ -58,7 +58,7 @@
       "conflict_recall_text": 0.0,
       "conflict_recall": 0.0,
       "verdict_accuracy": 0.0,
-      "latency_s": 0.098,
+      "latency_s": 0.137,
       "missed_facts": [
         "F1",
         "F2",
@@ -313,7 +313,7 @@
         ],
         "fallback": false,
         "backend": "extractive",
-        "latency_s": 0.125
+        "latency_s": 0.212
       }
     },
     {
@@ -545,7 +545,7 @@
         ],
         "fallback": false,
         "backend": "extractive",
-        "latency_s": 0.182
+        "latency_s": 0.241
       }
     },
     {
@@ -751,7 +751,7 @@
         ],
         "fallback": false,
         "backend": "extractive",
-        "latency_s": 0.098
+        "latency_s": 0.137
       }
     }
   ]

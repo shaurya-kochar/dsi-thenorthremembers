@@ -37,6 +37,7 @@ python -m infobridge eval --backend gemini --tag baseline_v0.1
 
 pytest                      # unit + gold-integrity tests
 python scripts/build_synthetic.py   # re-render PDFs/Excel after editing pdf_src/ or xlsx_src/
+python scripts/md_to_pdf.py docs/technical_design_doc.md   # rebuild a doc's PDF (needs Chrome)
 ```
 
 ## Layout
@@ -59,5 +60,20 @@ data/synthetic/case_*/
   gold.json        planted facts, entity mentions, conflicts, expected verdicts
   pdf_src/ xlsx_src/  editable text originals of the binary sources
 results/           evaluation outputs
-docs/              technical design doc
+docs/              design docs (.md source + .pdf)
+scripts/           build_synthetic.py, md_to_pdf.py, finalize_baseline.py
+```
+
+## Sprint 2 deliverables
+
+| Deliverable | Where | Status |
+|---|---|---|
+| Technical Design Doc: architecture, initial implementation, baseline result | [docs/technical_design_doc.pdf](docs/technical_design_doc.pdf) (Moodle) | Done, except the Gemini row in §6.2 |
+| PoC v0.1 foundations | this repo (GitHub) | Done |
+| Sprint-by-sprint plan | [docs/roadmap.pdf](docs/roadmap.pdf) | Done |
+
+To finish the Gemini baseline (needs `GEMINI_API_KEY` in `.env`):
+
+```bash
+python scripts/finalize_baseline.py   # runs the eval, fills §6.2 of the doc, rebuilds the PDF
 ```

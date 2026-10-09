@@ -124,10 +124,16 @@ def aggregate(rows: list[dict]) -> dict:
     return out
 
 
+HEADERS = {"case_id": "Case", "retrieval_recall": "Retr. recall", "fact_recall": "Fact recall",
+           "citation_validity": "Cit. validity", "citation_accuracy": "Cit. accuracy",
+           "unsupported_claims": "Unsupported", "conflict_recall_text": "Conflict (text)",
+           "conflict_recall": "Conflict (struct.)", "verdict_accuracy": "Verdict", "latency_s": "Latency (s)"}
+
+
 def to_markdown(rows: list[dict], summary: dict, title: str) -> str:
     cols = ["case_id"] + METRICS
     fmt = lambda v: "–" if v is None else (f"{v:.2f}" if isinstance(v, float) else str(v))
-    lines = [f"## {title}", "", "| " + " | ".join(cols) + " |", "|" + "---|" * len(cols)]
+    lines = [f"## {title}", "", "| " + " | ".join(HEADERS[c] for c in cols) + " |", "|" + "---|" * len(cols)]
     for r in rows:
         lines.append("| " + " | ".join(fmt(r[c]) for c in cols) + " |")
     lines.append("| **mean** | " + " | ".join(fmt(summary[m]) for m in METRICS) + " |")
