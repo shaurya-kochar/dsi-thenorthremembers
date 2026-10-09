@@ -1,9 +1,9 @@
-# InfoBridge: Sprint 2 Status & Hack 1 Plan
+# InfoBridge: Sprint 2 Status & Hack 1 Playbook
 
 **Team:** The North Remembers · **Project:** DSI 9A (Hyderabad Runners) · **Last updated:** 8 Oct 2026  
 **Hack 1:** Saturday 10 October (half-day)
 
-> **Note:** `roadmap.md` supersedes this doc for scope. Hack 1 now covers only simple entity resolution and conflict detection; LLM extraction and the knowledge graph move to Sprint 3. The task specs below are kept as a reference.
+> **Hack 1 builds the core of the project (about 60%) and must end in a working demo video.** `roadmap.md` has the semester overview; this doc is the detailed playbook for the hack.
 
 ---
 
@@ -11,7 +11,7 @@
 
 - **Done (PoC v0.1):** the pipeline runs end to end. It reads 5 source formats, retrieves evidence, answers with checked citations, and scores itself against 3 synthetic test cases.
 - **Main finding:** plain RAG can't connect *"Ravi Sharma"*, *"R. Sharma"* and *"Ravi S."*. Spreadsheet rows hardly get retrieved: Ravi's own membership row ranks 20th of 29. Because of this, the LLM never sees both sides of a conflict.
-- **Hack 1 goal:** build the 4 stubbed components (extractor, entity resolver, conflict detector, knowledge graph) and show a **before/after metrics table** on the same test cases.
+- **Hack 1 goal:** build the 4 stubbed components (extractor, entity resolver, conflict detector, knowledge graph), connect them end to end, and show it in a **demo app + video** with a **before/after metrics table**.
 - **Before Hack 1:** add a Gemini key, run the baseline eval, push to GitHub (see [§5](#5-sprint-2-left-to-do-before-hack-1)).
 
 ---
@@ -124,7 +124,7 @@ Then show the before/after metrics table.
 
 ### Work split
 
-Four parallel tasks. They only depend on each other through the types in `models.py`. Fill in names:
+Five tasks, which only depend on each other through the types in `models.py`. With 4 people, one person takes both D and E. Fill in names:
 
 | Task | Owner | File | Depends on |
 |---|---|---|---|
@@ -132,6 +132,7 @@ Four parallel tasks. They only depend on each other through the types in `models
 | **B. Entity Resolver** | ___ | `resolution.py` | A's `Fact` output (use hand-written fake facts until A is ready) |
 | **C. Conflict Detector** | ___ | `conflicts.py` | A + B (use fake entities/facts until ready) |
 | **D. KG + retrieval + integration** | ___ | `graph.py`, `retrieval.py`, `pipeline.py`, `synthesis.py` | B, C |
+| **E. Demo app + evaluation + video** | ___ | `app.py`, `evaluation.py` | D (builds against the v0.1 pipeline until D is ready) |
 
 > **Tip:** B and C should each start by writing their unit test with hand-made `Fact` and `Entity` objects from case 3. Then nobody waits on anyone else.
 
@@ -211,28 +212,43 @@ Merge rules, in this order:
 5. **Evaluation:** in `evaluation.run`, also record `entity_resolution_f1(bridge.entities, gold)` and add a **conflict precision** metric (flagged conflicts that match a gold conflict ÷ all flagged).
 6. **`provenance.py`:** for each citation, add `extracted_fact` and `resolved_entity (match_evidence)` steps to the trail.
 
+### Task E: Demo app, evaluation & video
+
+The video is a required Hack 1 deliverable, so it gets an owner from the start.
+
+1. **`app.py`:** a one-page Streamlit app (about 100 lines). This is a demo harness for the core, not a product frontend (which is out of scope).
+   - case picker + question box
+   - verdict banner (YES / NO / UNCERTAIN, or fallback)
+   - claims with clickable citation badges; clicking one shows the exact source row/message/paragraph
+   - conflict cards: both values side by side, each with its source, plus severity and suggestion
+   - "evidence trail" expander: source → fact → entity → claim
+   - a toggle between the **baseline** and the **full pipeline**, so the video can show before and after in one place
+2. Build it against the v0.1 pipeline first; it works unchanged once D connects the new components, because both use the same `Answer` object.
+3. **Evaluation:** run `python -m infobridge eval --tag hack1_v0.1` and build the before/after table.
+4. **Video:** follow the demo script below; record two takes.
+
 ---
 
-### Hack-day timeline (about 4.5 h)
+### Hack-day timeline (about 5 h)
 
-| Time | Everyone | A | B | C | D |
-|---|---|---|---|---|---|
-| 0:00–0:15 | Pull, run `pytest`, agree on attribute names | | | | |
-| 0:15–1:45 | | Table mapping → LLM extraction → normalisation | Tests with fake facts → strong keys → name rules | Tests with fake data → grouping → severity | KG + `chunks_for_entity`; prompt block |
-| 1:45–2:00 | **Sync:** A hands real facts to B and C | | | | |
-| 2:00–3:00 | | Fix extraction gaps B/C report | Tune on real facts; ER F1 | Run on real entities | Connect pipeline + retrieval expansion |
-| 3:00–3:30 | **Integration:** run `eval --tag hack1_v0.1`, compare with baseline | | | | |
-| 3:30–4:15 | Fix the worst failure; re-run eval | | | | |
-| 4:15–4:30 | Record demo; write the issues log | | | | |
+| Time | Everyone | A | B | C | D | E |
+|---|---|---|---|---|---|---|
+| 0:00–0:15 | Pull, run `pytest`, recap | | | | | |
+| 0:15–2:00 | | Table mapping → LLM extraction → normalisation | Tests with fake facts → strong keys → name rules → fuzzy | Tests with fake data → grouping → severity | KG + `chunks_for_entity`; conflict prompt block | Streamlit app on the v0.1 pipeline |
+| 2:00–2:15 | **Sync:** A hands real facts to B and C | | | | | |
+| 2:15–3:30 | | Fix extraction gaps B/C report | Tune on real facts; ER F1 | Run on real entities | Connect pipeline + entity-based retrieval | Wire app to the full pipeline; evidence trail view |
+| 3:30–4:00 | **Integration:** `eval --tag hack1_v0.1`; fix the worst failure | | | | | |
+| 4:00–4:30 | **Record the demo video** (two takes) | | | | | |
+| 4:30–5:00 | Update the doc: results, what works and what doesn't, questions; feedback log | | | | | |
 
-**If we fall behind:** use spreadsheet facts, phone-based resolution and the conflict detector, plus a small **regex date extractor** for chat and PDF text (a date near keywords like *clearance* or *begins*). Each conflict has one side in plain text (C1 in a WhatsApp message, C2 in the PDF), so the regex extractor is what still catches them. Leave full LLM extraction for Sprint 3.
+**If we fall behind:** never cut the video. Use spreadsheet facts, phone-based resolution and the conflict detector, plus a small **regex date extractor** for chat and PDF text (a date near keywords like *clearance* or *begins*). Each conflict has one side in plain text (C1 in a WhatsApp message, C2 in the PDF), so the regex extractor is what still catches them. Finish full LLM extraction in Sprint 3.
 
 ### Demo script (about 3 min video)
 
 1. **Problem (20 s):** show the 4 messy source files for Ravi Sharma: three name forms, a decoy, two contradictions.
-2. **Before (40 s):** run `ask` with the baseline. It misses the membership and registration rows and doesn't mention the conflicts.
-3. **After (60 s):** the same question gives YES, cited claims, and 2 conflicts flagged with both sources.
-4. **Evidence (30 s):** run `trail` and follow one claim back to `members.csv` row 5.
+2. **Before (40 s):** in the demo app, ask with the **baseline** toggle on. It misses the membership and registration rows and doesn't mention the conflicts.
+3. **After (60 s):** switch to the **full pipeline**. The same question gives YES, cited claims, and 2 conflict cards with both sources.
+4. **Evidence (30 s):** click a citation and open the evidence trail back to `members.csv` row 5.
 5. **Numbers (30 s):** show the before/after metrics table.
 6. **What doesn't work yet, and our questions for instructors (20 s).**
 
@@ -254,7 +270,11 @@ Merge rules, in this order:
 - [ ] Create the team GitHub repo and push (`git remote add origin … && git push -u origin main`)
 - [ ] Submit the Technical Design Doc on Moodle (convert to PDF/LaTeX if needed)
 - [ ] Everyone clones the repo, runs `pytest`, and installs Hack 1 libraries: `uv pip install --python .venv/bin/python -e ".[hack1]"`
-- [ ] Assign owners A–D above
+- [ ] Assign owners A–E above
+- [ ] Everyone gets their **own** Gemini key (separate keys avoid rate limits during the hack)
+- [ ] Agree on the attribute names (Task A's list) so A, B and C use the same ones
+- [ ] B and C: write tests with hand-made facts from case 3
+- [ ] E: install Streamlit, sketch the app layout, set up screen recording
 
 ---
 
@@ -270,8 +290,8 @@ Merge rules, in this order:
 
 ## 7. After Hack 1 (Sprint 3 preview)
 
-- More synthetic cases: harder conflicts, 5+ sources, cases where the information simply isn't there
+- Act on Hack 1 feedback; fix the biggest failures first
+- 6+ synthetic cases with new question types (volunteer lists, event summaries, incident follow-ups); cases where the information simply isn't there
 - One real open-data scenario (OGD / WHO / OpenAlex) to show it works beyond our own data
+- Better entity matching: phonetic, ambiguous names, confidence scores
 - An LLM-judge for fact recall; a human rubric for coherence
-- Conflict-resolution suggestions, evaluated
-- Latency and caching
