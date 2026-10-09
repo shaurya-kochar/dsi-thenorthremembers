@@ -85,7 +85,7 @@ No key? Add `--backend extractive` to any command. It skips the LLM and returns 
 | 2 – Medium | 0.67 | 0.50 | 1.00 | – | – |
 | 3 – Conflict | 0.57 | 0.14 | 1.00 | 0.00 | 0.00 |
 
-**Gemini RAG baseline:** not run yet (needs a key; see §5).
+**Gemini RAG baseline** (`gemini-3.8-flash`, `results/baseline_v0.1.md`): case 3 verdict **UNCERTAIN** (correct: YES). Gemini said no source mentions Ravi Sharma, because his rows were never retrieved; it invented nothing (citation validity 1.00). On case 2 the keyword scorer over-counted (true fact recall 0.67); see the Technical Design Doc §6.2.
 
 ### What didn't work, and the Hack 1 fix for each
 
@@ -120,7 +120,7 @@ Then show the before/after metrics table.
 | Conflict precision | n/a | ≥ 0.80 (nothing flagged in cases 1–2) |
 | Entity resolution F1 | n/a | ≥ 0.85 |
 | Citation validity | 1.00 | stays at 1.00 |
-| Verdict accuracy (case 3) | TBD | 1.00 |
+| Verdict accuracy (case 3) | 0.00 (UNCERTAIN) | 1.00 |
 
 ### Work split
 
@@ -264,9 +264,9 @@ The video is a required Hack 1 deliverable, so it gets an owner from the start.
 
 ## 5. Sprint 2: left to do before Hack 1
 
-- [ ] Get a Gemini API key (https://aistudio.google.com/apikey) → `.env`
-- [ ] `python -m infobridge eval --backend gemini --tag baseline_v0.1`
-- [ ] Paste `results/baseline_v0.1.md` into §6.2 of `technical_design_doc.md`, plus 2–3 lines on what Gemini did on case 3
+- [x] Get a Gemini API key (https://aistudio.google.com/apikey) → `.env`
+- [x] `python -m infobridge eval --backend gemini --tag baseline_v0.1`
+- [x] Paste `results/baseline_v0.1.md` into §6.2 of `technical_design_doc.md`, plus 2–3 lines on what Gemini did on case 3
 - [ ] Create the team GitHub repo and push (`git remote add origin … && git push -u origin main`)
 - [ ] Submit the Technical Design Doc on Moodle (convert to PDF/LaTeX if needed)
 - [ ] Everyone clones the repo, runs `pytest`, and installs Hack 1 libraries: `uv pip install --python .venv/bin/python -e ".[hack1]"`

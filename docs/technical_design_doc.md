@@ -5,7 +5,7 @@
 **Sprint 2 deliverable** (27 September – 10 October 2026) · Version 0.1
 
 > Sprint 2 checkpoint: *"A first working technical PoC exists, even if crude or incomplete."*
-> InfoBridge v0.1 ingests five source formats, retrieves evidence, produces answers with validated, fact-level citations, and is scored automatically against a synthetic gold standard. The baseline numbers are in §6, and §7 lists what they show is still missing.
+> InfoBridge v0.1 ingests five source formats, retrieves evidence, produces answers with validated, fact-level citations, and is scored automatically against a synthetic gold standard. The baseline numbers are in §6 (retrieval-only and Gemini), and §7 lists what they show is still missing.
 
 ---
 
@@ -100,7 +100,7 @@ ChromaDB (in-memory) with **all-MiniLM-L6-v2** embeddings, cosine similarity, to
 4. **Citation validation:** every label is checked against what was actually retrieved. Claims citing nothing, or a label that does not exist, are flagged `unsupported`, which catches hallucinated citations.
 5. **Fallback (Design Doc §3.5):** if the best retrieval score is below 0.25, the system does not call the LLM. It returns "not enough reliable evidence" and lists the closest sources to check.
 
-LLM: Gemini (`gemini-2.5-flash` by default, configurable), temperature 0, JSON response mode.
+LLM: Gemini (`gemini-3.8-flash` by default, configurable), temperature 0, JSON response mode.
 An **extractive backend** returns the top-5 chunks verbatim as claims. It needs no API key and serves as a retrieval-only lower bound.
 
 ### 3.4 Provenance trail
@@ -153,7 +153,7 @@ A test (`tests/test_gold.py`) checks that every chunk ID in the gold files exist
 | Entity resolution F1 | Pairwise F1 over (mention, chunk) pairs | Entity resolution F1 (Hack 1) |
 | Latency | Seconds from question to answer | Latency |
 
-Fact and conflict matching use keywords: the gold file lists accepted surface forms. This is reproducible and free, but it can miss paraphrases, so it understates fact recall for LLM answers. We plan to add a manual or LLM-judge check for the final evaluation. Response coherence (a human rubric) is not measured yet.
+Fact and conflict matching use keywords: the gold file lists accepted surface forms. This is reproducible and free, but it can miss paraphrases and cannot detect negation, so it can under- or over-count (§6.2 shows one over-count). We plan to add a manual or LLM-judge check for the final evaluation. Response coherence (a human rubric) is not measured yet.
 
 **Targets** (see `docs/roadmap.md`):
 
@@ -164,7 +164,7 @@ Fact and conflict matching use keywords: the gold file lists accepted surface fo
 | False conflicts (cases 1–2) | – | 0 | – | – |
 | Entity resolution F1 | – | ≥ 0.85 | ≥ 0.90 | ≥ 0.90 |
 | Citation validity | 1.00 | 1.00 | 1.00 | 1.00 |
-| Verdict accuracy (case 3) | TBD | 1.00 | ≥ 0.90 on all cases | ≥ 0.90 |
+| Verdict accuracy (case 3) | 0.00 (UNCERTAIN) | 1.00 | ≥ 0.90 on all cases | ≥ 0.90 |
 
 ## 6. Baseline results
 
@@ -182,8 +182,25 @@ Command: `python -m infobridge eval --backend <backend> --tag <tag>`. Full outpu
 ### 6.2 Naive-RAG baseline (Gemini)
 
 <!-- GEMINI_BASELINE_START -->
-> **Pending:** needs a Gemini API key. Run `python scripts/finalize_baseline.py`, which runs the evaluation, inserts the table here and rebuilds the PDF.
+Model: `gemini-3.8-flash`, top-k = 8. Full answers: `results/baseline_v0.1.json`.
+
+| Case | Retr. recall | Fact recall | Cit. validity | Cit. accuracy | Unsupported | Conflict (text) | Conflict (struct.) | Verdict | Latency (s) |
+|---|---|---|---|---|---|---|---|---|---|
+| case_01_simple | 1.00 | 0.86 | 1.00 | 1.00 | 0.00 | – | – | – | 84.14 |
+| case_02_medium | 0.67 | 1.00 | 1.00 | 0.67 | 0.00 | – | – | – | 128.34 |
+| case_03_conflict | 0.57 | 0.14 | 1.00 | 1.00 | 0.00 | 0.00 | 0.00 | 0.00 | 23.24 |
+| **mean** | 0.75 | 0.67 | 1.00 | 0.89 | 0.00 | 0.00 | 0.00 | 0.00 | 78.57 |
+
+Missed facts: case_01_simple: ['F7']; case_02_medium: none; case_03_conflict: ['F1', 'F2', 'F3', 'F4', 'F5', 'F7']
 <!-- GEMINI_BASELINE_END -->
+
+**What Gemini's answers show** (full text in `results/baseline_v0.1.json`):
+
+- **Case 3: verdict UNCERTAIN (correct: YES).** Gemini answered that "none of the provided sources mention an individual named Ravi Sharma". His membership and registration rows were never retrieved, and it correctly declined to assume that *Ravi S.* or *Ravi Shankar* is him. The failure comes from retrieval and the missing entity resolution, not from hallucination. Of the two planted conflicts it saw only one side of each, so it flagged neither.
+- **Case 2: wrong, though the automatic score says 1.00.** Gemini said the sources "do not indicate whether Srinivas Rao Kumar or Ananya Iyer completed first-aid training". They did, as *S. R. Kumar* and *A. Iyer* in the attendance PDF, but those paragraphs weren't retrieved. The keyword matcher counted this negative sentence as stating facts F4 and F5. **Corrected by manual check: case 2 fact recall is 0.67 (4 of 6), and the mean is 0.56, not 0.67.**
+- **Case 1:** complete except the volunteer briefing time (4:40 AM).
+- **No hallucination:** every citation pointed to a retrieved chunk (validity 1.00), no claim was unsupported, and no fact was invented.
+- **Latency was 23–128 s per answer**, compared with about 5 s for a one-line test call to the same model. Most of this is the model's own processing on long prompts; reducing it (e.g. limiting the model's reasoning budget, shorter prompts) is a Sprint 4 task.
 
 ## 7. What worked and what didn't
 
@@ -191,19 +208,21 @@ Command: `python -m infobridge eval --backend <backend> --tag <tag>`. Full outpu
 - Ingesting five formats into one chunk model with exact locators. Every citation resolves to a row, message or paragraph (citation validity 1.00).
 - The simple, consistent two-source case is answered completely.
 - Fallback mode: an off-topic question ("What is the capital of Peru?") is refused, with the closest sources suggested instead of a guess.
+- **No hallucination with Gemini:** citation validity 1.00, no unsupported claims, and on case 3 it said UNCERTAIN instead of guessing.
 - The evaluation harness runs end to end against the gold standard in under a second, without an API key.
 
 **Didn't work (and why: these set the Hack 1 priorities)**
 1. **Spreadsheet rows are nearly invisible to dense retrieval.** On case 3, every one of the 11 CSV rows ranks 15th or lower out of 29 chunks. Ravi Sharma's own membership row ranks **20th**, and his registration row (*"R. Sharma"*) ranks **24th**. `key=value` rows embed poorly next to natural-language messages, so retrieval recall is 0.57 and the membership and registration facts never reach the LLM. Any LLM answer is capped by this. **Fix (Hack 1):** entity-based lookup through the knowledge graph (fetch every chunk that mentions the resolved entity), plus a keyword (BM25) channel for names and IDs.
 2. **The decoy outranks the target.** Within the top-8, the message about **Ravi Shankar's** lapsed membership ranks #4. In the members sheet, Ravi Shankar's row (#15) also outranks Ravi Sharma's (#20). A naive system could wrongly conclude Ravi Sharma is ineligible. **Fix (Hack 1):** entity resolution using strong keys (phone/email) to keep *Ravi Shankar* separate, and filtering retrieved evidence to the resolved entity.
 3. **Conflicts are invisible when only one side is retrieved.** For the clearance-date conflict, Dr. Rao's message (22 June) is retrieved (#5), but the members-sheet value (15 March, #20) is not, so the LLM cannot notice the contradiction. Structured conflict recall is 0 by construction. **Fix (Hack 1):** a deterministic conflict detector over all extracted facts, which works on facts rather than on retrieved chunks, so retrieval misses don't hide conflicts.
-4. **Keyword-based fact matching** under-counts paraphrased answers (see §5).
+4. **Keyword-based fact matching is unreliable in both directions.** It can miss paraphrases, and on case 2 it counted a negative statement ("do not indicate whether … completed") as stating the fact (see §6.2). Results are now checked by hand, and an LLM-based scorer is planned for Sprint 3.
+5. **Slow answers:** 23–128 s per question with Gemini (see §6.2).
 
 ## 8. Changes from the Sprint 1 Design Doc
 
 | Design Doc | v0.1 | Reason |
 |---|---|---|
-| Gemini 1.5 Pro | Gemini 2.5 Flash (configurable) | 1.5 Pro has been retired; Flash is on the free tier |
+| Gemini 1.5 Pro | Gemini 3.8 Flash (configurable) | 1.5 Pro and 2.5 Flash are no longer available to new API keys; Flash is on the free tier and fast (~5 s per call) |
 | LangChain orchestration | Thin wrapper (~30 lines) | Makes prompts and citation parsing easy to inspect and debug at PoC scale; can be revisited |
 | spaCy NER as the extractor | Schema mapping for tables + LLM JSON extraction for text; spaCy as a mention cross-check | NER finds "Ravi" and "June 22" but not that one is the other's *clearance date*, and conflict detection needs attribute-level facts |
 | sentence-transformers | Same model (all-MiniLM-L6-v2) via Chroma's ONNX runtime | No PyTorch install; identical embeddings |

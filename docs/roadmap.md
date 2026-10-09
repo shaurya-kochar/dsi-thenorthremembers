@@ -74,6 +74,8 @@ Sprint 2 lays the foundations: project structure, synthetic dataset and a baseli
 | 2 – Medium | 0.67 | 0.50 | 1.00 | – |
 | 3 – Conflict | 0.57 | 0.14 | 1.00 | 0.00 |
 
+**Gemini baseline:** case 3 verdict UNCERTAIN (correct: YES). Gemini reported that no source mentions Ravi Sharma, because his rows were never retrieved, but it invented nothing (citation validity 1.00).
+
 When names differ across sources, the baseline can't find the right records. Ravi Sharma's own membership row ranks 20th of 29, below the look-alike Ravi Shankar, and conflicts are never flagged. **Hack 1 fixes exactly this.**
 
 ---
@@ -194,6 +196,6 @@ When names differ across sources, the baseline can't find the right records. Rav
 | False conflicts (cases 1–2) | – | 0 | – | – |
 | Entity resolution F1 | – | ≥ 0.85 | ≥ 0.90 | ≥ 0.90 |
 | Citation validity | 1.00 | 1.00 | 1.00 | 1.00 |
-| Verdict accuracy (case 3) | TBD | 1.00 | ≥ 0.90 on all cases | ≥ 0.90 |
+| Verdict accuracy (case 3) | 0.00 (UNCERTAIN) | 1.00 | ≥ 0.90 on all cases | ≥ 0.90 |
 
 These are targets on our synthetic cases only. They don't show that the system would work on real NGO data; understanding that gap is part of the project.

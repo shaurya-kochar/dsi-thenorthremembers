@@ -12,7 +12,7 @@ load_dotenv()
 class Settings:
     gemini_api_key: str | None = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
     # Gemini 1.5 Pro (named in the Sprint 1 doc) is retired; keep the model swappable.
-    model: str = os.getenv("INFOBRIDGE_MODEL", "gemini-2.5-flash")
+    model: str = os.getenv("INFOBRIDGE_MODEL", "gemini-3.8-flash")
     # "gemini" = LLM synthesis; "extractive" = retrieval-only, no API key needed.
     backend: str = os.getenv("INFOBRIDGE_BACKEND", "gemini")
     top_k: int = int(os.getenv("INFOBRIDGE_TOP_K", "8"))

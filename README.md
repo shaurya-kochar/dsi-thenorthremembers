@@ -72,7 +72,7 @@ scripts/           build_synthetic.py, md_to_pdf.py, finalize_baseline.py
 
 | Deliverable | Where | Status |
 |---|---|---|
-| Technical Design Doc: architecture, initial implementation, baseline result | [docs/technical_design_doc.pdf](docs/technical_design_doc.pdf) (Moodle) | Done, except the Gemini row in §6.2 |
+| Technical Design Doc: architecture, initial implementation, baseline result | [docs/technical_design_doc.pdf](docs/technical_design_doc.pdf) (Moodle) | Done (retrieval-only + Gemini baselines) |
 | PoC v0.1 foundations | this repo (GitHub) | Done |
 | Sprint-by-sprint plan | [docs/roadmap.pdf](docs/roadmap.pdf) | Done |
 | Hack 1 playbook (tasks, owners, timeline, demo script) | [docs/sprint2_status_and_hack1_plan.pdf](docs/sprint2_status_and_hack1_plan.pdf) | Done |
