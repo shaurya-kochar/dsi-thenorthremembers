@@ -7,7 +7,12 @@ from streamlit.testing.v1 import AppTest  # noqa: E402
 
 
 def test_demo_app_answers(monkeypatch):
-    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    from dataclasses import replace
+
+    import infobridge.config as config
+
+    # Settings are read from .env at import time, so patch the object itself: tests must not call Gemini.
+    monkeypatch.setattr(config, "settings", replace(config.settings, gemini_api_key=None))
     at = AppTest.from_file("../app.py", default_timeout=120).run()
     assert not at.exception
     at.button[0].click().run()
