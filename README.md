@@ -1,5 +1,7 @@
 # InfoBridge — PoC v0.1
 
+> **dsi-monsoon-2026-09a · Bringing fragmented information together:** How might we combine information from multiple sources to create a coherent picture of a situation without losing the evidence behind it?
+
 Evidence-preserving multi-source information synthesis for NGO coordinators
 (DSI 2026, Project 9A, anchor NGO: Hyderabad Runners, team The North Remembers).
 
