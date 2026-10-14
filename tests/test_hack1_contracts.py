@@ -1,9 +1,9 @@
 """Hack 1 acceptance tests.
 
-The fixture/schema checks pass now. The component tests are marked
-``xfail(strict=True)``: they fail with NotImplementedError until the Hack 1
-task lands, and pytest reports an error if one starts passing while still
-marked, so remove the marker as each task is finished.
+The fixture/schema checks and every component test (tasks A, B and C) pass.
+``hack1`` marks a test ``xfail(strict=True)`` until its task lands; pytest
+reports an error if a marked test starts passing, so the marker is removed as
+each task is finished (none are left).
 
     Task A: test_extractor_maps_table_rows
     Task B: test_resolver_*
@@ -97,7 +97,6 @@ def test_resolver_keeps_lookalikes_apart():
 # ----------------------------------------------- Task C: conflict detector
 
 
-@hack1("Task C")
 def test_conflict_detector_finds_planted_conflicts():
     conflicts = ConflictDetector().detect(ENTITIES, FACTS)
     found = {(c.entity_id, c.attribute, frozenset(v.value for v in c.values)) for c in conflicts}
@@ -105,7 +104,6 @@ def test_conflict_detector_finds_planted_conflicts():
     assert found == expected  # both found, and nothing else (e.g. same deadline in two sources is not a conflict)
 
 
-@hack1("Task C")
 def test_conflict_values_keep_their_sources():
     conflicts = ConflictDetector().detect(ENTITIES, FACTS)
     clearance = next(c for c in conflicts if c.attribute == "medical_clearance_date")

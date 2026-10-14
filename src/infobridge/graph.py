@@ -4,7 +4,7 @@ A NetworkX ``MultiDiGraph``:
   entity nodes     ``entity_id`` with canonical name and type
   value nodes      ``value:<attribute>=<value>``
   chunk nodes      ``chunk:<chunk_id>``
-  edges            entity --attribute--> value, storing chunk_id, doc_id, fact_id, raw value and
+  edges            entity --attribute--> value (one edge per fact), storing chunk_id, doc_id, fact_id, raw value and
                    (once the conflict detector runs) conflict_id; entity --mentioned_in--> chunk.
 So every edge is a provenance edge. Used by retrieval to fetch every chunk about an entity.
 """
@@ -38,8 +38,7 @@ class KnowledgeGraph:
     def facts_for_entity(self, entity_id: str) -> list[dict]:
         if entity_id not in self.graph:
             return []
-        return [{"attribute": k, **d} for _, _, k, d in self.graph.out_edges(entity_id, keys=True, data=True)
-                if k != MENTIONED_IN]
+        return [d for _, _, k, d in self.graph.out_edges(entity_id, keys=True, data=True) if k != MENTIONED_IN]
 
     def related_entities(self, entity_id: str) -> set[str]:
         """Entities mentioned in the same chunks (e.g. the programme in a registration row)."""
@@ -63,14 +62,16 @@ class KnowledgeGraphBuilder:
         conflict_of = {}
         for c in conflicts or []:
             for v in c.values:
-                conflict_of[(c.entity_id, c.attribute, v.value, v.chunk_id)] = c.conflict_id
+                for chunk_id in v.sources or [v.chunk_id]:
+                    conflict_of[(c.entity_id, c.attribute, v.value, chunk_id)] = c.conflict_id
         for f in facts:
             entity_id = index.get((f.entity_mention, f.chunk_id))
             if entity_id is None or f.attribute == "mention":
                 continue
             value_node = f"value:{f.attribute}={f.value}"
             g.add_node(value_node, kind="value", value=f.value)
-            g.add_edge(entity_id, value_node, key=f.attribute, chunk_id=f.chunk_id, doc_id=f.chunk_id.split("#")[0],
-                       fact_id=f.fact_id, raw_value=f.raw_value, extractor=f.extractor,
+            # keyed by fact: the same value stated in several rows is one edge per source, not one edge
+            g.add_edge(entity_id, value_node, key=f.fact_id, attribute=f.attribute, chunk_id=f.chunk_id,
+                       doc_id=f.chunk_id.split("#")[0], fact_id=f.fact_id, raw_value=f.raw_value, extractor=f.extractor,
                        conflict_id=conflict_of.get((entity_id, f.attribute, f.value, f.chunk_id)))
         return KnowledgeGraph(g, index)

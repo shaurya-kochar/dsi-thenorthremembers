@@ -30,6 +30,8 @@ Rules:
   (e.g. "Ravi S.", "Batch B", "Sunday Long Run", "station 2"). A programme's start date or deadline is about the
   programme; a run's time, distance or meeting point is about the event; crates and opening times are about the station.
 - value is the value as written in the text (e.g. "22 June 2026", "5:30", "12 confirmed").
+- For attributes whose description lists options (e.g. 'Confirmed / Tentative / Withdrawn'), return exactly one
+  of those options as the value.
 - chunk is the label of the chunk the fact comes from.
 - Only facts the text states. Do not guess. Return {"facts": []} if there are none.
 

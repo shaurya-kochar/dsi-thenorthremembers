@@ -92,7 +92,8 @@ class Entity(BaseModel):
 class ConflictValue(BaseModel):
     value: str
     raw_value: str
-    chunk_id: str
+    chunk_id: str  # representative source of this value
+    sources: list[str] = []  # every chunk that states this value (chunk_id is one of them)
 
 
 class Conflict(BaseModel):
