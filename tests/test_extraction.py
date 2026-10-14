@@ -4,7 +4,8 @@ from pathlib import Path
 
 from infobridge.extraction import InformationExtractor
 from infobridge.ingestion import load_directory
-from infobridge.normalise import normalise_count, normalise_date, normalise_phone, normalise_time
+from infobridge.normalise import (normalise_category, normalise_count, normalise_date, normalise_phone,
+                                  normalise_time, normalise_value)
 
 DATA = Path(__file__).resolve().parents[1] / "data" / "synthetic"
 
@@ -18,6 +19,32 @@ def test_normalise_values():
     assert normalise_time("11 pm") == "23:00" and normalise_time("14") is None
     assert normalise_phone("+91 98480 22314") == "9848022314"
     assert normalise_count("20K") == "20" and normalise_count("fourteen") == "14"
+
+
+def test_normalise_categorical_values():
+    # the chat messages of case_04 / case_05 as an LLM would return them
+    signup = {"Sorry all, I have to drop out this week": "Withdrawn",
+              "I won't make it on Sunday. Please take me off the list.": "Withdrawn",
+              "Count me in, I'm confirmed for Sunday.": "Confirmed",
+              "maybe, not sure yet": "Tentative", "confirmed": "Confirmed", "Withdrawn": "Withdrawn"}
+    for raw, option in signup.items():
+        assert normalise_category("signup_status", raw) == option, raw
+    attended = {"At station 3 now, covering it for tonight.": "Present", "Reached at 6:30 pm": "Present",
+                "handled first aid at the finish line": "Present", "checked in": "Present",
+                "missed the run": "Absent", "couldn't make it": "Absent", "Absent": "Absent"}
+    for raw, option in attended.items():
+        assert normalise_category("attended", raw) == option, raw
+    assert normalise_category("payment_status", "unpaid") == "Pending"
+    assert normalise_category("payment_status", "PAID") == "Paid"
+    assert normalise_category("membership_status", "membership lapsed in June") == "Lapsed"
+    assert normalise_category("first_aid_certified", "not certified") == "no"
+    assert normalise_category("signup_status", "see you there") is None
+
+
+def test_normalise_value_uses_categories():
+    assert normalise_value("signup_status", "  dropped out ") == "Withdrawn"
+    assert normalise_value("signup_status", "something else") == "something else"  # unknown: kept as written
+    assert normalise_value("role", "Run Lead") == "Run Lead"  # not categorical
 
 
 def test_every_chunk_has_file_and_date_tags():

@@ -2,7 +2,8 @@
 
 Values are normalised so that the same fact written two ways compares equal:
 dates -> YYYY-MM-DD, phones -> last 10 digits, times -> HH:MM (24h),
-counts -> plain integers. The original text is always kept as ``raw_value``.
+counts -> plain integers, categories (signup status, attendance, ...) -> one of
+their options. The original text is always kept as ``raw_value``.
 """
 
 from __future__ import annotations
@@ -81,10 +82,50 @@ def normalise_count(raw: str) -> str | None:
     return None
 
 
+# Categorical attributes: canonical option -> keywords that mean it, in the order they are tried.
+# Negative forms come first so "unpaid" is not read as "paid" and "can't make it" not as "in".
+CATEGORIES: dict[str, list[tuple[str, tuple[str, ...]]]] = {
+    "signup_status": [
+        ("Withdrawn", ("withdrawn", "withdrew", "withdraw", "drop out", "dropped out", "dropping out",
+                       "can't make it", "cannot make it", "won't make it", "will not make it", "take me off",
+                       "not coming", "pulled out")),
+        ("Tentative", ("tentative", "maybe", "not sure", "might", "unsure")),
+        ("Confirmed", ("confirmed", "confirm", "count me in", "i'm in", "i am in", "will be there")),
+    ],
+    "attended": [
+        ("Absent", ("absent", "missed", "didn't come", "did not come", "couldn't make it", "could not make it",
+                    "no-show", "no show", "did not turn up", "didn't turn up")),
+        ("Present", ("present", "was there", "reached", "covering", "covered", "handled", "checked in",
+                     "attended", "turned up", "managed", "ran the")),
+    ],
+    "membership_status": [
+        ("Lapsed", ("lapsed", "expired", "inactive")),
+        ("Active", ("active", "valid")),
+    ],
+    "payment_status": [
+        ("Pending", ("pending", "unpaid", "not paid", "due")),
+        ("Paid", ("paid",)),
+    ],
+    "first_aid_certified": [
+        ("no", ("no", "not certified", "false")),
+        ("yes", ("yes", "certified", "true")),
+    ],
+}
+
 DATE_ATTRIBUTES = {"membership_valid_until", "joined_on", "medical_clearance_date", "registered_on",
                    "batch_start_date", "registration_deadline", "event_date"}
 TIME_ATTRIBUTES = {"start_time", "briefing_time", "check_in_time", "end_time", "opening_time"}
 COUNT_ATTRIBUTES = {"distance_km", "volunteer_count", "volunteers_present", "water_crates"}
+
+
+def normalise_category(attribute: str, raw: str) -> str | None:
+    """'take me off the list' -> 'Withdrawn'. The answer key stores the canonical option, and an
+    LLM returns the words of the message, so both must land on the same option to compare."""
+    text = " " + re.sub(r"\s+", " ", raw.lower().replace("’", "'")) + " "
+    for option, keywords in CATEGORIES.get(attribute, []):
+        if any(re.search(rf"(?<![\w']){re.escape(k)}(?![\w'])", text) for k in keywords):
+            return option
+    return None
 
 
 def normalise_value(attribute: str, raw: str, default_year: int | None = None) -> str:
@@ -100,6 +141,8 @@ def normalise_value(attribute: str, raw: str, default_year: int | None = None) -
         value = raw.lower()
     elif attribute in COUNT_ATTRIBUTES:
         value = normalise_count(raw)
+    elif attribute in CATEGORIES:
+        value = normalise_category(attribute, raw)
     else:
         value = re.sub(r"\s+", " ", raw)
     return value or raw
