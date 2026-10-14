@@ -8,7 +8,8 @@ channels and the results are merged:
   3. entity   the people / events / programmes / places named in the question are found
               with the name finder and the resolver's name rules, and every chunk about
               them is fetched from the knowledge graph, plus the chunks of programmes and
-              events linked to them (e.g. the programme a person registered for).
+              events linked to them (e.g. the programme a person registered for), and every
+              paragraph of a PDF / e-mail about an asked programme or event (its rules, its plan).
 Chunks that only mention a look-alike of the person asked about (same first name, not
 the same entity) are dropped. Each result says which channels found it.
 """
@@ -97,6 +98,14 @@ class HybridRetriever:
         return {e.entity_id for e in self.entities.values() if e.entity_type == "person" and e.entity_id not in asked
                 and any(name_tokens(m.text) and name_tokens(m.text)[0] in firsts for m in e.mentions)}
 
+    def _document_chunks(self, chunk_ids: set[str]) -> set[str]:
+        """Every paragraph of the PDFs / e-mails among ``chunk_ids`` (not sheet rows or chat messages)."""
+        def is_document(chunk: Chunk) -> bool:
+            return not isinstance(chunk.metadata.get("row"), dict) and not chunk.metadata.get("sender")
+
+        docs = {self.store.chunks[c].doc_id for c in chunk_ids if c in self.store.chunks and is_document(self.store.chunks[c])}
+        return {c.chunk_id for c in self.store.chunks.values() if c.doc_id in docs and is_document(c)}
+
     # -------------------------------------------------------------------- search
 
     def search(self, question: str, k: int | None = None) -> list[RetrievedChunk]:
@@ -119,6 +128,11 @@ class HybridRetriever:
                 for chunk_id in graph.chunks_for_entity(entity_id):
                     add(chunk_id, f"entity:{entity_id}", 0.0)
                 asked_type = self.entities[entity_id].entity_type
+                if asked_type in ("programme", "event"):
+                    # a rules document or event plan is about its subject throughout, but most of its
+                    # paragraphs ("Rule 1 (Membership): ...") never repeat the name
+                    for chunk_id in self._document_chunks(graph.chunks_for_entity(entity_id)):
+                        add(chunk_id, f"document:{entity_id}", 0.0)
                 # a person -> the programmes / events they are linked to; an event or place -> its people
                 wanted = ("programme", "event") if asked_type == "person" else ("person",)
                 for linked in graph.related_entities(entity_id):
@@ -138,7 +152,7 @@ class HybridRetriever:
 
         def priority(item):
             chunk_id, entry = item
-            direct = any(c.startswith("entity:") for c in entry["channels"])
+            direct = any(c.startswith(("entity:", "document:")) for c in entry["channels"])
             return (not direct, -dense_scores.get(chunk_id, 0.0))
 
         ranked = sorted(found.items(), key=priority)[: max(self.max_results, k or 0)]
