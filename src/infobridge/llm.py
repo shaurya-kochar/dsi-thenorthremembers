@@ -53,5 +53,5 @@ class GeminiLLM:
             except Exception:  # rate limits / transient errors on the free tier
                 if attempt == retries - 1:
                     raise
-                time.sleep(2 * 2**attempt)
+                time.sleep(min(60, 2 * 2**attempt))  # 2, 4, 8, ... up to 60 s (overload / rate limits)
         return ""

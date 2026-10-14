@@ -28,6 +28,8 @@ def test_every_chunk_has_file_and_date_tags():
             assert "date" in c.metadata
         chats = [c for c in chunks if "sender" in c.metadata]
         assert all(c.metadata["date"] for c in chats)
+        for c in chunks:  # tags hold ISO dates, never raw header text
+            assert c.metadata["date"] is None or len(c.metadata["date"]) == 10
 
 
 def _mentions(case: str) -> set[tuple[str, str]]:

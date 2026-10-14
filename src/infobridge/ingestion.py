@@ -139,8 +139,8 @@ def _load_text(doc: Document, raw: str) -> list[Chunk]:
                 doc_id=doc.doc_id,
                 locator=locator,
                 text=prefix + para,
-                metadata={"file": doc.doc_id, "para": i,
-                          "date": normalise_date(headers.get("date", "")) or normalise_date(para), **headers},
+                metadata={**headers, "file": doc.doc_id, "para": i, "sent": headers.get("date"),
+                          "date": normalise_date(headers.get("date", "")) or normalise_date(para)},
             )
         )
     return chunks
