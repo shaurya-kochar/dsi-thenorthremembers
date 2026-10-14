@@ -1,0 +1,26 @@
+[
+  {
+    "case_id": "case_03_conflict",
+    "extraction_failed": [],
+    "er_f1": 1.0,
+    "flagged": 2,
+    "true_flags": 2,
+    "planted": 2,
+    "caught": 2,
+    "conflict_precision": 1.0,
+    "conflict_recall_all": 1.0,
+    "missed_conflicts": []
+  },
+  {
+    "case_id": "case_04_sunday_long_run",
+    "extraction_failed": [],
+    "er_f1": 1.0,
+    "flagged": 11,
+    "true_flags": 9,
+    "planted": 9,
+    "caught": 9,
+    "conflict_precision": 0.818,
+    "conflict_recall_all": 1.0,
+    "missed_conflicts": []
+  }
+]
