@@ -53,8 +53,8 @@ class GeminiLLM:
             try:
                 resp = self.client.models.generate_content(model=self.model, contents=prompt, config=config)
                 return resp.text or ""
-            except Exception:  # rate limits / transient errors on the free tier
-                if attempt == retries - 1:
-                    raise
+            except Exception as e:  # rate limits / transient errors on the free tier
+                if attempt == retries - 1 or "PerDay" in str(e):
+                    raise  # a spent daily quota does not come back within the retries
                 time.sleep(min(60, 2 * 2**attempt))  # 2, 4, 8, ... up to 60 s (overload / rate limits)
         return ""
