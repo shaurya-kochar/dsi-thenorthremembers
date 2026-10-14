@@ -62,9 +62,10 @@ def _is_official(chunk_id: str) -> bool:
 
 
 def _written_on(chunk_id: str, chunks: dict[str, Chunk] | None) -> str | None:
-    """Date a chat message or e-mail was written; None for PDFs and sheet rows."""
+    """Date a chat message or e-mail was written. PDFs, sheet rows and plain text are tagged
+    with a date they mention, which says nothing about how recent the source is."""
     chunk = (chunks or {}).get(chunk_id)
-    if chunk is None or _is_table(chunk_id) or _is_official(chunk_id):
+    if chunk is None or not (chunk.metadata.get("sender") or chunk.metadata.get("sent")):
         return None
     return chunk.metadata.get("date")
 
