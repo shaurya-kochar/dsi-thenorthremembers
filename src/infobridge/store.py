@@ -77,6 +77,18 @@ class ProvenanceStore:
             sql, args = sql + " AND f.field = ?", args + [field]
         return [dict(r) for r in self.db.execute(sql + " ORDER BY f.field, c.date", args)]
 
+    def facts_in_chunk(self, chunk_id: str) -> list[dict]:
+        """Every value extracted from one row / message / paragraph (mentions are not values)."""
+        return [dict(r) for r in self.db.execute(FACT_QUERY + " WHERE f.chunk_id = ? ORDER BY f.field", [chunk_id])]
+
+    def entities_in_chunk(self, chunk_id: str) -> list[dict]:
+        """The resolved entities named in one chunk, with the surface form used there and why it was linked."""
+        rows = self.db.execute(
+            "SELECT m.entity_id, m.text AS mention, e.canonical_name, e.entity_type, e.match_evidence "
+            "FROM mentions m JOIN entities e USING (entity_id) WHERE m.chunk_id = ? ORDER BY e.canonical_name",
+            [chunk_id])
+        return [{**dict(r), "match_evidence": [x for x in (r["match_evidence"] or "").split("; ") if x]} for r in rows]
+
     def fact(self, fact_id: str) -> dict | None:
         row = self.db.execute(FACT_QUERY + " WHERE f.fact_id = ?", [fact_id]).fetchone()
         return dict(row) if row else None

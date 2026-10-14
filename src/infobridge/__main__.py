@@ -75,7 +75,7 @@ def main() -> None:
     if args.cmd == "ask":
         print(render(answer))
     else:
-        print(json.dumps(answer_trail(answer, bridge.documents), indent=2))
+        print(json.dumps(answer_trail(answer, bridge.documents, bridge.store), indent=2))
 
 
 if __name__ == "__main__":

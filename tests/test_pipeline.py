@@ -1,4 +1,4 @@
-"""Issue #7: pipeline wiring, conflict-aware answers and confidence.
+"""Issue #7: pipeline wiring, conflict-aware answers, confidence and the field-level evidence trail.
 
 Offline: text facts come from the fake extraction LLM of test_conflicts, answers from a fake
 answering LLM that records its prompt.
@@ -11,7 +11,9 @@ from pathlib import Path
 import pytest
 
 import infobridge.llm as llm_module
+from infobridge.models import Claim
 from infobridge.pipeline import InfoBridge
+from infobridge.provenance import answer_trail
 from infobridge.synthesis import LLMSynthesizer
 from test_conflicts import FakeLLM as FakeExtractionLLM
 
@@ -115,3 +117,26 @@ def test_demo_question_flags_the_count_conflict_first(sunday):
     assert answer.confidence_reason.startswith("Two sources disagree on the volunteer count of Sunday Long Run (14 vs 12)")
     retrieved = {r.chunk.chunk_id for r in answer.retrieved}
     assert {"sunday_long_run_plan.pdf#page=1&para=2", "whatsapp_run_coordinators.txt#msg=5"} <= retrieved  # lead, count
+
+
+def test_trail_reaches_file_row_field_and_entity(ravi):
+    answer = ravi.ask(RAVI)
+    answer.claims = [Claim(text="Ravi's clearance and registration",
+                           citations=[f"S{r.rank}" for r in answer.retrieved
+                                      if r.chunk.chunk_id in ("members.csv#row=5", "registrations.csv#row=3")])]
+    [item] = answer_trail(answer, ravi.documents, ravi.store)
+    steps = {s["2_chunk"]["chunk_id"]: s for s in item["evidence"]}
+    member = steps["members.csv#row=5"]
+    assert list(member) == ["label", "1_source", "2_chunk", "2a_extracted_facts", "2b_resolved_entities",
+                            "3_retrieval", "4_claim"]
+    assert member["2_chunk"]["row_number"] == 5
+    clearance = next(f for f in member["2a_extracted_facts"] if f["field"] == "medical_clearance_date")
+    assert (clearance["value"], clearance["extractor"], clearance["entity_id"]) == ("2026-03-15", "csv_schema",
+                                                                                   "person:ravi-sharma")
+    assert clearance["conflict_id"] is not None
+    assert not any(f["field"] == "mention" for f in member["2a_extracted_facts"])
+    [r_sharma] = [e for e in steps["registrations.csv#row=3"]["2b_resolved_entities"] if e["written_as"] == "R. Sharma"]
+    assert r_sharma["entity_id"] == "person:ravi-sharma" and r_sharma["canonical_name"] == "Ravi Sharma"
+    assert any("phone" in why for why in r_sharma["match_evidence"])
+    # without the store the v0.1 trail still works
+    assert "2a_extracted_facts" not in answer_trail(answer, ravi.documents)[0]["evidence"][0]
