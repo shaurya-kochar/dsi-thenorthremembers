@@ -51,7 +51,39 @@ ATTRIBUTES: dict[str, str] = {
     "route": "route description",
     "water_stations": "water station locations",
     "briefing_time": "volunteer briefing time (HH:MM, 24h)",
+    "event_id": "event id, e.g. EV-2026-043",
+    "end_time": "time the event finished (HH:MM, 24h)",
+    "volunteer_count": "number of volunteers confirmed for an event",
+    "volunteers_present": "number of volunteers who turned up at an event",
+    # people at an event
+    "full_name": "the person's full name as written in a sheet or document",
+    "signup_status": "Confirmed / Tentative / Withdrawn",
+    "attended": "Present / Absent",
+    "check_in_time": "time the volunteer checked in (HH:MM, 24h)",
+    # aid stations
+    "water_crates": "number of water crates at an aid station",
+    "opening_time": "time an aid station opens (HH:MM, 24h)",
+    # not a value: the entity is named in this chunk (used by entity resolution, ignored by conflicts)
+    "mention": "the entity is mentioned in this chunk",
 }
+
+# Attributes that describe a programme or an event rather than a person; used to infer
+# the entity type of a fact whose extractor did not set one.
+PROGRAMME_ATTRIBUTES = {"batch_start_date", "registration_deadline"}
+EVENT_ATTRIBUTES = {"event_name", "event_date", "start_time", "meeting_point", "distance_km", "lead_volunteer",
+                    "event_status", "route", "water_stations", "briefing_time", "event_id", "end_time",
+                    "volunteer_count", "volunteers_present"}
+LOCATION_ATTRIBUTES = {"water_crates", "opening_time"}
+
+
+def entity_type_of(attribute: str) -> str:
+    if attribute in PROGRAMME_ATTRIBUTES:
+        return "programme"
+    if attribute in EVENT_ATTRIBUTES:
+        return "event"
+    if attribute in LOCATION_ATTRIBUTES:
+        return "location"
+    return "person"
 
 
 @dataclass(frozen=True)
@@ -64,6 +96,8 @@ class TableSchema:
     # columns whose fact is about a *different* entity named in another column,
     # e.g. registrations.batch_start describes the programme, not the participant
     about_other_entity: dict[str, tuple[str, str]] = field(default_factory=dict)  # column -> (entity column, entity type)
+    # columns whose value names another entity (a mention, not an attribute of the row's entity)
+    mention_columns: dict[str, str] = field(default_factory=dict)  # column -> entity type
 
 
 TABLE_SCHEMAS: dict[str, TableSchema] = {
@@ -85,6 +119,7 @@ TABLE_SCHEMAS: dict[str, TableSchema] = {
             "batch_start": "batch_start_date",
         },
         about_other_entity={"batch_start": ("programme", "programme")},
+        mention_columns={"programme": "programme"},
     ),
     "volunteer_roster.xlsx": TableSchema(
         entity_column="full_name",
@@ -93,14 +128,42 @@ TABLE_SCHEMAS: dict[str, TableSchema] = {
             "vol_id": "volunteer_id", "phone": "phone", "assigned_station": "assigned_station",
             "shift": "shift", "role": "role",
         },
+        mention_columns={"assigned_station": "location"},
     ),
     "events.csv": TableSchema(
-        entity_column="event_id",
+        entity_column="event_name",
         entity_type="event",
         columns={
-            "event_name": "event_name", "date": "event_date", "start_time": "start_time",
+            "event_id": "event_id", "date": "event_date", "start_time": "start_time",
             "meeting_point": "meeting_point", "distance_km": "distance_km",
             "lead_volunteer": "lead_volunteer", "status": "event_status",
+        },
+        mention_columns={"lead_volunteer": "person", "meeting_point": "location"},
+    ),
+    "events_q4.csv": TableSchema(
+        entity_column="event_name",
+        entity_type="event",
+        columns={
+            "event_id": "event_id", "date": "event_date", "start_time": "start_time",
+            "meeting_point": "meeting_point", "distance_km": "distance_km",
+            "lead_volunteer": "lead_volunteer", "status": "event_status",
+        },
+        mention_columns={"lead_volunteer": "person", "meeting_point": "location"},
+    ),
+    "volunteer_signups.xlsx": TableSchema(
+        entity_column="full_name",
+        entity_type="person",
+        columns={
+            "vol_id": "volunteer_id", "full_name": "full_name", "phone": "phone", "email": "email",
+            "role": "role", "signup_status": "signup_status", "shift": "shift",
+        },
+    ),
+    "attendance_log.csv": TableSchema(
+        entity_column="volunteer_name",
+        entity_type="person",
+        columns={
+            "vol_id": "volunteer_id", "volunteer_name": "full_name", "phone": "phone",
+            "station": "assigned_station", "status": "attended", "check_in_time": "check_in_time",
         },
     ),
 }

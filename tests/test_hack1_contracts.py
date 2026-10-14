@@ -61,7 +61,6 @@ def test_table_schemas_match_headers():
 # ------------------------------------------------------- Task A: extractor
 
 
-@hack1("Task A")
 def test_extractor_maps_table_rows():
     _, chunks = load_directory(CASE3)
     facts = InformationExtractor().extract(chunks)

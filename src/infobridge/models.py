@@ -67,8 +67,9 @@ class Fact(BaseModel):
     value: str  # normalised value ("2026-06-22")
     raw_value: str  # as written ("22 June")
     chunk_id: str
-    extractor: str  # "csv_schema" | "llm" | "spacy" ...
+    extractor: str  # "csv_schema" | "llm" | "name_finder" | "chat_sender" ...
     confidence: float = 1.0
+    entity_type: str | None = None  # "person" | "event" | "programme" | "location"; None = infer from attribute
 
 
 class Mention(BaseModel):
