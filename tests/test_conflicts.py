@@ -11,6 +11,7 @@ from infobridge.extraction import InformationExtractor
 from infobridge.ingestion import load_directory
 from infobridge.llm_extraction import LLMFactExtractor
 from infobridge.resolution import EntityResolver
+from infobridge.store import InfoStore
 
 DATA = Path(__file__).resolve().parents[1] / "data" / "synthetic"
 CASES = sorted(p.name for p in DATA.glob("case_*"))
@@ -121,6 +122,24 @@ def test_case3_finds_c1_and_c2_with_suggestions():
     assert set(next(v for v in batch.values if v.value == "2026-11-01").sources) >= {
         "registrations.csv#row=3", "registrations.csv#row=5"}
     assert [c.conflict_id for c in conflicts] == ["C1", "C2"]
+
+
+def test_conflicts_reach_the_graph_and_the_conflicts_table():
+    docs, chunks = load_directory(DATA / "case_03_conflict" / "sources")
+    facts = InformationExtractor(LLMFactExtractor(FakeLLM())).extract(chunks)
+    entities = EntityResolver().resolve(facts)
+    conflicts = ConflictDetector().detect(entities, facts, {c.chunk_id: c for c in chunks})
+    store = InfoStore()
+    store.build(docs, chunks, entities, facts, conflicts)
+    batch = next(c for c in conflicts if c.attribute == "batch_start_date")
+    edges = [e for e in store.graph.facts_for_entity("programme:hmtp-2026b") if e["attribute"] == "batch_start_date"]
+    assert {e["chunk_id"] for e in edges} >= {"registrations.csv#row=3", "programme_rules.pdf#page=1&para=2"}
+    assert {e["conflict_id"] for e in edges} == {batch.conflict_id}  # every edge in the conflict, not only one row
+    rows = store.sql.conflicts(status="open")
+    assert {(r["field"], r["severity"]) for r in rows} == {("medical_clearance_date", "medium"),
+                                                            ("batch_start_date", "medium")}
+    store.sql.accept_conflict_value(batch.conflict_id, "2026-11-08")
+    assert [r["field"] for r in store.sql.conflicts(status="accepted")] == ["batch_start_date"]
 
 
 def test_severity_rule():
