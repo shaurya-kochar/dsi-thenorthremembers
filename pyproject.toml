@@ -16,7 +16,8 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8", "markdown>=3.5", "faker>=30"]
 # Hack 1 components
-hack1 = ["rapidfuzz>=3", "jellyfish>=1", "networkx>=3", "spacy>=3.7", "streamlit>=1.38"]
+hack1 = ["rapidfuzz>=3", "jellyfish>=1", "networkx>=3", "spacy>=3.7", "streamlit>=1.38", "fastapi>=0.110", "uvicorn>=0.29",
+         "httpx>=0.27"]
 
 [build-system]
 requires = ["setuptools>=68"]
