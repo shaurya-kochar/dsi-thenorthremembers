@@ -1,0 +1,297 @@
+{
+  "case_id": "case_06_event_schedule",
+  "description": "Q4 events sheet and the November newsletter e-mail. The newsletter moves two events to a different date, changes one start time and names a different lead for one event.",
+  "split": "held_out",
+  "queries": [],
+  "facts": [],
+  "entities": [
+    {
+      "canonical": "Lake Loop 15K",
+      "type": "event",
+      "mentions": [
+        {
+          "text": "Lake Loop 15K",
+          "chunk_id": "events_q4.csv#row=2"
+        },
+        {
+          "text": "Lake Loop 15K",
+          "chunk_id": "newsletter_november.txt#para=2"
+        }
+      ]
+    },
+    {
+      "canonical": "Anjali Desai",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Anjali Desai",
+          "chunk_id": "events_q4.csv#row=2"
+        },
+        {
+          "text": "Anjali",
+          "chunk_id": "newsletter_november.txt#para=2"
+        }
+      ]
+    },
+    {
+      "canonical": "Golconda Heritage Run",
+      "type": "event",
+      "mentions": [
+        {
+          "text": "Golconda Heritage Run",
+          "chunk_id": "events_q4.csv#row=3"
+        },
+        {
+          "text": "Golconda Heritage Run",
+          "chunk_id": "newsletter_november.txt#para=3"
+        }
+      ]
+    },
+    {
+      "canonical": "Rahul Menon",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Rahul Menon",
+          "chunk_id": "events_q4.csv#row=3"
+        },
+        {
+          "text": "Rahul M.",
+          "chunk_id": "newsletter_november.txt#para=3"
+        }
+      ]
+    },
+    {
+      "canonical": "Pink Run for Cancer Awareness",
+      "type": "event",
+      "mentions": [
+        {
+          "text": "Pink Run for Cancer Awareness",
+          "chunk_id": "events_q4.csv#row=4"
+        },
+        {
+          "text": "Pink Run for Cancer Awareness",
+          "chunk_id": "newsletter_november.txt#para=4"
+        }
+      ]
+    },
+    {
+      "canonical": "Divya Shetty",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Divya Shetty",
+          "chunk_id": "events_q4.csv#row=4"
+        },
+        {
+          "text": "Divya S.",
+          "chunk_id": "newsletter_november.txt#para=4"
+        }
+      ]
+    },
+    {
+      "canonical": "Monsoon Trail Run",
+      "type": "event",
+      "mentions": [
+        {
+          "text": "Monsoon Trail Run",
+          "chunk_id": "events_q4.csv#row=5"
+        },
+        {
+          "text": "Monsoon Trail Run",
+          "chunk_id": "newsletter_november.txt#para=5"
+        }
+      ]
+    },
+    {
+      "canonical": "Karthik Iyengar",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Karthik Iyengar",
+          "chunk_id": "events_q4.csv#row=5"
+        },
+        {
+          "text": "Karthik I.",
+          "chunk_id": "newsletter_november.txt#para=5"
+        }
+      ]
+    },
+    {
+      "canonical": "Christmas Fun Run",
+      "type": "event",
+      "mentions": [
+        {
+          "text": "Christmas Fun Run",
+          "chunk_id": "events_q4.csv#row=6"
+        },
+        {
+          "text": "Christmas Fun Run",
+          "chunk_id": "newsletter_november.txt#para=6"
+        }
+      ]
+    },
+    {
+      "canonical": "Neha Kapoor",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Neha Kapoor",
+          "chunk_id": "events_q4.csv#row=6"
+        },
+        {
+          "text": "Neha",
+          "chunk_id": "newsletter_november.txt#para=6"
+        }
+      ]
+    },
+    {
+      "canonical": "Year-End Half Marathon",
+      "type": "event",
+      "mentions": [
+        {
+          "text": "Year-End Half Marathon",
+          "chunk_id": "events_q4.csv#row=7"
+        },
+        {
+          "text": "Year-End Half Marathon",
+          "chunk_id": "newsletter_november.txt#para=7"
+        }
+      ]
+    },
+    {
+      "canonical": "Suresh Babu",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Suresh Babu",
+          "chunk_id": "events_q4.csv#row=7"
+        },
+        {
+          "text": "Suresh Babu",
+          "chunk_id": "newsletter_november.txt#para=7"
+        }
+      ]
+    },
+    {
+      "canonical": "Priyanka Sen",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Priyanka Sen",
+          "chunk_id": "newsletter_november.txt#para=6"
+        }
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "C1",
+      "entity": "Golconda Heritage Run",
+      "attribute": "event_date",
+      "values": [
+        {
+          "value": "2026-11-22",
+          "surface_any": [
+            "2026-11-22"
+          ],
+          "sources": [
+            "events_q4.csv#row=3"
+          ]
+        },
+        {
+          "value": "2026-11-29",
+          "surface_any": [
+            "29 november"
+          ],
+          "sources": [
+            "newsletter_november.txt#para=3"
+          ]
+        }
+      ],
+      "severity": "high",
+      "note": "The newsletter moved the run a week later; one of the two is out of date."
+    },
+    {
+      "id": "C2",
+      "entity": "Pink Run for Cancer Awareness",
+      "attribute": "start_time",
+      "values": [
+        {
+          "value": "05:45",
+          "surface_any": [
+            "05:45"
+          ],
+          "sources": [
+            "events_q4.csv#row=4"
+          ]
+        },
+        {
+          "value": "06:15",
+          "surface_any": [
+            "6:15"
+          ],
+          "sources": [
+            "newsletter_november.txt#para=4"
+          ]
+        }
+      ],
+      "severity": "high",
+      "note": "Different start times in the sheet and the newsletter."
+    },
+    {
+      "id": "C3",
+      "entity": "Monsoon Trail Run",
+      "attribute": "event_date",
+      "values": [
+        {
+          "value": "2026-12-06",
+          "surface_any": [
+            "2026-12-06"
+          ],
+          "sources": [
+            "events_q4.csv#row=5"
+          ]
+        },
+        {
+          "value": "2026-12-13",
+          "surface_any": [
+            "13 december"
+          ],
+          "sources": [
+            "newsletter_november.txt#para=5"
+          ]
+        }
+      ],
+      "severity": "high",
+      "note": "The newsletter says 13 December; the sheet says 6 December."
+    },
+    {
+      "id": "C4",
+      "entity": "Christmas Fun Run",
+      "attribute": "lead_volunteer",
+      "values": [
+        {
+          "value": "Neha Kapoor",
+          "surface_any": [
+            "neha kapoor"
+          ],
+          "sources": [
+            "events_q4.csv#row=6"
+          ]
+        },
+        {
+          "value": "Priyanka Sen",
+          "surface_any": [
+            "priyanka sen"
+          ],
+          "sources": [
+            "newsletter_november.txt#para=6"
+          ]
+        }
+      ],
+      "severity": "medium",
+      "note": "Neha is travelling, so Priyanka leads; the sheet was not updated."
+    }
+  ]
+}

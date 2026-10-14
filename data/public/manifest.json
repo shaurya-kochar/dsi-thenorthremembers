@@ -1,0 +1,88 @@
+{
+  "openalex": {
+    "file": "data/public/openalex/openalex_running_papers.csv",
+    "source": "https://api.openalex.org/works",
+    "queries": [
+      "recreational running injuries",
+      "marathon runners health",
+      "community running group physical activity",
+      "heat illness endurance event",
+      "volunteer management sport events"
+    ],
+    "records": 200,
+    "licence": "CC0 (OpenAlex metadata)",
+    "privacy": "author names and affiliations dropped"
+  },
+  "who": [
+    {
+      "file": "data/public/who/who_physical_activity_guidelines_2020.pdf",
+      "title": "WHO guidelines on physical activity and sedentary behaviour",
+      "source": "https://iris.who.int/handle/10665/336656",
+      "pages_kept": [
+        30,
+        31,
+        32,
+        36,
+        37,
+        40
+      ],
+      "licence": "CC BY-NC-SA 3.0 IGO (WHO open access)"
+    },
+    {
+      "file": "data/public/who/who_gappa_2018_2030.pdf",
+      "title": "Global action plan on physical activity 2018\u20132030: more active people for a healthier world",
+      "source": "https://iris.who.int/handle/10665/272722",
+      "pages_kept": [
+        4,
+        7,
+        13,
+        15,
+        17,
+        19
+      ],
+      "licence": "CC BY-NC-SA 3.0 IGO (WHO open access)"
+    },
+    {
+      "file": "data/public/who/who_physical_activity_status_report_2022.pdf",
+      "title": "Global status report on physical activity 2022",
+      "source": "https://iris.who.int/handle/10665/363607",
+      "pages_kept": [
+        4,
+        10,
+        11,
+        14,
+        21,
+        26
+      ],
+      "licence": "CC BY-NC-SA 3.0 IGO (WHO open access)"
+    },
+    {
+      "file": "data/public/who/who_heat_and_health_europe_2021.pdf",
+      "title": "Heat and health in the WHO European Region: updated evidence for effective prevention",
+      "source": "https://iris.who.int/handle/10665/339462",
+      "pages_kept": [
+        2,
+        5,
+        6,
+        29,
+        31,
+        32
+      ],
+      "licence": "CC BY-NC-SA 3.0 IGO (WHO open access)"
+    },
+    {
+      "file": "data/public/who/who_mass_gatherings_2015.pdf",
+      "title": "Public health for mass gatherings: key considerations",
+      "source": "https://iris.who.int/handle/10665/162109",
+      "pages_kept": [
+        9,
+        10,
+        17,
+        27,
+        33,
+        38
+      ],
+      "licence": "CC BY-NC-SA 3.0 IGO (WHO open access)"
+    }
+  ]
+}

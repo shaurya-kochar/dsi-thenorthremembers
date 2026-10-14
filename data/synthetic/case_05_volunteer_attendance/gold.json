@@ -1,0 +1,625 @@
+{
+  "case_id": "case_05_volunteer_attendance",
+  "description": "Attendance log, volunteers' WhatsApp group and the coordinator's report e-mail for the Saturday Night Run on 3 October 2026. Two volunteers marked Absent in the log were present, two station assignments disagree, the headcount (29 vs 31), finish time and one check-in time disagree, and one name is spelled two ways.",
+  "split": "build",
+  "queries": [],
+  "facts": [],
+  "entities": [
+    {
+      "canonical": "Saturday Night Run (3 Oct 2026)",
+      "type": "event",
+      "mentions": [
+        {
+          "text": "Night Run",
+          "chunk_id": "whatsapp_night_run_volunteers.txt#msg=1"
+        },
+        {
+          "text": "Saturday Night Run",
+          "chunk_id": "night_run_report.txt#para=1"
+        }
+      ]
+    },
+    {
+      "canonical": "Meera Joshi",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Meera Joshi",
+          "chunk_id": "attendance_log.csv#row=2"
+        },
+        {
+          "text": "Meera Joshi",
+          "chunk_id": "whatsapp_night_run_volunteers.txt#msg=1"
+        },
+        {
+          "text": "Meera Joshi",
+          "chunk_id": "whatsapp_night_run_volunteers.txt#msg=4"
+        },
+        {
+          "text": "Meera Joshi",
+          "chunk_id": "whatsapp_night_run_volunteers.txt#msg=6"
+        },
+        {
+          "text": "Meera Joshi",
+          "chunk_id": "night_run_report.txt#para=1"
+        }
+      ]
+    },
+    {
+      "canonical": "Laxmi Prasad",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Laxmi Prasad",
+          "chunk_id": "attendance_log.csv#row=3"
+        },
+        {
+          "text": "Lakshmi Prasad",
+          "chunk_id": "night_run_report.txt#para=2"
+        }
+      ]
+    },
+    {
+      "canonical": "Naveen Goud",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Naveen Goud",
+          "chunk_id": "attendance_log.csv#row=4"
+        },
+        {
+          "text": "Naveen Goud",
+          "chunk_id": "whatsapp_night_run_volunteers.txt#msg=3"
+        },
+        {
+          "text": "Naveen",
+          "chunk_id": "whatsapp_night_run_volunteers.txt#msg=6"
+        }
+      ]
+    },
+    {
+      "canonical": "Farah Ansari",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Farah Ansari",
+          "chunk_id": "attendance_log.csv#row=5"
+        },
+        {
+          "text": "Farah Ansari",
+          "chunk_id": "night_run_report.txt#para=2"
+        }
+      ]
+    },
+    {
+      "canonical": "Pooja Nair",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Pooja Nair",
+          "chunk_id": "attendance_log.csv#row=6"
+        },
+        {
+          "text": "Pooja N",
+          "chunk_id": "whatsapp_night_run_volunteers.txt#msg=5"
+        }
+      ]
+    },
+    {
+      "canonical": "Pooja Rani",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Pooja Rani",
+          "chunk_id": "attendance_log.csv#row=7"
+        }
+      ]
+    },
+    {
+      "canonical": "Harish Kumar",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Harish Kumar",
+          "chunk_id": "attendance_log.csv#row=8"
+        },
+        {
+          "text": "Harish Kumar",
+          "chunk_id": "night_run_report.txt#para=2"
+        }
+      ]
+    },
+    {
+      "canonical": "Harsha Kumar",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Harsha Kumar",
+          "chunk_id": "attendance_log.csv#row=9"
+        }
+      ]
+    },
+    {
+      "canonical": "Swathi Rao",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Swathi Rao",
+          "chunk_id": "attendance_log.csv#row=10"
+        },
+        {
+          "text": "Swathi",
+          "chunk_id": "whatsapp_night_run_volunteers.txt#msg=2"
+        }
+      ]
+    },
+    {
+      "canonical": "Deepak Chauhan",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Deepak Chauhan",
+          "chunk_id": "attendance_log.csv#row=11"
+        }
+      ]
+    },
+    {
+      "canonical": "Jyoti Patla",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Jyoti Patla",
+          "chunk_id": "attendance_log.csv#row=12"
+        }
+      ]
+    },
+    {
+      "canonical": "Triya Sami",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Triya Sami",
+          "chunk_id": "attendance_log.csv#row=13"
+        }
+      ]
+    },
+    {
+      "canonical": "Gautam Rastogi",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Gautam Rastogi",
+          "chunk_id": "attendance_log.csv#row=14"
+        }
+      ]
+    },
+    {
+      "canonical": "Wishi Dada",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Wishi Dada",
+          "chunk_id": "attendance_log.csv#row=15"
+        }
+      ]
+    },
+    {
+      "canonical": "Pavani Toor",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Pavani Toor",
+          "chunk_id": "attendance_log.csv#row=16"
+        }
+      ]
+    },
+    {
+      "canonical": "Aarna Salvi",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Aarna Salvi",
+          "chunk_id": "attendance_log.csv#row=17"
+        }
+      ]
+    },
+    {
+      "canonical": "Varenya Varghese",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Varenya Varghese",
+          "chunk_id": "attendance_log.csv#row=18"
+        }
+      ]
+    },
+    {
+      "canonical": "Zarna Bakshi",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Zarna Bakshi",
+          "chunk_id": "attendance_log.csv#row=19"
+        }
+      ]
+    },
+    {
+      "canonical": "Udarsh Dayal",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Udarsh Dayal",
+          "chunk_id": "attendance_log.csv#row=20"
+        }
+      ]
+    },
+    {
+      "canonical": "Chandran Virk",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Chandran Virk",
+          "chunk_id": "attendance_log.csv#row=21"
+        }
+      ]
+    },
+    {
+      "canonical": "Upma Dhar",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Upma Dhar",
+          "chunk_id": "attendance_log.csv#row=22"
+        }
+      ]
+    },
+    {
+      "canonical": "Vasatika Karnik",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Vasatika Karnik",
+          "chunk_id": "attendance_log.csv#row=23"
+        }
+      ]
+    },
+    {
+      "canonical": "Jairaj Shan",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Jairaj Shan",
+          "chunk_id": "attendance_log.csv#row=24"
+        }
+      ]
+    },
+    {
+      "canonical": "Upasna Krishnamurthy",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Upasna Krishnamurthy",
+          "chunk_id": "attendance_log.csv#row=25"
+        }
+      ]
+    },
+    {
+      "canonical": "Neelima Morar",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Neelima Morar",
+          "chunk_id": "attendance_log.csv#row=26"
+        }
+      ]
+    },
+    {
+      "canonical": "Yachana Srinivas",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Yachana Srinivas",
+          "chunk_id": "attendance_log.csv#row=27"
+        }
+      ]
+    },
+    {
+      "canonical": "Samaksh Menon",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Samaksh Menon",
+          "chunk_id": "attendance_log.csv#row=28"
+        }
+      ]
+    },
+    {
+      "canonical": "Amruta Andra",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Amruta Andra",
+          "chunk_id": "attendance_log.csv#row=29"
+        }
+      ]
+    },
+    {
+      "canonical": "Bachittar Doctor",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Bachittar Doctor",
+          "chunk_id": "attendance_log.csv#row=30"
+        }
+      ]
+    },
+    {
+      "canonical": "Tara Virk",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Tara Virk",
+          "chunk_id": "attendance_log.csv#row=31"
+        }
+      ]
+    },
+    {
+      "canonical": "Vrishti Parsa",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Vrishti Parsa",
+          "chunk_id": "attendance_log.csv#row=32"
+        }
+      ]
+    },
+    {
+      "canonical": "Vedika Shukla",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Vedika Shukla",
+          "chunk_id": "attendance_log.csv#row=33"
+        }
+      ]
+    },
+    {
+      "canonical": "Yasti Tank",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Yasti Tank",
+          "chunk_id": "attendance_log.csv#row=34"
+        }
+      ]
+    },
+    {
+      "canonical": "Radha Bandi",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Radha Bandi",
+          "chunk_id": "attendance_log.csv#row=35"
+        }
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "C1",
+      "entity": "Saturday Night Run (3 Oct 2026)",
+      "attribute": "volunteers_present",
+      "values": [
+        {
+          "value": "29",
+          "surface_any": [
+            "29 of us"
+          ],
+          "sources": [
+            "whatsapp_night_run_volunteers.txt#msg=4"
+          ]
+        },
+        {
+          "value": "31",
+          "surface_any": [
+            "31 volunteers"
+          ],
+          "sources": [
+            "night_run_report.txt#para=1"
+          ]
+        }
+      ],
+      "severity": "medium",
+      "note": "The chat count matches the log's Present rows; the report also counts Naveen and Farah, who were marked Absent but were there."
+    },
+    {
+      "id": "C2",
+      "entity": "Saturday Night Run (3 Oct 2026)",
+      "attribute": "end_time",
+      "values": [
+        {
+          "value": "23:00",
+          "surface_any": [
+            "11 pm"
+          ],
+          "sources": [
+            "whatsapp_night_run_volunteers.txt#msg=4"
+          ]
+        },
+        {
+          "value": "22:30",
+          "surface_any": [
+            "10:30 pm"
+          ],
+          "sources": [
+            "night_run_report.txt#para=1"
+          ]
+        }
+      ],
+      "severity": "low",
+      "note": "The run ended between 10:30 and 11 pm; the two messages round differently."
+    },
+    {
+      "id": "C3",
+      "entity": "Naveen Goud",
+      "attribute": "attended",
+      "values": [
+        {
+          "value": "Absent",
+          "surface_any": [
+            "absent"
+          ],
+          "sources": [
+            "attendance_log.csv#row=4"
+          ]
+        },
+        {
+          "value": "Present",
+          "surface_any": [
+            "at station 3 now"
+          ],
+          "sources": [
+            "whatsapp_night_run_volunteers.txt#msg=3"
+          ]
+        }
+      ],
+      "severity": "medium",
+      "note": "Naveen covered station 3 but was never checked in at the desk."
+    },
+    {
+      "id": "C4",
+      "entity": "Farah Ansari",
+      "attribute": "attended",
+      "values": [
+        {
+          "value": "Absent",
+          "surface_any": [
+            "absent"
+          ],
+          "sources": [
+            "attendance_log.csv#row=5"
+          ]
+        },
+        {
+          "value": "Present",
+          "surface_any": [
+            "farah ansari handled first aid"
+          ],
+          "sources": [
+            "night_run_report.txt#para=2"
+          ]
+        }
+      ],
+      "severity": "medium",
+      "note": "Farah handled first aid at the finish but is marked Absent."
+    },
+    {
+      "id": "C5",
+      "entity": "Pooja Nair",
+      "attribute": "assigned_station",
+      "values": [
+        {
+          "value": "Station 2",
+          "surface_any": [
+            "station 2"
+          ],
+          "sources": [
+            "attendance_log.csv#row=6"
+          ]
+        },
+        {
+          "value": "Station 4",
+          "surface_any": [
+            "station 4"
+          ],
+          "sources": [
+            "whatsapp_night_run_volunteers.txt#msg=5"
+          ]
+        }
+      ],
+      "severity": "low",
+      "note": "Pooja says she was at station 4 all night."
+    },
+    {
+      "id": "C6",
+      "entity": "Harish Kumar",
+      "attribute": "assigned_station",
+      "values": [
+        {
+          "value": "Station 5",
+          "surface_any": [
+            "station 5"
+          ],
+          "sources": [
+            "attendance_log.csv#row=8"
+          ]
+        },
+        {
+          "value": "Station 1",
+          "surface_any": [
+            "station 1"
+          ],
+          "sources": [
+            "night_run_report.txt#para=2"
+          ]
+        }
+      ],
+      "severity": "low",
+      "note": "The report places Harish at station 1; the log says station 5."
+    },
+    {
+      "id": "C7",
+      "entity": "Laxmi Prasad",
+      "attribute": "full_name",
+      "values": [
+        {
+          "value": "Laxmi Prasad",
+          "surface_any": [
+            "laxmi prasad"
+          ],
+          "sources": [
+            "attendance_log.csv#row=3"
+          ]
+        },
+        {
+          "value": "Lakshmi Prasad",
+          "surface_any": [
+            "lakshmi prasad"
+          ],
+          "sources": [
+            "night_run_report.txt#para=2"
+          ]
+        }
+      ],
+      "severity": "low",
+      "note": "Two spellings of the same name (Laxmi / Lakshmi)."
+    },
+    {
+      "id": "C8",
+      "entity": "Swathi Rao",
+      "attribute": "check_in_time",
+      "values": [
+        {
+          "value": "18:05",
+          "surface_any": [
+            "18:05"
+          ],
+          "sources": [
+            "attendance_log.csv#row=10"
+          ]
+        },
+        {
+          "value": "18:30",
+          "surface_any": [
+            "6:30 pm"
+          ],
+          "sources": [
+            "whatsapp_night_run_volunteers.txt#msg=2"
+          ]
+        }
+      ],
+      "severity": "low",
+      "note": "Swathi's own message says she reached at 6:30 pm."
+    }
+  ]
+}

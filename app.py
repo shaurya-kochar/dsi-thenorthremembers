@@ -33,7 +33,7 @@ def load_bridge(case: str, backend: str) -> InfoBridge:
 
 def case_question(case: str) -> str:
     gold = json.loads((DATA / case / "gold.json").read_text())
-    return gold["queries"][0]["question"]
+    return gold["queries"][0]["question"] if gold["queries"] else ""
 
 
 # ------------------------------------------------------------------ sidebar
@@ -42,7 +42,8 @@ with st.sidebar:
     st.title("🔗 InfoBridge")
     st.caption("Evidence-preserving synthesis across fragmented sources · DSI 9A · Hyderabad Runners")
     cases = sorted(p.name for p in DATA.glob("case_*"))
-    case = st.selectbox("Scenario", cases, index=len(cases) - 1)
+    with_questions = [i for i, c in enumerate(cases) if case_question(c)]
+    case = st.selectbox("Scenario", cases, index=with_questions[-1] if with_questions else 0)
     backends = ["gemini", "extractive"] if settings.gemini_api_key else ["extractive"]
     backend = st.radio("Answer engine", backends,
                        help="gemini = LLM synthesis · extractive = retrieval only (no API key)")

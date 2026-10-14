@@ -1,56 +1,251 @@
 {
   "case_id": "case_02_medium",
   "description": "Three sources (Excel roster, WhatsApp group, PDF attendance sheet). Names differ across sources (Srinivas Rao Kumar / Srini / S. R. Kumar); decoy Srinivas Reddy is a different person. No conflicts, one gap (Farhan untrained).",
+  "split": "build",
   "queries": [
     {
       "query_id": "q1",
       "question": "Who is assigned to Aid Station 3 for the marathon, and has each of them completed first-aid training?",
       "expected_verdict": null,
-      "fact_ids": ["F1", "F2", "F3", "F4", "F5", "F6"],
+      "fact_ids": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5",
+        "F6"
+      ],
       "conflict_ids": []
     }
   ],
   "facts": [
-    {"id": "F1", "description": "Srinivas Rao Kumar is assigned to Aid Station 3 as station lead", "entity_any": ["srinivas rao", "srini", "s. r. kumar"], "value_any": ["aid station 3", "as3", "station lead", "lead"], "sources": ["volunteer_roster.xlsx#row=3", "whatsapp_as3_volunteers.txt#msg=1"]},
-    {"id": "F2", "description": "Ananya Iyer is assigned to Aid Station 3 (water & electrolytes)", "entity_any": ["ananya", "a. iyer"], "value_any": ["aid station 3", "as3", "electrolyte", "water"], "sources": ["volunteer_roster.xlsx#row=4", "whatsapp_as3_volunteers.txt#msg=3"]},
-    {"id": "F3", "description": "Mohammed Farhan is assigned to Aid Station 3 (crowd control)", "entity_any": ["farhan"], "value_any": ["aid station 3", "as3", "crowd control"], "sources": ["volunteer_roster.xlsx#row=5", "whatsapp_as3_volunteers.txt#msg=4"]},
-    {"id": "F4", "description": "Srinivas Rao Kumar completed first-aid training (FA-2026-031)", "entity_any": ["srinivas rao", "srini", "s. r. kumar"], "value_any": ["fa-2026-031", "completed", "certif", "trained"], "sources": ["first_aid_training.pdf#page=1&para=4"]},
-    {"id": "F5", "description": "Ananya Iyer completed first-aid training (FA-2026-032)", "entity_any": ["ananya", "a. iyer"], "value_any": ["fa-2026-032", "completed", "certif", "trained"], "sources": ["first_aid_training.pdf#page=1&para=5"]},
-    {"id": "F6", "description": "Mohammed Farhan has NOT completed training; must attend makeup session on 11 Oct", "entity_any": ["farhan"], "value_any": ["missed", "not completed", "has not", "hasn't", "did not", "makeup", "make-up", "11 oct"], "sources": ["whatsapp_as3_volunteers.txt#msg=5", "first_aid_training.pdf#page=1&para=8"]}
+    {
+      "id": "F1",
+      "description": "Srinivas Rao Kumar is assigned to Aid Station 3 as station lead",
+      "entity_any": [
+        "srinivas rao",
+        "srini",
+        "s. r. kumar"
+      ],
+      "value_any": [
+        "aid station 3",
+        "as3",
+        "station lead",
+        "lead"
+      ],
+      "sources": [
+        "volunteer_roster.xlsx#row=3",
+        "whatsapp_as3_volunteers.txt#msg=1"
+      ]
+    },
+    {
+      "id": "F2",
+      "description": "Ananya Iyer is assigned to Aid Station 3 (water & electrolytes)",
+      "entity_any": [
+        "ananya",
+        "a. iyer"
+      ],
+      "value_any": [
+        "aid station 3",
+        "as3",
+        "electrolyte",
+        "water"
+      ],
+      "sources": [
+        "volunteer_roster.xlsx#row=4",
+        "whatsapp_as3_volunteers.txt#msg=3"
+      ]
+    },
+    {
+      "id": "F3",
+      "description": "Mohammed Farhan is assigned to Aid Station 3 (crowd control)",
+      "entity_any": [
+        "farhan"
+      ],
+      "value_any": [
+        "aid station 3",
+        "as3",
+        "crowd control"
+      ],
+      "sources": [
+        "volunteer_roster.xlsx#row=5",
+        "whatsapp_as3_volunteers.txt#msg=4"
+      ]
+    },
+    {
+      "id": "F4",
+      "description": "Srinivas Rao Kumar completed first-aid training (FA-2026-031)",
+      "entity_any": [
+        "srinivas rao",
+        "srini",
+        "s. r. kumar"
+      ],
+      "value_any": [
+        "fa-2026-031",
+        "completed",
+        "certif",
+        "trained"
+      ],
+      "sources": [
+        "first_aid_training.pdf#page=1&para=4"
+      ]
+    },
+    {
+      "id": "F5",
+      "description": "Ananya Iyer completed first-aid training (FA-2026-032)",
+      "entity_any": [
+        "ananya",
+        "a. iyer"
+      ],
+      "value_any": [
+        "fa-2026-032",
+        "completed",
+        "certif",
+        "trained"
+      ],
+      "sources": [
+        "first_aid_training.pdf#page=1&para=5"
+      ]
+    },
+    {
+      "id": "F6",
+      "description": "Mohammed Farhan has NOT completed training; must attend makeup session on 11 Oct",
+      "entity_any": [
+        "farhan"
+      ],
+      "value_any": [
+        "missed",
+        "not completed",
+        "has not",
+        "hasn't",
+        "did not",
+        "makeup",
+        "make-up",
+        "11 oct"
+      ],
+      "sources": [
+        "whatsapp_as3_volunteers.txt#msg=5",
+        "first_aid_training.pdf#page=1&para=8"
+      ]
+    }
   ],
   "entities": [
-    {"canonical": "Srinivas Rao Kumar", "type": "person", "mentions": [
-      {"text": "Srinivas Rao Kumar", "chunk_id": "volunteer_roster.xlsx#row=3"},
-      {"text": "Srini", "chunk_id": "whatsapp_as3_volunteers.txt#msg=1"},
-      {"text": "Srini", "chunk_id": "whatsapp_as3_volunteers.txt#msg=3"},
-      {"text": "Srini", "chunk_id": "whatsapp_as3_volunteers.txt#msg=5"},
-      {"text": "S. R. Kumar", "chunk_id": "first_aid_training.pdf#page=1&para=4"}
-    ]},
-    {"canonical": "Srinivas Reddy", "type": "person", "mentions": [
-      {"text": "Srinivas Reddy", "chunk_id": "volunteer_roster.xlsx#row=2"},
-      {"text": "Srinivas Reddy", "chunk_id": "first_aid_training.pdf#page=1&para=6"}
-    ]},
-    {"canonical": "Ananya Iyer", "type": "person", "mentions": [
-      {"text": "Ananya Iyer", "chunk_id": "volunteer_roster.xlsx#row=4"},
-      {"text": "Ananya I.", "chunk_id": "whatsapp_as3_volunteers.txt#msg=2"},
-      {"text": "Ananya", "chunk_id": "whatsapp_as3_volunteers.txt#msg=3"},
-      {"text": "A. Iyer", "chunk_id": "first_aid_training.pdf#page=1&para=5"}
-    ]},
-    {"canonical": "Mohammed Farhan", "type": "person", "mentions": [
-      {"text": "Mohammed Farhan", "chunk_id": "volunteer_roster.xlsx#row=5"},
-      {"text": "Farhan bhai", "chunk_id": "whatsapp_as3_volunteers.txt#msg=4"},
-      {"text": "Farhan", "chunk_id": "whatsapp_as3_volunteers.txt#msg=5"},
-      {"text": "Farhan bhai", "chunk_id": "whatsapp_as3_volunteers.txt#msg=6"}
-    ]},
-    {"canonical": "Deepa Menon", "type": "person", "mentions": [
-      {"text": "Deepa Menon", "chunk_id": "volunteer_roster.xlsx#row=6"},
-      {"text": "D. Menon", "chunk_id": "first_aid_training.pdf#page=1&para=7"}
-    ]},
-    {"canonical": "Aid Station 3 (Gachibowli Flyover)", "type": "location", "mentions": [
-      {"text": "Aid Station 3 (Gachibowli Flyover)", "chunk_id": "volunteer_roster.xlsx#row=3"},
-      {"text": "AS3", "chunk_id": "whatsapp_as3_volunteers.txt#msg=1"},
-      {"text": "flyover site", "chunk_id": "whatsapp_as3_volunteers.txt#msg=1"}
-    ]}
+    {
+      "canonical": "Srinivas Rao Kumar",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Srinivas Rao Kumar",
+          "chunk_id": "volunteer_roster.xlsx#row=3"
+        },
+        {
+          "text": "Srini",
+          "chunk_id": "whatsapp_as3_volunteers.txt#msg=1"
+        },
+        {
+          "text": "Srini",
+          "chunk_id": "whatsapp_as3_volunteers.txt#msg=3"
+        },
+        {
+          "text": "Srini",
+          "chunk_id": "whatsapp_as3_volunteers.txt#msg=5"
+        },
+        {
+          "text": "S. R. Kumar",
+          "chunk_id": "first_aid_training.pdf#page=1&para=4"
+        }
+      ]
+    },
+    {
+      "canonical": "Srinivas Reddy",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Srinivas Reddy",
+          "chunk_id": "volunteer_roster.xlsx#row=2"
+        },
+        {
+          "text": "Srinivas Reddy",
+          "chunk_id": "first_aid_training.pdf#page=1&para=6"
+        }
+      ]
+    },
+    {
+      "canonical": "Ananya Iyer",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Ananya Iyer",
+          "chunk_id": "volunteer_roster.xlsx#row=4"
+        },
+        {
+          "text": "Ananya I.",
+          "chunk_id": "whatsapp_as3_volunteers.txt#msg=2"
+        },
+        {
+          "text": "Ananya",
+          "chunk_id": "whatsapp_as3_volunteers.txt#msg=3"
+        },
+        {
+          "text": "A. Iyer",
+          "chunk_id": "first_aid_training.pdf#page=1&para=5"
+        }
+      ]
+    },
+    {
+      "canonical": "Mohammed Farhan",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Mohammed Farhan",
+          "chunk_id": "volunteer_roster.xlsx#row=5"
+        },
+        {
+          "text": "Farhan bhai",
+          "chunk_id": "whatsapp_as3_volunteers.txt#msg=4"
+        },
+        {
+          "text": "Farhan",
+          "chunk_id": "whatsapp_as3_volunteers.txt#msg=5"
+        },
+        {
+          "text": "Farhan bhai",
+          "chunk_id": "whatsapp_as3_volunteers.txt#msg=6"
+        }
+      ]
+    },
+    {
+      "canonical": "Deepa Menon",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Deepa Menon",
+          "chunk_id": "volunteer_roster.xlsx#row=6"
+        },
+        {
+          "text": "D. Menon",
+          "chunk_id": "first_aid_training.pdf#page=1&para=7"
+        }
+      ]
+    },
+    {
+      "canonical": "Aid Station 3 (Gachibowli Flyover)",
+      "type": "location",
+      "mentions": [
+        {
+          "text": "Aid Station 3 (Gachibowli Flyover)",
+          "chunk_id": "volunteer_roster.xlsx#row=3"
+        },
+        {
+          "text": "AS3",
+          "chunk_id": "whatsapp_as3_volunteers.txt#msg=1"
+        },
+        {
+          "text": "flyover site",
+          "chunk_id": "whatsapp_as3_volunteers.txt#msg=1"
+        }
+      ]
+    }
   ],
   "conflicts": []
 }

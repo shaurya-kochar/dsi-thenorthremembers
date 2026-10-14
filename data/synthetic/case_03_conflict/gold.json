@@ -1,45 +1,207 @@
 {
   "case_id": "case_03_conflict",
   "description": "Four sources (members sheet, registrations sheet, coach WhatsApp group, programme rules PDF). Three name forms for Ravi Sharma; decoy Ravi Shankar (lapsed, late registration). Two planted conflicts. Correct verdict is YES under either conflicting value.",
+  "split": "build",
   "queries": [
     {
       "query_id": "q1",
       "question": "Is Ravi Sharma eligible for the Half Marathon Training Programme Batch 2026B?",
       "expected_verdict": "YES",
-      "fact_ids": ["F1", "F2", "F3", "F4", "F5", "F6", "F7"],
-      "conflict_ids": ["C1", "C2"]
+      "fact_ids": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5",
+        "F6",
+        "F7"
+      ],
+      "conflict_ids": [
+        "C1",
+        "C2"
+      ]
     }
   ],
   "facts": [
-    {"id": "F1", "description": "Ravi Sharma is an Active member, valid until 2027-03-31 (meets Rule 1)", "entity_any": [], "value_any": ["2027-03-31", "31 march 2027", "march 31, 2027", "march 2027"], "sources": ["members.csv#row=5"]},
-    {"id": "F2", "description": "Ravi Sharma (as 'R. Sharma') registered on 2026-09-10", "entity_any": [], "value_any": ["2026-09-10", "10 september", "september 10", "10 sept", "sep 10", "10/09/2026"], "sources": ["registrations.csv#row=3"]},
-    {"id": "F3", "description": "Registration deadline is 15 September 2026 (Rule 3)", "entity_any": [], "value_any": ["15 september", "september 15", "2026-09-15", "15 sept"], "sources": ["programme_rules.pdf#page=1&para=6", "whatsapp_coach_group.txt#msg=9"]},
-    {"id": "F4", "description": "Ravi completed the HR 10K Monsoon Run in 52:30 in August 2026 (meets Rule 4)", "entity_any": [], "value_any": ["52:30", "monsoon"], "sources": ["whatsapp_coach_group.txt#msg=5"]},
-    {"id": "F5", "description": "Ravi attended 6 of the last 7 Saturday training sessions", "entity_any": [], "value_any": ["6 of", "six of"], "sources": ["whatsapp_coach_group.txt#msg=6"]},
-    {"id": "F6", "description": "Ravi holds a medical clearance dated within 12 months of batch start (date conflicts, see C1)", "entity_any": [], "value_any": ["2026-03-15", "15 march", "march 15", "2026-06-22", "22 june", "june 22"], "sources": ["members.csv#row=5", "whatsapp_coach_group.txt#msg=3"]},
-    {"id": "F7", "description": "Batch 2026B start date (conflicts, see C2)", "entity_any": [], "value_any": ["8 november", "november 8", "2026-11-08", "1 november", "november 1", "2026-11-01"], "sources": ["programme_rules.pdf#page=1&para=2", "registrations.csv#row=3"]}
+    {
+      "id": "F1",
+      "description": "Ravi Sharma is an Active member, valid until 2027-03-31 (meets Rule 1)",
+      "entity_any": [],
+      "value_any": [
+        "2027-03-31",
+        "31 march 2027",
+        "march 31, 2027",
+        "march 2027"
+      ],
+      "sources": [
+        "members.csv#row=5"
+      ]
+    },
+    {
+      "id": "F2",
+      "description": "Ravi Sharma (as 'R. Sharma') registered on 2026-09-10",
+      "entity_any": [],
+      "value_any": [
+        "2026-09-10",
+        "10 september",
+        "september 10",
+        "10 sept",
+        "sep 10",
+        "10/09/2026"
+      ],
+      "sources": [
+        "registrations.csv#row=3"
+      ]
+    },
+    {
+      "id": "F3",
+      "description": "Registration deadline is 15 September 2026 (Rule 3)",
+      "entity_any": [],
+      "value_any": [
+        "15 september",
+        "september 15",
+        "2026-09-15",
+        "15 sept"
+      ],
+      "sources": [
+        "programme_rules.pdf#page=1&para=6",
+        "whatsapp_coach_group.txt#msg=9"
+      ]
+    },
+    {
+      "id": "F4",
+      "description": "Ravi completed the HR 10K Monsoon Run in 52:30 in August 2026 (meets Rule 4)",
+      "entity_any": [],
+      "value_any": [
+        "52:30",
+        "monsoon"
+      ],
+      "sources": [
+        "whatsapp_coach_group.txt#msg=5"
+      ]
+    },
+    {
+      "id": "F5",
+      "description": "Ravi attended 6 of the last 7 Saturday training sessions",
+      "entity_any": [],
+      "value_any": [
+        "6 of",
+        "six of"
+      ],
+      "sources": [
+        "whatsapp_coach_group.txt#msg=6"
+      ]
+    },
+    {
+      "id": "F6",
+      "description": "Ravi holds a medical clearance dated within 12 months of batch start (date conflicts, see C1)",
+      "entity_any": [],
+      "value_any": [
+        "2026-03-15",
+        "15 march",
+        "march 15",
+        "2026-06-22",
+        "22 june",
+        "june 22"
+      ],
+      "sources": [
+        "members.csv#row=5",
+        "whatsapp_coach_group.txt#msg=3"
+      ]
+    },
+    {
+      "id": "F7",
+      "description": "Batch 2026B start date (conflicts, see C2)",
+      "entity_any": [],
+      "value_any": [
+        "8 november",
+        "november 8",
+        "2026-11-08",
+        "1 november",
+        "november 1",
+        "2026-11-01"
+      ],
+      "sources": [
+        "programme_rules.pdf#page=1&para=2",
+        "registrations.csv#row=3"
+      ]
+    }
   ],
   "entities": [
-    {"canonical": "Ravi Sharma", "type": "person", "mentions": [
-      {"text": "Ravi Sharma", "chunk_id": "members.csv#row=5"},
-      {"text": "R. Sharma", "chunk_id": "registrations.csv#row=3"},
-      {"text": "Ravi S.", "chunk_id": "whatsapp_coach_group.txt#msg=3"},
-      {"text": "Ravi S.", "chunk_id": "whatsapp_coach_group.txt#msg=5"},
-      {"text": "Ravi S.", "chunk_id": "whatsapp_coach_group.txt#msg=6"},
-      {"text": "Ravi S.", "chunk_id": "whatsapp_coach_group.txt#msg=9"}
-    ]},
-    {"canonical": "Ravi Shankar", "type": "person", "mentions": [
-      {"text": "Ravi Shankar", "chunk_id": "members.csv#row=4"},
-      {"text": "Ravi Shankar", "chunk_id": "registrations.csv#row=5"},
-      {"text": "Ravi Shankar", "chunk_id": "whatsapp_coach_group.txt#msg=10"}
-    ]},
-    {"canonical": "HMTP Batch 2026B", "type": "programme", "mentions": [
-      {"text": "HMTP 2026B", "chunk_id": "registrations.csv#row=3"},
-      {"text": "Half Marathon Training Programme (HMTP), Batch 2026B", "chunk_id": "programme_rules.pdf#page=1&para=1"},
-      {"text": "Batch 2026B", "chunk_id": "programme_rules.pdf#page=1&para=2"},
-      {"text": "batch B", "chunk_id": "whatsapp_coach_group.txt#msg=7"},
-      {"text": "Batch B", "chunk_id": "whatsapp_coach_group.txt#msg=9"}
-    ]}
+    {
+      "canonical": "Ravi Sharma",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Ravi Sharma",
+          "chunk_id": "members.csv#row=5"
+        },
+        {
+          "text": "R. Sharma",
+          "chunk_id": "registrations.csv#row=3"
+        },
+        {
+          "text": "Ravi S.",
+          "chunk_id": "whatsapp_coach_group.txt#msg=3"
+        },
+        {
+          "text": "Ravi S.",
+          "chunk_id": "whatsapp_coach_group.txt#msg=5"
+        },
+        {
+          "text": "Ravi S.",
+          "chunk_id": "whatsapp_coach_group.txt#msg=6"
+        },
+        {
+          "text": "Ravi S.",
+          "chunk_id": "whatsapp_coach_group.txt#msg=9"
+        }
+      ]
+    },
+    {
+      "canonical": "Ravi Shankar",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Ravi Shankar",
+          "chunk_id": "members.csv#row=4"
+        },
+        {
+          "text": "Ravi Shankar",
+          "chunk_id": "registrations.csv#row=5"
+        },
+        {
+          "text": "Ravi Shankar",
+          "chunk_id": "whatsapp_coach_group.txt#msg=10"
+        }
+      ]
+    },
+    {
+      "canonical": "HMTP Batch 2026B",
+      "type": "programme",
+      "mentions": [
+        {
+          "text": "HMTP 2026B",
+          "chunk_id": "registrations.csv#row=3"
+        },
+        {
+          "text": "Half Marathon Training Programme (HMTP), Batch 2026B",
+          "chunk_id": "programme_rules.pdf#page=1&para=1"
+        },
+        {
+          "text": "Batch 2026B",
+          "chunk_id": "programme_rules.pdf#page=1&para=2"
+        },
+        {
+          "text": "batch B",
+          "chunk_id": "whatsapp_coach_group.txt#msg=7"
+        },
+        {
+          "text": "Batch B",
+          "chunk_id": "whatsapp_coach_group.txt#msg=9"
+        }
+      ]
+    }
   ],
   "conflicts": [
     {
@@ -47,8 +209,30 @@
       "entity": "Ravi Sharma",
       "attribute": "medical_clearance_date",
       "values": [
-        {"value": "2026-03-15", "surface_any": ["2026-03-15", "15 march", "march 15", "15/03/2026"], "sources": ["members.csv#row=5"]},
-        {"value": "2026-06-22", "surface_any": ["2026-06-22", "22 june", "june 22", "22/06/2026"], "sources": ["whatsapp_coach_group.txt#msg=3"]}
+        {
+          "value": "2026-03-15",
+          "surface_any": [
+            "2026-03-15",
+            "15 march",
+            "march 15",
+            "15/03/2026"
+          ],
+          "sources": [
+            "members.csv#row=5"
+          ]
+        },
+        {
+          "value": "2026-06-22",
+          "surface_any": [
+            "2026-06-22",
+            "22 june",
+            "june 22",
+            "22/06/2026"
+          ],
+          "sources": [
+            "whatsapp_coach_group.txt#msg=3"
+          ]
+        }
       ],
       "severity": "medium",
       "note": "Non-blocking: both dates fall within 12 months of batch start. Most recent (Dr. Rao, 22 June) is likely correct; sheet was never updated."
@@ -58,8 +242,33 @@
       "entity": "HMTP Batch 2026B",
       "attribute": "batch_start_date",
       "values": [
-        {"value": "2026-11-01", "surface_any": ["2026-11-01", "1 november", "november 1", "nov 1"], "sources": ["registrations.csv#row=2", "registrations.csv#row=3", "registrations.csv#row=4", "registrations.csv#row=5"]},
-        {"value": "2026-11-08", "surface_any": ["2026-11-08", "8 november", "november 8", "nov 8"], "sources": ["programme_rules.pdf#page=1&para=2"]}
+        {
+          "value": "2026-11-01",
+          "surface_any": [
+            "2026-11-01",
+            "1 november",
+            "november 1",
+            "nov 1"
+          ],
+          "sources": [
+            "registrations.csv#row=2",
+            "registrations.csv#row=3",
+            "registrations.csv#row=4",
+            "registrations.csv#row=5"
+          ]
+        },
+        {
+          "value": "2026-11-08",
+          "surface_any": [
+            "2026-11-08",
+            "8 november",
+            "november 8",
+            "nov 8"
+          ],
+          "sources": [
+            "programme_rules.pdf#page=1&para=2"
+          ]
+        }
       ],
       "severity": "low",
       "note": "Official rules document is authoritative; registration sheet has a stale default."

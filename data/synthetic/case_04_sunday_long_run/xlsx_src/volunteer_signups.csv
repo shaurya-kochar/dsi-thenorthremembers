@@ -1,0 +1,29 @@
+vol_id,full_name,phone,email,role,signup_status,shift
+V-201,Vikram Rao,+91 61417 07536,vikram.rao@example.org,Run Lead,Confirmed,04:30-09:00
+V-202,Sneha Naidu,+91 85568 15188,sneha.naidu@example.org,Co-lead,Confirmed,04:30-09:00
+V-203,Kavya Reddy,+91 84729 40557,kavya.reddy@example.org,Course Marshal,Confirmed,05:00-09:00
+V-204,Kavitha Reddy,+91 91698 71689,kavitha.reddy@example.org,Course Marshal,Tentative,05:00-09:00
+V-205,Imran Siddiqui,+91 96846 97880,imran.siddiqui@example.org,Water Station,Confirmed,05:00-09:00
+V-206,Rohit Varma,+91 72081 96727,rohit.varma@example.org,Sweeper,Tentative,05:00-09:00
+V-207,Rohith Verma,+91 71778 48648,rohith.verma@example.org,Course Marshal,Confirmed,05:00-09:00
+V-208,Arun Prakash,+91 96634 40029,arun.prakash@example.org,First Aid,Confirmed,04:30-09:00
+V-209,Bhargavi Kulkarni,+91 98753 47787,bhargavi.kulkarni@example.org,Water Station,Confirmed,05:00-09:00
+V-210,Sai Kiran,+91 98045 71784,sai.kiran@example.org,Water Station,Confirmed,05:00-09:00
+V-211,Sai Krishna,+91 92671 47513,sai.krishna@example.org,Photographer,Tentative,05:00-09:00
+V-212,Jagat Nagarajan,+91 92701 07981,jagat.nagarajan@example.org,Course Marshal,Confirmed,05:00-09:00
+V-213,Yadavi Vala,+91 73190 84520,yadavi.vala@example.org,Bag Drop,Confirmed,05:00-09:00
+V-214,Harshil Kapoor,+91 89972 83792,harshil.kapoor@example.org,Registration Desk,Confirmed,05:00-09:00
+V-215,Osha Swaminathan,+91 81622 94866,osha.swaminathan@example.org,Registration Desk,Confirmed,05:00-09:00
+V-216,Ridhi Khatri,+91 78360 16105,ridhi.khatri@example.org,Course Marshal,Confirmed,05:00-09:00
+V-217,Aarnav Buch,+91 80087 54751,aarnav.buch@example.org,Water Station,Confirmed,05:00-09:00
+V-218,Indrajit Mani,+91 97992 29836,indrajit.mani@example.org,Registration Desk,Tentative,05:00-09:00
+V-219,Guneet Sengupta,+91 87931 86032,guneet.sengupta@example.org,Registration Desk,Tentative,05:00-09:00
+V-220,Advay Swaminathan,+91 68073 70283,advay.swaminathan@example.org,Registration Desk,Tentative,05:00-09:00
+V-221,Dipta Kade,+91 72264 68616,dipta.kade@example.org,Pacer,Tentative,05:00-09:00
+V-222,Mekhala Krishnamurthy,+91 82524 77647,mekhala.krishnamurthy@example.org,Registration Desk,Tentative,05:00-09:00
+V-223,Ijaya Parikh,+91 75877 18841,ijaya.parikh@example.org,Registration Desk,Tentative,05:00-09:00
+V-224,Krisha Varghese,+91 73017 56820,krisha.varghese@example.org,Pacer,Withdrawn,05:00-09:00
+V-225,Gaurav Yogi,+91 82589 83194,gaurav.yogi@example.org,Registration Desk,Withdrawn,05:00-09:00
+V-226,Brinda Mani,+91 79494 82141,brinda.mani@example.org,Pacer,Withdrawn,05:00-09:00
+V-227,Tanvi Dhaliwal,+91 92105 21854,tanvi.dhaliwal@example.org,Water Station,Withdrawn,05:00-09:00
+V-228,Dayamai Bakshi,+91 64524 41064,dayamai.bakshi@example.org,Course Marshal,Withdrawn,05:00-09:00
