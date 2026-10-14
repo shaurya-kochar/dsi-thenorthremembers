@@ -81,9 +81,9 @@ class ConflictDetector:
                chunks: dict[str, Chunk] | None = None) -> list[Conflict]:
         """``chunks`` (chunk_id -> Chunk) is optional; it gives message dates for the suggestion."""
         index: dict[tuple[str, str], dict[str, str]] = defaultdict(dict)  # (mention, chunk) -> {type: entity}
-        types = {}
+        types, names = {}, {}
         for e in entities:
-            types[e.entity_id] = e.entity_type
+            types[e.entity_id], names[e.entity_id] = e.entity_type, e.canonical_name
             for m in e.mentions:
                 index[(m.text, m.chunk_id)][e.entity_type] = e.entity_id
 
@@ -114,7 +114,8 @@ class ConflictDetector:
         for n, (entity_id, attribute, values) in enumerate(sorted(found, key=lambda x: (x[0], x[1])), start=1):
             values.sort(key=lambda v: _chunk_order(v.chunk_id))
             conflicts.append(Conflict(
-                conflict_id=f"C{n}", entity_id=entity_id, attribute=attribute, values=values,
+                conflict_id=f"C{n}", entity_id=entity_id, entity_name=names.get(entity_id, ""), attribute=attribute,
+                values=values,
                 severity=severity_of(attribute),
                 suggestion=self._suggest(attribute, types.get(entity_id), values, chunks)))
         return conflicts

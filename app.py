@@ -119,6 +119,6 @@ with right:
         st.info("No conflicts flagged. Automatic conflict detection is added in Hack 1.")
 
     st.subheader("Evidence trail")
-    for item in answer_trail(answer, bridge.documents):
+    for item in answer_trail(answer, bridge.documents, bridge.store):
         with st.expander(item["claim"][:80]):
             st.json(item["evidence"], expanded=True)

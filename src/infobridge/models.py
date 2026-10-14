@@ -101,6 +101,7 @@ class Conflict(BaseModel):
     entity_id: str
     attribute: str
     values: list[ConflictValue]
+    entity_name: str = ""  # canonical name, for the prompt and the UI
     severity: str = "medium"  # "low" | "medium" | "high"
     suggestion: str | None = None  # e.g. "prefer most recent source"
 
@@ -137,8 +138,12 @@ class Answer(BaseModel):
     summary: str
     claims: list[Claim] = []
     citations: list[Citation] = []
-    conflicts: list[Conflict] = []  # always empty for the v0.1 baseline
+    conflicts: list[Conflict] = []  # detected conflicts relevant to the question; empty in baseline mode
     retrieved: list[RetrievedChunk] = []
     fallback: bool = False  # True when the system declined to synthesise
+    confidence: str | None = None  # "high" | "medium" | "low", computed from the evidence, not by the LLM
+    confidence_reason: str = ""  # one sentence saying why
+    entities: list[str] = []  # entity ids the question is about
+    mode: str = "full"  # "baseline" (v0.1 naive RAG) | "full" (Hack 1 pipeline)
     backend: str = ""
     latency_s: float = 0.0

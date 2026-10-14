@@ -90,7 +90,7 @@ class HybridRetriever:
                     found.add(e.entity_id)
         return sorted(found)
 
-    def _lookalikes(self, asked: list[str]) -> set[str]:
+    def lookalikes(self, asked: list[str]) -> set[str]:
         """People who share a first name with a person asked about but are someone else."""
         firsts = {name_tokens(m.text)[0] for a in asked if self.entities[a].entity_type == "person"
                   for m in self.entities[a].mentions if name_tokens(m.text)}
@@ -126,7 +126,7 @@ class HybridRetriever:
                         for chunk_id in graph.chunks_for_entity(linked):
                             add(chunk_id, f"linked:{linked}", 0.0)
 
-            lookalikes = self._lookalikes(asked)
+            lookalikes = self.lookalikes(asked)
             asked_people = {a for a in asked if self.entities[a].entity_type == "person"}
             for chunk_id in list(found):
                 here = {graph.entity_of(m.text, chunk_id) for e in self.entities.values()
