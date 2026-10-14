@@ -1,7 +1,9 @@
 """Command line entry point.
 
     python -m infobridge ask  data/synthetic/case_03_conflict/sources "Is Ravi Sharma eligible for HMTP 2026B?"
-    python -m infobridge eval --backend gemini --tag baseline_v0.1
+    python -m infobridge eval --backend gemini --mode baseline --tag baseline_v0.1_rerun
+    python -m infobridge eval --backend gemini --mode full --tag hack1_v0.1
+    python -m infobridge compare --before baseline_v0.1_rerun --after hack1_v0.1   # results/before_after.md
     python -m infobridge trail data/synthetic/case_03_conflict/sources "Is Ravi Sharma eligible ...?"
     python -m infobridge ask --mode baseline ...   # the v0.1 naive-RAG path, for the before/after comparison
 """
@@ -10,8 +12,9 @@ from __future__ import annotations
 
 import argparse
 import json
+from pathlib import Path
 
-from .evaluation import run, to_markdown
+from .evaluation import before_after, run, to_markdown
 from .models import Answer
 from .pipeline import InfoBridge
 from .provenance import answer_trail
@@ -58,13 +61,27 @@ def main() -> None:
     e = sub.add_parser("eval")
     e.add_argument("--data", default="data/synthetic")
     e.add_argument("--backend", default="gemini", choices=["gemini", "extractive"])
-    e.add_argument("--tag", default="baseline_v0.1")
+    e.add_argument("--tag", default="hack1_v0.1")
+    e.add_argument("--mode", default="full", choices=["baseline", "full"],
+                   help="baseline = v0.1 naive RAG; full = Hack 1 pipeline (default)")
+    e.add_argument("--cases", nargs="*", help="only these case ids (to spread free-tier quota over several runs)")
+    c = sub.add_parser("compare", help="before/after table from two eval runs -> results/before_after.md")
+    c.add_argument("--before", default="baseline_v0.1_rerun")
+    c.add_argument("--after", default="hack1_v0.1")
+    c.add_argument("--out", default="results/before_after.md")
     args = parser.parse_args()
 
     if args.cmd == "eval":
-        result = run(args.data, args.backend, args.tag)
-        print(to_markdown(result["rows"], result["summary"], f"{args.tag} ({args.backend})"))
+        result = run(args.data, args.backend, args.tag, mode=args.mode, only=args.cases)
+        print(to_markdown(result["rows"], result["summary"], f"{args.tag} ({args.mode}, {args.backend})",
+                          result["cases"]))
         print(f"Saved to results/{args.tag}.json and .md")
+        return
+    if args.cmd == "compare":
+        load = lambda tag: json.loads(Path(f"results/{tag}.json").read_text())
+        table = before_after(load(args.before), load(args.after))
+        Path(args.out).write_text(table)
+        print(table + f"\nSaved to {args.out}")
         return
 
     bridge = InfoBridge(backend=args.backend, mode=args.mode)
