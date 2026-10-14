@@ -1,0 +1,293 @@
+{
+  "case_id": "case_07_race_day_logistics",
+  "description": "Aid station plan PDF and the station leads' WhatsApp group for the Winter 10K on 13 December 2026. Two crate counts, one opening time and one lead's name spelling disagree.",
+  "split": "held_out",
+  "queries": [],
+  "facts": [],
+  "entities": [
+    {
+      "canonical": "Winter 10K (13 Dec 2026)",
+      "type": "event",
+      "mentions": [
+        {
+          "text": "Winter 10K",
+          "chunk_id": "aid_station_plan.pdf#page=1&para=1"
+        }
+      ]
+    },
+    {
+      "canonical": "Aid Station 1 (Hitech City Junction)",
+      "type": "location",
+      "mentions": [
+        {
+          "text": "Aid Station 1 (Hitech City Junction)",
+          "chunk_id": "aid_station_plan.pdf#page=1&para=2"
+        },
+        {
+          "text": "AS1",
+          "chunk_id": "whatsapp_station_leads.txt#msg=1"
+        }
+      ]
+    },
+    {
+      "canonical": "Manoj Tiwari",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Manoj Tiwari",
+          "chunk_id": "aid_station_plan.pdf#page=1&para=2"
+        },
+        {
+          "text": "Manoj T",
+          "chunk_id": "whatsapp_station_leads.txt#msg=1"
+        }
+      ]
+    },
+    {
+      "canonical": "Aid Station 2 (Cyber Towers)",
+      "type": "location",
+      "mentions": [
+        {
+          "text": "Aid Station 2 (Cyber Towers)",
+          "chunk_id": "aid_station_plan.pdf#page=1&para=3"
+        },
+        {
+          "text": "station 2",
+          "chunk_id": "whatsapp_station_leads.txt#msg=2"
+        }
+      ]
+    },
+    {
+      "canonical": "Shalini Gupta",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Shalini Gupta",
+          "chunk_id": "aid_station_plan.pdf#page=1&para=3"
+        },
+        {
+          "text": "Shalini Gupta",
+          "chunk_id": "whatsapp_station_leads.txt#msg=2"
+        }
+      ]
+    },
+    {
+      "canonical": "Aid Station 3 (Mindspace Circle)",
+      "type": "location",
+      "mentions": [
+        {
+          "text": "Aid Station 3 (Mindspace Circle)",
+          "chunk_id": "aid_station_plan.pdf#page=1&para=4"
+        },
+        {
+          "text": "Station 3",
+          "chunk_id": "whatsapp_station_leads.txt#msg=3"
+        }
+      ]
+    },
+    {
+      "canonical": "Abdul Rahman",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Abdul Rahman",
+          "chunk_id": "aid_station_plan.pdf#page=1&para=4"
+        },
+        {
+          "text": "Abdul R",
+          "chunk_id": "whatsapp_station_leads.txt#msg=3"
+        }
+      ]
+    },
+    {
+      "canonical": "Aid Station 4 (Inorbit Mall Road)",
+      "type": "location",
+      "mentions": [
+        {
+          "text": "Aid Station 4 (Inorbit Mall Road)",
+          "chunk_id": "aid_station_plan.pdf#page=1&para=5"
+        },
+        {
+          "text": "AS4",
+          "chunk_id": "whatsapp_station_leads.txt#msg=4"
+        }
+      ]
+    },
+    {
+      "canonical": "Gayatri Menon",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Gayatri Menon",
+          "chunk_id": "aid_station_plan.pdf#page=1&para=5"
+        },
+        {
+          "text": "Gayatri",
+          "chunk_id": "whatsapp_station_leads.txt#msg=4"
+        }
+      ]
+    },
+    {
+      "canonical": "Aid Station 5 (Durgam Cheruvu Bridge)",
+      "type": "location",
+      "mentions": [
+        {
+          "text": "Aid Station 5 (Durgam Cheruvu Bridge)",
+          "chunk_id": "aid_station_plan.pdf#page=1&para=6"
+        },
+        {
+          "text": "Station 5",
+          "chunk_id": "whatsapp_station_leads.txt#msg=5"
+        }
+      ]
+    },
+    {
+      "canonical": "Prakash Rao",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Prakash Rao",
+          "chunk_id": "aid_station_plan.pdf#page=1&para=6"
+        },
+        {
+          "text": "Prakash Rao",
+          "chunk_id": "whatsapp_station_leads.txt#msg=5"
+        }
+      ]
+    },
+    {
+      "canonical": "Aid Station 6 (Shilparamam Finish Line)",
+      "type": "location",
+      "mentions": [
+        {
+          "text": "Aid Station 6 (Shilparamam Finish Line)",
+          "chunk_id": "aid_station_plan.pdf#page=1&para=7"
+        }
+      ]
+    },
+    {
+      "canonical": "Rekha Pillai",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Rekha Pillai",
+          "chunk_id": "aid_station_plan.pdf#page=1&para=7"
+        },
+        {
+          "text": "Rekha Pilai",
+          "chunk_id": "whatsapp_station_leads.txt#msg=6"
+        }
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "C1",
+      "entity": "Aid Station 2 (Cyber Towers)",
+      "attribute": "water_crates",
+      "values": [
+        {
+          "value": "10",
+          "surface_any": [
+            "10 water crates"
+          ],
+          "sources": [
+            "aid_station_plan.pdf#page=1&para=3"
+          ]
+        },
+        {
+          "value": "8",
+          "surface_any": [
+            "8 crates"
+          ],
+          "sources": [
+            "whatsapp_station_leads.txt#msg=2"
+          ]
+        }
+      ],
+      "severity": "high",
+      "note": "Station 2 is two crates short of the plan."
+    },
+    {
+      "id": "C2",
+      "entity": "Aid Station 3 (Mindspace Circle)",
+      "attribute": "opening_time",
+      "values": [
+        {
+          "value": "05:15",
+          "surface_any": [
+            "5:15"
+          ],
+          "sources": [
+            "aid_station_plan.pdf#page=1&para=4"
+          ]
+        },
+        {
+          "value": "05:30",
+          "surface_any": [
+            "5:30"
+          ],
+          "sources": [
+            "whatsapp_station_leads.txt#msg=3"
+          ]
+        }
+      ],
+      "severity": "high",
+      "note": "Station 3 opens 15 minutes later than planned."
+    },
+    {
+      "id": "C3",
+      "entity": "Aid Station 5 (Durgam Cheruvu Bridge)",
+      "attribute": "water_crates",
+      "values": [
+        {
+          "value": "12",
+          "surface_any": [
+            "12 water crates"
+          ],
+          "sources": [
+            "aid_station_plan.pdf#page=1&para=6"
+          ]
+        },
+        {
+          "value": "15",
+          "surface_any": [
+            "15 crates"
+          ],
+          "sources": [
+            "whatsapp_station_leads.txt#msg=5"
+          ]
+        }
+      ],
+      "severity": "low",
+      "note": "Station 5 has more crates than planned."
+    },
+    {
+      "id": "C4",
+      "entity": "Rekha Pillai",
+      "attribute": "full_name",
+      "values": [
+        {
+          "value": "Rekha Pillai",
+          "surface_any": [
+            "rekha pillai"
+          ],
+          "sources": [
+            "aid_station_plan.pdf#page=1&para=7"
+          ]
+        },
+        {
+          "value": "Rekha Pilai",
+          "surface_any": [
+            "rekha pilai"
+          ],
+          "sources": [
+            "whatsapp_station_leads.txt#msg=6"
+          ]
+        }
+      ],
+      "severity": "low",
+      "note": "Misspelled WhatsApp contact name."
+    }
+  ]
+}

@@ -1,0 +1,628 @@
+{
+  "case_id": "case_04_sunday_long_run",
+  "description": "Demo scenario. Signup sheet, event plan PDF, coordinators' WhatsApp group and a public data slice (WHO heat-and-health excerpt) for the Sunday Long Run on 15 November 2026. The plan PDF says 14 volunteers confirmed, the chat says 12; the run lead is named three ways; start time, meeting point, distance, three signup statuses, a phone number and a name spelling disagree.",
+  "split": "build",
+  "queries": [],
+  "facts": [],
+  "entities": [
+    {
+      "canonical": "Sunday Long Run (15 Nov 2026)",
+      "type": "event",
+      "mentions": [
+        {
+          "text": "Sunday Long Run",
+          "chunk_id": "sunday_long_run_plan.pdf#page=1&para=1"
+        },
+        {
+          "text": "Sunday Long Run",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=1"
+        }
+      ]
+    },
+    {
+      "canonical": "Vikram Rao",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Vikram Rao",
+          "chunk_id": "volunteer_signups.xlsx#row=2"
+        },
+        {
+          "text": "Vikram Rao",
+          "chunk_id": "sunday_long_run_plan.pdf#page=1&para=2"
+        },
+        {
+          "text": "Vikram Rao",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=1"
+        },
+        {
+          "text": "Vikram Rao",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=5"
+        },
+        {
+          "text": "Vikram Rao",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=8"
+        },
+        {
+          "text": "Vikram Rao",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=11"
+        },
+        {
+          "text": "Vikram anna",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=2"
+        }
+      ]
+    },
+    {
+      "canonical": "Sneha Naidu",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Sneha Naidu",
+          "chunk_id": "volunteer_signups.xlsx#row=3"
+        },
+        {
+          "text": "Sneha Naidu",
+          "chunk_id": "sunday_long_run_plan.pdf#page=1&para=2"
+        },
+        {
+          "text": "Sneha N",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=2"
+        },
+        {
+          "text": "Sneha N",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=9"
+        }
+      ]
+    },
+    {
+      "canonical": "Kavya Reddy",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Kavya Reddy",
+          "chunk_id": "volunteer_signups.xlsx#row=4"
+        },
+        {
+          "text": "Kavya",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=3"
+        },
+        {
+          "text": "Kavya",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=5"
+        }
+      ]
+    },
+    {
+      "canonical": "Kavitha Reddy",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Kavitha Reddy",
+          "chunk_id": "volunteer_signups.xlsx#row=5"
+        }
+      ]
+    },
+    {
+      "canonical": "Imran Siddiqui",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Imran Siddiqui",
+          "chunk_id": "volunteer_signups.xlsx#row=6"
+        },
+        {
+          "text": "I. Siddiqui",
+          "chunk_id": "sunday_long_run_plan.pdf#page=1&para=6"
+        },
+        {
+          "text": "Imran Siddiqui",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=4"
+        },
+        {
+          "text": "Imran",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=5"
+        }
+      ]
+    },
+    {
+      "canonical": "Rohit Varma",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Rohit Varma",
+          "chunk_id": "volunteer_signups.xlsx#row=7"
+        },
+        {
+          "text": "Rohit Varma",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=6"
+        }
+      ]
+    },
+    {
+      "canonical": "Rohith Verma",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Rohith Verma",
+          "chunk_id": "volunteer_signups.xlsx#row=8"
+        }
+      ]
+    },
+    {
+      "canonical": "Arun Prakash",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Arun Prakash",
+          "chunk_id": "volunteer_signups.xlsx#row=9"
+        },
+        {
+          "text": "Arun P",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=7"
+        }
+      ]
+    },
+    {
+      "canonical": "Bhargavi Kulkarni",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Bhargavi Kulkarni",
+          "chunk_id": "volunteer_signups.xlsx#row=10"
+        },
+        {
+          "text": "Bhargvi Kulkarni",
+          "chunk_id": "sunday_long_run_plan.pdf#page=1&para=6"
+        },
+        {
+          "text": "Bhargavi Kulkarni",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=10"
+        }
+      ]
+    },
+    {
+      "canonical": "Sai Kiran",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Sai Kiran",
+          "chunk_id": "volunteer_signups.xlsx#row=11"
+        },
+        {
+          "text": "S. Kiran",
+          "chunk_id": "sunday_long_run_plan.pdf#page=1&para=6"
+        },
+        {
+          "text": "Sai Kiran",
+          "chunk_id": "whatsapp_run_coordinators.txt#msg=10"
+        }
+      ]
+    },
+    {
+      "canonical": "Sai Krishna",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Sai Krishna",
+          "chunk_id": "volunteer_signups.xlsx#row=12"
+        }
+      ]
+    },
+    {
+      "canonical": "Jagat Nagarajan",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Jagat Nagarajan",
+          "chunk_id": "volunteer_signups.xlsx#row=13"
+        }
+      ]
+    },
+    {
+      "canonical": "Yadavi Vala",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Yadavi Vala",
+          "chunk_id": "volunteer_signups.xlsx#row=14"
+        }
+      ]
+    },
+    {
+      "canonical": "Harshil Kapoor",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Harshil Kapoor",
+          "chunk_id": "volunteer_signups.xlsx#row=15"
+        }
+      ]
+    },
+    {
+      "canonical": "Osha Swaminathan",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Osha Swaminathan",
+          "chunk_id": "volunteer_signups.xlsx#row=16"
+        }
+      ]
+    },
+    {
+      "canonical": "Ridhi Khatri",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Ridhi Khatri",
+          "chunk_id": "volunteer_signups.xlsx#row=17"
+        }
+      ]
+    },
+    {
+      "canonical": "Aarnav Buch",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Aarnav Buch",
+          "chunk_id": "volunteer_signups.xlsx#row=18"
+        }
+      ]
+    },
+    {
+      "canonical": "Indrajit Mani",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Indrajit Mani",
+          "chunk_id": "volunteer_signups.xlsx#row=19"
+        }
+      ]
+    },
+    {
+      "canonical": "Guneet Sengupta",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Guneet Sengupta",
+          "chunk_id": "volunteer_signups.xlsx#row=20"
+        }
+      ]
+    },
+    {
+      "canonical": "Advay Swaminathan",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Advay Swaminathan",
+          "chunk_id": "volunteer_signups.xlsx#row=21"
+        }
+      ]
+    },
+    {
+      "canonical": "Dipta Kade",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Dipta Kade",
+          "chunk_id": "volunteer_signups.xlsx#row=22"
+        }
+      ]
+    },
+    {
+      "canonical": "Mekhala Krishnamurthy",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Mekhala Krishnamurthy",
+          "chunk_id": "volunteer_signups.xlsx#row=23"
+        }
+      ]
+    },
+    {
+      "canonical": "Ijaya Parikh",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Ijaya Parikh",
+          "chunk_id": "volunteer_signups.xlsx#row=24"
+        }
+      ]
+    },
+    {
+      "canonical": "Krisha Varghese",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Krisha Varghese",
+          "chunk_id": "volunteer_signups.xlsx#row=25"
+        }
+      ]
+    },
+    {
+      "canonical": "Gaurav Yogi",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Gaurav Yogi",
+          "chunk_id": "volunteer_signups.xlsx#row=26"
+        }
+      ]
+    },
+    {
+      "canonical": "Brinda Mani",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Brinda Mani",
+          "chunk_id": "volunteer_signups.xlsx#row=27"
+        }
+      ]
+    },
+    {
+      "canonical": "Tanvi Dhaliwal",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Tanvi Dhaliwal",
+          "chunk_id": "volunteer_signups.xlsx#row=28"
+        }
+      ]
+    },
+    {
+      "canonical": "Dayamai Bakshi",
+      "type": "person",
+      "mentions": [
+        {
+          "text": "Dayamai Bakshi",
+          "chunk_id": "volunteer_signups.xlsx#row=29"
+        }
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "C1",
+      "entity": "Sunday Long Run (15 Nov 2026)",
+      "attribute": "volunteer_count",
+      "values": [
+        {
+          "value": "14",
+          "surface_any": [
+            "14"
+          ],
+          "sources": [
+            "sunday_long_run_plan.pdf#page=1&para=5"
+          ]
+        },
+        {
+          "value": "12",
+          "surface_any": [
+            "12 confirmed"
+          ],
+          "sources": [
+            "whatsapp_run_coordinators.txt#msg=5"
+          ]
+        }
+      ],
+      "severity": "medium",
+      "note": "The plan PDF copies the signup sheet of 7 Nov; the chat count is later and accounts for Kavya and Imran dropping out."
+    },
+    {
+      "id": "C2",
+      "entity": "Sunday Long Run (15 Nov 2026)",
+      "attribute": "start_time",
+      "values": [
+        {
+          "value": "05:15",
+          "surface_any": [
+            "5:15"
+          ],
+          "sources": [
+            "sunday_long_run_plan.pdf#page=1&para=4"
+          ]
+        },
+        {
+          "value": "05:30",
+          "surface_any": [
+            "5:30"
+          ],
+          "sources": [
+            "whatsapp_run_coordinators.txt#msg=8"
+          ]
+        }
+      ],
+      "severity": "high",
+      "note": "Flag-off time decides when volunteers must be at their posts."
+    },
+    {
+      "id": "C3",
+      "entity": "Sunday Long Run (15 Nov 2026)",
+      "attribute": "meeting_point",
+      "values": [
+        {
+          "value": "Gandipet Park Gate 2",
+          "surface_any": [
+            "gate 2"
+          ],
+          "sources": [
+            "sunday_long_run_plan.pdf#page=1&para=4"
+          ]
+        },
+        {
+          "value": "Gandipet Park Gate 1",
+          "surface_any": [
+            "gate 1"
+          ],
+          "sources": [
+            "whatsapp_run_coordinators.txt#msg=8"
+          ]
+        }
+      ],
+      "severity": "high",
+      "note": "Participants could gather at the wrong gate."
+    },
+    {
+      "id": "C4",
+      "entity": "Sunday Long Run (15 Nov 2026)",
+      "attribute": "distance_km",
+      "values": [
+        {
+          "value": "18",
+          "surface_any": [
+            "18 km"
+          ],
+          "sources": [
+            "sunday_long_run_plan.pdf#page=1&para=3"
+          ]
+        },
+        {
+          "value": "20",
+          "surface_any": [
+            "20k"
+          ],
+          "sources": [
+            "whatsapp_run_coordinators.txt#msg=9"
+          ]
+        }
+      ],
+      "severity": "medium",
+      "note": "The plan says 18 km; the chat reminder says 20K."
+    },
+    {
+      "id": "C5",
+      "entity": "Kavya Reddy",
+      "attribute": "signup_status",
+      "values": [
+        {
+          "value": "Confirmed",
+          "surface_any": [
+            "confirmed"
+          ],
+          "sources": [
+            "volunteer_signups.xlsx#row=4"
+          ]
+        },
+        {
+          "value": "Withdrawn",
+          "surface_any": [
+            "drop out"
+          ],
+          "sources": [
+            "whatsapp_run_coordinators.txt#msg=3"
+          ]
+        }
+      ],
+      "severity": "medium",
+      "note": "Kavya dropped out after the sheet was filled; the sheet was not updated."
+    },
+    {
+      "id": "C6",
+      "entity": "Imran Siddiqui",
+      "attribute": "signup_status",
+      "values": [
+        {
+          "value": "Confirmed",
+          "surface_any": [
+            "confirmed"
+          ],
+          "sources": [
+            "volunteer_signups.xlsx#row=6"
+          ]
+        },
+        {
+          "value": "Withdrawn",
+          "surface_any": [
+            "take me off the list"
+          ],
+          "sources": [
+            "whatsapp_run_coordinators.txt#msg=4"
+          ]
+        }
+      ],
+      "severity": "medium",
+      "note": "Imran withdrew because of fever; the sheet still says Confirmed."
+    },
+    {
+      "id": "C7",
+      "entity": "Rohit Varma",
+      "attribute": "signup_status",
+      "values": [
+        {
+          "value": "Tentative",
+          "surface_any": [
+            "tentative"
+          ],
+          "sources": [
+            "volunteer_signups.xlsx#row=7"
+          ]
+        },
+        {
+          "value": "Confirmed",
+          "surface_any": [
+            "confirmed for sunday"
+          ],
+          "sources": [
+            "whatsapp_run_coordinators.txt#msg=6"
+          ]
+        }
+      ],
+      "severity": "medium",
+      "note": "Rohit confirmed in the chat; the sheet still says Tentative."
+    },
+    {
+      "id": "C8",
+      "entity": "Arun Prakash",
+      "attribute": "phone",
+      "values": [
+        {
+          "value": "9663440029",
+          "surface_any": [
+            "+91 96634 40029"
+          ],
+          "sources": [
+            "volunteer_signups.xlsx#row=9"
+          ]
+        },
+        {
+          "value": "9871234560",
+          "surface_any": [
+            "98712 34560"
+          ],
+          "sources": [
+            "whatsapp_run_coordinators.txt#msg=7"
+          ]
+        }
+      ],
+      "severity": "low",
+      "note": "Arun changed his number; the newer number is in the chat."
+    },
+    {
+      "id": "C9",
+      "entity": "Bhargavi Kulkarni",
+      "attribute": "full_name",
+      "values": [
+        {
+          "value": "Bhargavi Kulkarni",
+          "surface_any": [
+            "bhargavi kulkarni"
+          ],
+          "sources": [
+            "volunteer_signups.xlsx#row=10"
+          ]
+        },
+        {
+          "value": "Bhargvi Kulkarni",
+          "surface_any": [
+            "bhargvi kulkarni"
+          ],
+          "sources": [
+            "sunday_long_run_plan.pdf#page=1&para=6"
+          ]
+        }
+      ],
+      "severity": "low",
+      "note": "Spelling mistake in the plan PDF; the sheet and the chat agree on 'Bhargavi'."
+    }
+  ]
+}

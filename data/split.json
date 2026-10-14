@@ -1,0 +1,13 @@
+{
+  "build": [
+    "case_01_simple",
+    "case_02_medium",
+    "case_03_conflict",
+    "case_04_sunday_long_run",
+    "case_05_volunteer_attendance"
+  ],
+  "held_out": [
+    "case_06_event_schedule",
+    "case_07_race_day_logistics"
+  ]
+}
