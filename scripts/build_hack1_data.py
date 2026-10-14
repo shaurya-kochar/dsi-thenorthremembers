@@ -173,6 +173,9 @@ class Case:
     # ------------------------------------------------------------------ writing
 
     def write(self) -> None:
+        # the test questions and their facts (issue #10) are written by hand: keep them across re-runs
+        old_gold = self.dir / "gold.json"
+        kept = json.loads(old_gold.read_text()) if old_gold.exists() else {}
         if self.dir.exists():
             shutil.rmtree(self.dir)
         sources = self.dir / "sources"
@@ -203,6 +206,7 @@ class Case:
         _, chunks = load_directory(sources)
         self.chunks = {c.chunk_id: c for c in chunks}
         self.gold = self._gold()
+        self.gold["queries"], self.gold["facts"] = kept.get("queries", []), kept.get("facts", [])
         (self.dir / "gold.json").write_text(json.dumps(self.gold, indent=2, ensure_ascii=False) + "\n")
 
     def chunk_id(self, ref: Ref) -> str:
