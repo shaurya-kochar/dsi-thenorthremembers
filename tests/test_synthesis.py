@@ -1,8 +1,8 @@
 import json
 
 from infobridge.evaluation import entity_resolution_f1, score_query
-from infobridge.models import Chunk, Entity, Mention, RetrievedChunk
-from infobridge.synthesis import LLMSynthesizer
+from infobridge.models import Answer, Chunk, Claim, Conflict, ConflictValue, Entity, Mention, RetrievedChunk
+from infobridge.synthesis import LLMSynthesizer, assess_confidence, cite_conflicts
 
 
 def _retrieved():
@@ -72,3 +72,38 @@ def test_llm_responses_are_cached(tmp_path, monkeypatch):
     assert llm.generate_json("sys", "p1") == '{"ok": 1}'  # served from disk
     llm.generate_json("sys", "p2")
     assert calls == ["p1", "p2"]
+
+
+def _chunk(chunk_id: str) -> Chunk:
+    return Chunk(chunk_id=chunk_id, doc_id=chunk_id.split("#")[0], locator=chunk_id.split("#")[1], text=chunk_id)
+
+
+def test_cite_conflicts_adds_a_missing_side_with_the_next_rank():
+    retrieved = [RetrievedChunk(chunk=_chunk("plan.pdf#page=1&para=5"), score=0.7, rank=1, channels=["dense"])]
+    conflict = Conflict(conflict_id="C1", entity_id="event:x", attribute="volunteer_count", values=[
+        ConflictValue(value="14", raw_value="14", chunk_id="plan.pdf#page=1&para=5"),
+        ConflictValue(value="12", raw_value="12 confirmed", chunk_id="chat.txt#msg=5")])
+    out, [cited] = cite_conflicts(retrieved, [conflict], {"chat.txt#msg=5": _chunk("chat.txt#msg=5")})
+    assert [(r.chunk.chunk_id, r.rank, r.channels) for r in out] == [
+        ("plan.pdf#page=1&para=5", 1, ["dense"]), ("chat.txt#msg=5", 2, ["conflict:C1"])]
+    assert len(retrieved) == 1 and [v.chunk_id for v in cited.values] == ["plan.pdf#page=1&para=5", "chat.txt#msg=5"]
+
+
+def test_confidence_rules():
+    strong = [RetrievedChunk(chunk=_chunk("a.csv#row=2"), score=0.8, rank=1)]
+    weak = [RetrievedChunk(chunk=_chunk("a.csv#row=2"), score=0.2, rank=1)]
+    ok = Claim(text="x", citations=["S1"])
+    conflict = Conflict(conflict_id="C1", entity_id="event:x", entity_name="Sunday Long Run",
+                        attribute="volunteer_count", values=[
+                            ConflictValue(value="14", raw_value="14", chunk_id="a"),
+                            ConflictValue(value="12", raw_value="12 confirmed", chunk_id="b")])
+    answer = lambda **kw: Answer(question="q", summary="s", **{"claims": [ok], **kw})
+    assert assess_confidence(answer(fallback=True), strong)[0] == "low"
+    assert assess_confidence(answer(claims=[ok, Claim(text="y", citations=[], unsupported=True)]), strong) == \
+        ("low", "1 of 2 claims do not cite a retrieved source.")
+    assert assess_confidence(answer(verdict="UNCERTAIN"), strong)[0] == "low"
+    assert assess_confidence(answer(conflicts=[conflict]), strong) == \
+        ("medium", "Two sources disagree on the volunteer count of Sunday Long Run (14 vs 12).")
+    assert assess_confidence(answer(conflicts=[conflict, conflict]), strong)[1].endswith(", and 1 more conflict is open.")
+    assert assess_confidence(answer(), weak)[0] == "medium"
+    assert assess_confidence(answer(verdict="YES"), strong)[0] == "high"
