@@ -37,6 +37,8 @@ python -m infobridge trail data/synthetic/case_03_conflict/sources "Is Ravi Shar
 # Evaluate against all synthetic cases; writes results/<tag>.json and .md
 python -m infobridge eval --backend gemini --tag baseline_v0.1
 
+uvicorn infobridge.api:app --reload   # API: /cases /sources /query /evidence /conflicts (docs at /docs)
+                                      # INFOBRIDGE_API_LLM_EXTRACTION=1 also extracts text facts with Gemini
 streamlit run app.py        # demo app (install with: uv pip install --python .venv/bin/python streamlit)
 pytest                      # unit, gold-integrity and app tests; 5 Hack 1 tests are expected to fail (xfail)
 python scripts/build_synthetic.py   # re-render PDFs/Excel after editing pdf_src/ or xlsx_src/
