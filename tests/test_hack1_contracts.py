@@ -81,7 +81,6 @@ def _cluster_of(entities: list[Entity], text: str, chunk_id: str) -> set[tuple[s
     raise AssertionError(f"mention {text!r} @ {chunk_id} not in any entity")
 
 
-@hack1("Task B")
 def test_resolver_merges_name_variants():
     entities = EntityResolver().resolve(FACTS)
     ravi = _cluster_of(entities, "Ravi Sharma", "members.csv#row=5")
@@ -89,7 +88,6 @@ def test_resolver_merges_name_variants():
     assert ("Ravi S.", "whatsapp_coach_group.txt#msg=3") in ravi  # truncated surname
 
 
-@hack1("Task B")
 def test_resolver_keeps_lookalikes_apart():
     entities = EntityResolver().resolve(FACTS)
     ravi = _cluster_of(entities, "Ravi Sharma", "members.csv#row=5")
