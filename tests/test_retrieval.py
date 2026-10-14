@@ -55,3 +55,12 @@ def test_lookalike_chunks_are_dropped_and_channels_recorded():
     assert not {"members.csv#row=4", "registrations.csv#row=5", "whatsapp_coach_group.txt#msg=10"} & ids  # Ravi Shankar
     assert all(r.channels for r in results)
     assert [r.rank for r in results] == list(range(1, len(results) + 1))
+
+
+def test_every_rule_of_an_asked_programme_is_retrieved():
+    results = _retriever("case_03_conflict").search(
+        "Is Ravi Sharma eligible for the Half Marathon Training Programme Batch 2026B?")
+    channels = {r.chunk.chunk_id: r.channels for r in results}
+    for para in (4, 5, 6, 7):  # Rules 1-4; only Rule 3 names the batch
+        assert f"programme_rules.pdf#page=1&para={para}" in channels
+    assert "document:programme:hmtp-2026b" in channels["programme_rules.pdf#page=1&para=4"]

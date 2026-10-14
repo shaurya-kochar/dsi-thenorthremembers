@@ -12,16 +12,19 @@ from pathlib import Path
 from .config import settings
 
 CACHE_DIR = Path(__file__).resolve().parents[2] / "results" / "cache"
+TIMEOUT_MS = 300_000  # calls normally take 20-130 s
 
 
 class GeminiLLM:
     def __init__(self, model: str | None = None, api_key: str | None = None) -> None:
         from google import genai  # imported lazily so the extractive backend needs no key
+        from google.genai import types
 
         key = api_key or settings.gemini_api_key
         if not key:
             raise RuntimeError("GEMINI_API_KEY is not set. Add it to .env or use --backend extractive.")
-        self.client = genai.Client(api_key=key)
+        # without a timeout a stalled request hangs the run for good; with one it is retried
+        self.client = genai.Client(api_key=key, http_options=types.HttpOptions(timeout=TIMEOUT_MS))
         self.model = model or settings.model
         self.name = f"gemini:{self.model}"
 
