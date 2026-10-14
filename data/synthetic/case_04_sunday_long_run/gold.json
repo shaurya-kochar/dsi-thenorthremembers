@@ -2,8 +2,206 @@
   "case_id": "case_04_sunday_long_run",
   "description": "Demo scenario. Signup sheet, event plan PDF, coordinators' WhatsApp group and a public data slice (WHO heat-and-health excerpt) for the Sunday Long Run on 15 November 2026. The plan PDF says 14 volunteers confirmed, the chat says 12; the run lead is named three ways; start time, meeting point, distance, three signup statuses, a phone number and a name spelling disagree.",
   "split": "build",
-  "queries": [],
-  "facts": [],
+  "queries": [
+    {
+      "query_id": "q1",
+      "question": "How many volunteers confirmed for the Sunday long run, and who is the lead?",
+      "expected_verdict": null,
+      "fact_ids": [
+        "F1",
+        "F2"
+      ],
+      "conflict_ids": [
+        "C1"
+      ]
+    },
+    {
+      "query_id": "q2",
+      "question": "What time is the flag-off for the Sunday long run, and where do runners meet?",
+      "expected_verdict": null,
+      "fact_ids": [
+        "F3",
+        "F4"
+      ],
+      "conflict_ids": [
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "query_id": "q3",
+      "question": "How long is the route of the Sunday long run?",
+      "expected_verdict": null,
+      "fact_ids": [
+        "F5"
+      ],
+      "conflict_ids": [
+        "C4"
+      ]
+    },
+    {
+      "query_id": "q4",
+      "question": "Is Kavya Reddy still volunteering at the Sunday long run?",
+      "expected_verdict": "NO",
+      "fact_ids": [
+        "F6"
+      ],
+      "conflict_ids": [
+        "C5"
+      ]
+    },
+    {
+      "query_id": "q5",
+      "question": "Is Rohit Varma confirmed as a volunteer for the Sunday long run?",
+      "expected_verdict": "YES",
+      "fact_ids": [
+        "F7"
+      ],
+      "conflict_ids": [
+        "C7"
+      ]
+    },
+    {
+      "query_id": "q6",
+      "question": "What is Arun Prakash's current phone number?",
+      "expected_verdict": null,
+      "fact_ids": [
+        "F8"
+      ],
+      "conflict_ids": [
+        "C8"
+      ]
+    },
+    {
+      "query_id": "q7",
+      "question": "Has the Sunday long run been approved by the Hyderabad traffic police?",
+      "expected_verdict": "UNCERTAIN",
+      "fact_ids": [],
+      "conflict_ids": []
+    }
+  ],
+  "facts": [
+    {
+      "id": "F1",
+      "description": "Volunteers confirmed: 14 in the plan (as of 7 Nov), 12 in the chat after two dropped out (see C1)",
+      "entity_any": [],
+      "value_any": [
+        "14 volunteer",
+        "14 confirmed",
+        "12 volunteer",
+        "12 confirmed",
+        "fourteen",
+        "twelve"
+      ],
+      "sources": [
+        "sunday_long_run_plan.pdf#page=1&para=5",
+        "whatsapp_run_coordinators.txt#msg=5"
+      ]
+    },
+    {
+      "id": "F2",
+      "description": "The run lead is Vikram Rao",
+      "entity_any": [],
+      "value_any": [
+        "vikram rao",
+        "vikram"
+      ],
+      "sources": [
+        "sunday_long_run_plan.pdf#page=1&para=2",
+        "volunteer_signups.xlsx#row=2",
+        "whatsapp_run_coordinators.txt#msg=1"
+      ]
+    },
+    {
+      "id": "F3",
+      "description": "Flag-off at 5:15 AM in the plan, 5:30 in the chat (see C2)",
+      "entity_any": [],
+      "value_any": [
+        "5:15",
+        "05:15",
+        "5:30",
+        "05:30"
+      ],
+      "sources": [
+        "sunday_long_run_plan.pdf#page=1&para=4",
+        "whatsapp_run_coordinators.txt#msg=8"
+      ]
+    },
+    {
+      "id": "F4",
+      "description": "Meeting point Gandipet Park Gate 2 in the plan, Gate 1 in the chat (see C3)",
+      "entity_any": [],
+      "value_any": [
+        "gate 2",
+        "gate 1"
+      ],
+      "sources": [
+        "sunday_long_run_plan.pdf#page=1&para=4",
+        "whatsapp_run_coordinators.txt#msg=8"
+      ]
+    },
+    {
+      "id": "F5",
+      "description": "Route 18 km in the plan, 20K in the chat (see C4)",
+      "entity_any": [],
+      "value_any": [
+        "18 km",
+        "18km",
+        "18-km",
+        "20k",
+        "20 km",
+        "20km"
+      ],
+      "sources": [
+        "sunday_long_run_plan.pdf#page=1&para=3",
+        "whatsapp_run_coordinators.txt#msg=9"
+      ]
+    },
+    {
+      "id": "F6",
+      "description": "Kavya dropped out on 9 Nov; the sheet still says Confirmed (see C5)",
+      "entity_any": [
+        "kavya"
+      ],
+      "value_any": [
+        "drop",
+        "withdr",
+        "not volunteering",
+        "no longer"
+      ],
+      "sources": [
+        "whatsapp_run_coordinators.txt#msg=3",
+        "whatsapp_run_coordinators.txt#msg=5"
+      ]
+    },
+    {
+      "id": "F7",
+      "description": "Rohit confirmed in the chat on 11 Nov; the sheet says Tentative (see C7)",
+      "entity_any": [
+        "rohit"
+      ],
+      "value_any": [
+        "confirmed",
+        "count me in"
+      ],
+      "sources": [
+        "whatsapp_run_coordinators.txt#msg=6"
+      ]
+    },
+    {
+      "id": "F8",
+      "description": "Arun's new number is 98712 34560 (chat, 12 Nov); the sheet has the old one (see C8)",
+      "entity_any": [],
+      "value_any": [
+        "98712 34560",
+        "9871234560",
+        "98712-34560"
+      ],
+      "sources": [
+        "whatsapp_run_coordinators.txt#msg=7"
+      ]
+    }
+  ],
   "entities": [
     {
       "canonical": "Sunday Long Run (15 Nov 2026)",

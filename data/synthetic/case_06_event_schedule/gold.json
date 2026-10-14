@@ -2,8 +2,124 @@
   "case_id": "case_06_event_schedule",
   "description": "Q4 events sheet and the November newsletter e-mail. The newsletter moves two events to a different date, changes one start time and names a different lead for one event.",
   "split": "held_out",
-  "queries": [],
-  "facts": [],
+  "queries": [
+    {
+      "query_id": "q1",
+      "question": "When is the Golconda Heritage Run?",
+      "expected_verdict": null,
+      "fact_ids": [
+        "F1"
+      ],
+      "conflict_ids": [
+        "C1"
+      ]
+    },
+    {
+      "query_id": "q2",
+      "question": "What time does the Pink Run for Cancer Awareness start?",
+      "expected_verdict": null,
+      "fact_ids": [
+        "F2"
+      ],
+      "conflict_ids": [
+        "C2"
+      ]
+    },
+    {
+      "query_id": "q3",
+      "question": "Who is leading the Christmas Fun Run?",
+      "expected_verdict": null,
+      "fact_ids": [
+        "F3"
+      ],
+      "conflict_ids": [
+        "C4"
+      ]
+    },
+    {
+      "query_id": "q4",
+      "question": "How long is the Year-End Half Marathon and where does it start?",
+      "expected_verdict": null,
+      "fact_ids": [
+        "F4",
+        "F5"
+      ],
+      "conflict_ids": []
+    }
+  ],
+  "facts": [
+    {
+      "id": "F1",
+      "description": "22 November in the sheet, 29 November in the newsletter (see C1)",
+      "entity_any": [],
+      "value_any": [
+        "22 november",
+        "november 22",
+        "2026-11-22",
+        "29 november",
+        "november 29",
+        "2026-11-29"
+      ],
+      "sources": [
+        "events_q4.csv#row=3",
+        "newsletter_november.txt#para=3"
+      ]
+    },
+    {
+      "id": "F2",
+      "description": "5:45 in the sheet, 6:15 AM in the newsletter (see C2)",
+      "entity_any": [],
+      "value_any": [
+        "5:45",
+        "05:45",
+        "6:15",
+        "06:15"
+      ],
+      "sources": [
+        "events_q4.csv#row=4",
+        "newsletter_november.txt#para=4"
+      ]
+    },
+    {
+      "id": "F3",
+      "description": "Priyanka Sen leads because Neha is travelling; the sheet still says Neha Kapoor (see C4)",
+      "entity_any": [],
+      "value_any": [
+        "priyanka",
+        "neha"
+      ],
+      "sources": [
+        "events_q4.csv#row=6",
+        "newsletter_november.txt#para=6"
+      ]
+    },
+    {
+      "id": "F4",
+      "description": "The Year-End Half Marathon is 21 km",
+      "entity_any": [],
+      "value_any": [
+        "21 km",
+        "21km",
+        "21-km",
+        "21 kilomet"
+      ],
+      "sources": [
+        "events_q4.csv#row=7"
+      ]
+    },
+    {
+      "id": "F5",
+      "description": "It starts at Gachibowli Stadium",
+      "entity_any": [],
+      "value_any": [
+        "gachibowli stadium"
+      ],
+      "sources": [
+        "events_q4.csv#row=7",
+        "newsletter_november.txt#para=7"
+      ]
+    }
+  ],
   "entities": [
     {
       "canonical": "Lake Loop 15K",

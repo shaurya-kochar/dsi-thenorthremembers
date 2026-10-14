@@ -2,8 +2,85 @@
   "case_id": "case_07_race_day_logistics",
   "description": "Aid station plan PDF and the station leads' WhatsApp group for the Winter 10K on 13 December 2026. Two crate counts, one opening time and one lead's name spelling disagree.",
   "split": "held_out",
-  "queries": [],
-  "facts": [],
+  "queries": [
+    {
+      "query_id": "q1",
+      "question": "How many water crates does Aid Station 2 have for the Winter 10K?",
+      "expected_verdict": null,
+      "fact_ids": [
+        "F1"
+      ],
+      "conflict_ids": [
+        "C1"
+      ]
+    },
+    {
+      "query_id": "q2",
+      "question": "What time does Aid Station 3 open on race day?",
+      "expected_verdict": null,
+      "fact_ids": [
+        "F2"
+      ],
+      "conflict_ids": [
+        "C2"
+      ]
+    },
+    {
+      "query_id": "q3",
+      "question": "Who leads the finish line aid station?",
+      "expected_verdict": null,
+      "fact_ids": [
+        "F3"
+      ],
+      "conflict_ids": [
+        "C4"
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "id": "F1",
+      "description": "10 crates planned, 8 collected (see C1)",
+      "entity_any": [],
+      "value_any": [
+        "10 water crates",
+        "10 crates",
+        "8 crates",
+        "eight crates"
+      ],
+      "sources": [
+        "aid_station_plan.pdf#page=1&para=3",
+        "whatsapp_station_leads.txt#msg=2"
+      ]
+    },
+    {
+      "id": "F2",
+      "description": "Opens at 5:15 AM in the plan, 5:30 in the chat (see C2)",
+      "entity_any": [],
+      "value_any": [
+        "5:15",
+        "05:15",
+        "5:30",
+        "05:30"
+      ],
+      "sources": [
+        "aid_station_plan.pdf#page=1&para=4",
+        "whatsapp_station_leads.txt#msg=3"
+      ]
+    },
+    {
+      "id": "F3",
+      "description": "Rekha Pillai leads Aid Station 6 at the Shilparamam finish line",
+      "entity_any": [],
+      "value_any": [
+        "rekha"
+      ],
+      "sources": [
+        "aid_station_plan.pdf#page=1&para=7",
+        "whatsapp_station_leads.txt#msg=6"
+      ]
+    }
+  ],
   "entities": [
     {
       "canonical": "Winter 10K (13 Dec 2026)",
