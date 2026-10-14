@@ -111,6 +111,7 @@ class RetrievedChunk(BaseModel):
     chunk: Chunk
     score: float  # similarity in [0, 1], higher is better
     rank: int
+    channels: list[str] = []  # why it was retrieved: "dense" | "keyword" | "entity:<entity_id>"
 
 
 class Citation(BaseModel):
