@@ -39,7 +39,7 @@ python -m infobridge eval --backend gemini --tag baseline_v0.1
 
 uvicorn infobridge.api:app --reload   # API: /cases /sources /query /evidence /conflicts (docs at /docs)
                                       # INFOBRIDGE_API_LLM_EXTRACTION=1 also extracts text facts with Gemini
-streamlit run app.py        # demo app (install with: uv pip install --python .venv/bin/python streamlit)
+streamlit run app.py        # demo app: Home, Query Result, Evidence Trail, Conflict Review (uses the API if running)
 pytest                      # unit, gold-integrity and app tests; 5 Hack 1 tests are expected to fail (xfail)
 python scripts/build_synthetic.py   # re-render PDFs/Excel after editing pdf_src/ or xlsx_src/
 python scripts/md_to_pdf.py docs/technical_design_doc.md   # rebuild a doc's PDF (needs Chrome)
