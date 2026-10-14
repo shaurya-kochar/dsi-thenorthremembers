@@ -17,6 +17,9 @@ import pandas as pd
 import pymupdf
 
 from .models import Chunk, Document, SourceFormat
+from .normalise import normalise_date
+
+DATE_COLUMNS = ("date", "event_date", "registered_on")  # a row's own date, if the sheet has one
 
 WHATSAPP_LINE = re.compile(
     r"^(?P<date>\d{1,2}/\d{1,2}/\d{2,4}), (?P<time>\d{1,2}:\d{2}(?:\s?[APap][Mm])?) - (?P<sender>[^:]+): (?P<text>.*)$"
@@ -52,13 +55,15 @@ def _load_table(doc: Document, df: pd.DataFrame) -> list[Chunk]:
     for i, row in enumerate(df.fillna("").to_dict(orient="records")):
         locator = f"row={i + 2}"  # +1 for 1-based, +1 for header row
         fields = "; ".join(f"{k}={v}" for k, v in row.items() if str(v).strip())
+        row_date = next((normalise_date(str(row[c])) for c in DATE_COLUMNS if str(row.get(c, "")).strip()), None)
         chunks.append(
             Chunk(
                 chunk_id=f"{doc.doc_id}#{locator}",
                 doc_id=doc.doc_id,
                 locator=locator,
                 text=f"{doc.title}, row {i + 2}: {fields}",
-                metadata={"row": {k: str(v) for k, v in row.items()}},
+                metadata={"file": doc.doc_id, "row_number": i + 2, "date": row_date,
+                          "row": {k: str(v) for k, v in row.items()}},
             )
         )
     return chunks
@@ -81,7 +86,8 @@ def _load_whatsapp(doc: Document, raw: str) -> list[Chunk]:
                 doc_id=doc.doc_id,
                 locator=locator,
                 text=f"[{msg['date']} {msg['time']}] {msg['sender'].strip()}: {_clean(msg['text'])}",
-                metadata={"date": msg["date"], "time": msg["time"], "sender": msg["sender"].strip()},
+                metadata={"file": doc.doc_id, "date": normalise_date(msg["date"]), "time": msg["time"],
+                          "sender": msg["sender"].strip()},
             )
         )
     return chunks
@@ -89,6 +95,7 @@ def _load_whatsapp(doc: Document, raw: str) -> list[Chunk]:
 
 def _load_pdf(doc: Document, path: Path) -> list[Chunk]:
     chunks = []
+    doc_date = None
     with pymupdf.open(path) as pdf:
         for page_no, page in enumerate(pdf, start=1):
             blocks = [b for b in page.get_text("blocks") if b[6] == 0]  # text blocks only
@@ -97,6 +104,7 @@ def _load_pdf(doc: Document, path: Path) -> list[Chunk]:
                 text = _clean(block[4])
                 if not text:
                     continue
+                doc_date = doc_date or normalise_date(text)  # the document's date: the first one it states
                 locator = f"page={page_no}&para={para_no}"
                 chunks.append(
                     Chunk(
@@ -104,9 +112,11 @@ def _load_pdf(doc: Document, path: Path) -> list[Chunk]:
                         doc_id=doc.doc_id,
                         locator=locator,
                         text=text,
-                        metadata={"page": page_no, "para": para_no},
+                        metadata={"file": doc.doc_id, "page": page_no, "para": para_no},
                     )
                 )
+    for chunk in chunks:
+        chunk.metadata["date"] = doc_date
     return chunks
 
 
@@ -129,7 +139,8 @@ def _load_text(doc: Document, raw: str) -> list[Chunk]:
                 doc_id=doc.doc_id,
                 locator=locator,
                 text=prefix + para,
-                metadata={"para": i, **headers},
+                metadata={"file": doc.doc_id, "para": i,
+                          "date": normalise_date(headers.get("date", "")) or normalise_date(para), **headers},
             )
         )
     return chunks
